@@ -1,7 +1,17 @@
 Rails.application.routes.draw do
-  #resources :todos, only: [:index]
+  Rails.application.routes.draw do
+    devise_for :teams, controllers: {
+      sessions: 'teams/sessions',
+      unlocks: 'teams/unlocks',
+      registrations: 'teams/registrations',
+      passwords: 'teams/passwords',
+      confirmations: 'teams/confirmations',
+    }
+  end
   
-  root to: "todos#index"
+  resources :todos, only: [:index]
+  
+  get 'home', to: "home#index"
   
   namespace :api do
     resources :todos

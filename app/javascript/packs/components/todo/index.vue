@@ -23,10 +23,12 @@ import axios from 'axios'
       }
     },
     created: function(){
-      axios.get('/api/todos')
-      .then(res => {
-        this.list = res.data
-      });
+      if (this.list.length === 0){
+        axios.get('/api/todos')
+        .then(res => {
+          this.list = res.data
+        });
+      }
     }
   }
 </script>

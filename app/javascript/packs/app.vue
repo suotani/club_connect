@@ -1,17 +1,21 @@
 <template>
-  <div id="todo">
-    <h1>Todo</h1>
-    <nav>
-      <router-link to="/">一覧</router-link>
-    </nav>
+  <div id="app">
+    <app-header />
+    <header-nav />
     <router-view />
   </div>
 </template>
 
 <script>
+import AppHeader from './components/app_header.vue'
+import HeaderNav from './components/header_nav.vue'
 
 export default {
-  name: "Todo"
+  name: "App",
+  components: {
+    AppHeader,
+    HeaderNav
+  }
 };
 </script>
 

@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import router from './todo_router.js'
-import Todo from './todo.vue'
+import router from './router.js'
+import App from './app.vue'
 
 new Vue({
-  el: '#todo',
+  el: '#app',
   router,
-  render: h => h(Todo)
+  render: h => h(App)
 })
