@@ -1,25 +1,35 @@
 <template>
   <div id="app">
-    <app-header />
-    <header-nav />
-    <router-view />
+    <div class="wrapper">
+      <side-menu />
+      <div class="content-wrapper">
+        <header-nav />
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import AppHeader from './components/app_header.vue'
 import HeaderNav from './components/header_nav.vue'
+import SideMenu from './components/side_menu.vue'
 
 export default {
   name: "App",
   components: {
-    AppHeader,
-    HeaderNav
+    HeaderNav,
+    SideMenu
   }
 };
 </script>
 
 <style scoped>
+  body{
+    margin: 0;
+  }
+  ul{
+    margin: 0;
+  }
   nav{
     padding: 7px;
     background-color: black;
@@ -29,5 +39,13 @@ export default {
     color: #4f97e2;
     text-decoration: none;
     margin-right: 10px;
+  }
+  
+  .wrapper{
+    display: flex;
+  }
+  
+  .content-wrapper{
+    width: 100%;
   }
 </style>

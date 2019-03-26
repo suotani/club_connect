@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
-  Rails.application.routes.draw do
-    devise_for :teams, controllers: {
-      sessions: 'teams/sessions',
-      unlocks: 'teams/unlocks',
-      registrations: 'teams/registrations',
-      passwords: 'teams/passwords',
-      confirmations: 'teams/confirmations',
-    }
-  end
+  
+  devise_for :teams, controllers: {
+    sessions: 'teams/sessions',
+    unlocks: 'teams/unlocks',
+    registrations: 'teams/registrations',
+    passwords: 'teams/passwords',
+    confirmations: 'teams/confirmations',
+  }
   
   resources :todos, only: [:index]
   
