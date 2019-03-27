@@ -13,29 +13,35 @@
     <hr class="sidebar-divider" />
     <div class="sidebar-heading">MAIN</div>
     <li class="nav-item">
-      <router-link :to= "{name: 'todo'}">
-        <i class="fas fa-tachometer-alt"></i>
-        List
+      <router-link :to= "{name: 'teams'}">
+        <i class="fas fa-search"></i>
+        部活動・サークルを検索
       </router-link>
     </li>
     <li class="nav-item">
-      <a href="#">
-        <i class="fas fa-tachometer-alt"></i>
-        Dashboard
-      </a>
+      <router-link :to= "{name: 'messages'}">
+        <i class="fas fa-envelope"></i>
+        メッセージ一覧
+      </router-link>
     </li>
     <hr class="sidebar-divider" />
     <div class="sidebar-heading">SETTINGS</div>
     <li class="nav-item">
-      <a href="#">
-        <i class="fas fa-tachometer-alt"></i>
-        Dashboard
-      </a>
+      <router-link :to= "{name: 'setting'}">
+        <i class="fas fa-sliders-h" v-bind:class="{w100: isToggled}"></i>
+        各種設定
+      </router-link>
     </li>
     <li class="nav-item">
-      <a href="#">
-        <i class="fas fa-tachometer-alt"></i>
-        Dashboard
+      <router-link :to= "{name: 'calender'}">
+        <i class="far fa-calendar-alt" v-bind:class="{w100: isToggled}"></i>
+        カレンダー
+      </router-link>
+    </li>
+    <li class="nav-item">
+      <a href="/teams/sign_out" method="delete">
+        <i class="fas fa-sign-out-alt" v-bind:class="{w100: isToggled}"></i>
+        ログアウト
       </a>
     </li>
     <hr class="sidebar-divider" />
@@ -139,5 +145,15 @@
     font-size: 25px;
     margin-top: 0.3rem;
     cursor: pointer;
+  }
+  
+  ul.toggled li a{
+    font-size: 11px;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  ul.toggled li i{
+    width: 100%;
+    font-size: 13px;
   }
 </style>

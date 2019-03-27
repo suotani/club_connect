@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  root to: "static#index"
+
+  get "privacy", to: 'static#privacy'
+
   devise_for :teams, controllers: {
     sessions: 'teams/sessions',
     unlocks: 'teams/unlocks',

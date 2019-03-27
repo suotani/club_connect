@@ -4,7 +4,9 @@
       <side-menu />
       <div class="content-wrapper">
         <header-nav />
-        <router-view />
+        <div class="main-content px-4">
+          <router-view />
+        </div>
       </div>
     </div>
   </div>
@@ -29,16 +31,7 @@ export default {
   }
   ul{
     margin: 0;
-  }
-  nav{
-    padding: 7px;
-    background-color: black;
-    margin-bottom: 10px;
-  }
-  nav a{
-    color: #4f97e2;
-    text-decoration: none;
-    margin-right: 10px;
+    list-style: none;
   }
   
   .wrapper{
@@ -47,5 +40,8 @@ export default {
   
   .content-wrapper{
     width: 100%;
+  }
+  
+  .main-content{
   }
 </style>
