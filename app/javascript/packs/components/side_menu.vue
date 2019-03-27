@@ -1,7 +1,9 @@
 <template>
   <ul v-bind:class="{toggled: isToggled}">
     <a href="#" class="sidebar-bland">
-      <div class="sidebar-bland-text">Club Connect</div>
+      <div class="sidebar-bland-text">
+        <i class="far fa-dot-circle"></i>Torus
+      </div>
     </a>
     <hr class="sidebar-divider" />
     <li class="nav-item">
@@ -18,12 +20,12 @@
         部活動・サークルを検索
       </router-link>
     </li>
-    <li class="nav-item">
-      <router-link :to= "{name: 'messages'}">
-        <i class="fas fa-envelope"></i>
-        メッセージ一覧
-      </router-link>
-    </li>
+    <!--<li class="nav-item">-->
+    <!--  <router-link :to= "{name: 'messages'}">-->
+    <!--    <i class="fas fa-envelope"></i>-->
+    <!--    メッセージ一覧-->
+    <!--  </router-link>-->
+    <!--</li>-->
     <hr class="sidebar-divider" />
     <div class="sidebar-heading">SETTINGS</div>
     <li class="nav-item">
@@ -39,7 +41,7 @@
       </router-link>
     </li>
     <li class="nav-item">
-      <a href="/teams/sign_out" method="delete">
+      <a href="/teams/sign_out" data-method="delete">
         <i class="fas fa-sign-out-alt" v-bind:class="{w100: isToggled}"></i>
         ログアウト
       </a>
@@ -101,6 +103,10 @@
     align-self: center;
     width: 100%;
     text-align: center;
+  }
+  
+  .sidebar-bland .sidebar-bland-text i{
+    margin-right: 5px;
   }
   
   .sidebar-heading{
