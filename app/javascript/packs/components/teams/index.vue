@@ -26,8 +26,7 @@
     <p class="my-2">{{teams.length}}件見つかりました</p>
     <div v-loading="loading" class="mt-2 teams">
       <el-card class="box-card" v-for="t in teams" v-bind:key="t.id">
-        <router-link :to= "{name: 'team', params: {id: t.id}}" :tag="div" slot="header" class="clearfix link-to-team">
-        <!--<div slot="header" class="clearfix">-->
+        <router-link :to= "{name: 'team', params: {id: t.id}}" slot="header" class="clearfix link-to-team">
           <p>{{t.school}} {{t.category}}</p>
         </router-link>
         <div class="text item">

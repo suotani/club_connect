@@ -33,7 +33,8 @@
     </div>
     <div class="calender-wrapper">
       <h2>予定表</h2>
-      <div class="block">
+      <div class="block month-select">
+        <p class="move-month" v-on:click="changeMonthTo(prevMonth)"><< 前の月</p>
         <el-date-picker
           v-on:change="changeMonth"
           v-model="currentDate"
@@ -41,8 +42,9 @@
           value-format="yyyy/M"
           placeholder="Pick a month">
         </el-date-picker>
+        <p class="move-month" v-on:click="changeMonthTo(nextMonth)">後ろの月 >></p>
       </div>
-      <table class="calender">
+      <table class="calender" v-loading="calenderLoading">
         <thead>
           <tr>
             <th>日にち</th>
@@ -74,14 +76,13 @@
       return{
         team: {},
         photos: [],
-        currentDate: "2019/4",
         dayCount: 0,
-        schedules: [
-          {day: 1, plans: ["練習試合", "練習"], request: true},
-          {day: 9, plans: ["練習試合", "練習"], request: false},
-          {day: 20, plans: ["練習試合", "練習"], request: true},
-        ],
-        loading: true
+        schedules: [],
+        loading: true,
+        calenderLoading: false,
+        currentDate: "",
+        prevMonth: "",
+        nextMonth: ""
       }
     },
     created: function(){
@@ -97,9 +98,17 @@
         subLeader: "魚谷　知司",
         subLeaderEmail: "s.uotani@kobe.un.com",
       },
+      this.schedules = [
+          {day: 1, plans: ["練習試合", "練習"], request: true},
+          {day: 9, plans: ["練習試合", "練習"], request: false},
+          {day: 20, plans: ["練習試合", "練習"], request: true},
+      ],
       this.photos = [1,2,3,4,5],
       this.dayCount = 31,
-      this.loading = false
+      this.loading = false,
+      this.currentDate = "2019/4",
+      this.prevMonth = "2019/4",
+      this.nextMonth = "2019/4"
     },
     methods: {
       findSchedule: function(day){
@@ -113,6 +122,9 @@
       },
       changeMonth: function(){
         console.log(this.currentDate)
+      },
+      changeMonthTo: function(m){
+        
       }
       
     }
@@ -164,8 +176,32 @@
   table.calender tbody td.day{
     text-align: center;
   }
+  
+  table.calender thead tr{
+    border-bottom: solid 2px rgba(0,0,0,0.3);
+  }
+  
+  table.calender thead th{
+    padding-bottom: 5px;
+  }
+  
+  table.calender td{
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+  
   .tx-center{
     text-align:center;
+  }
+  .month-select{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .month-select .move-month{
+    cursor: pointer;
+    color: rgba(0,0,255,0.8);
+    font-weight: 800;
   }
   .el-carousel__item h3 {
     color: #475669;
