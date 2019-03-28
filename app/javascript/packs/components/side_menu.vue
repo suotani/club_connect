@@ -37,7 +37,7 @@
     <li class="nav-item">
       <router-link :to= "{name: 'calender'}">
         <i class="far fa-calendar-alt" v-bind:class="{w100: isToggled}"></i>
-        カレンダー
+        予定表
       </router-link>
     </li>
     <li class="nav-item">

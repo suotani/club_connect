@@ -21,13 +21,13 @@
       <div class="leader-info content-text">
         <h4>代表</h4>
         <p class="content-text">
-          {{team.leader}}<br />
-          {{team.leaderEmail}}
+          {{team.leader_name}}({{team.leader_role}})<br />
+          {{team.leader_email}}
         </p>
         <h4>副代表</h4></h4>
         <p class="content-text">
-          {{team.subLeader}}<br />
-          {{team.subLeaderEmail}}
+          {{team.sub_leader_name}}({{team.sub_leader_role}})<br />
+          {{team.sub_leader_email}}
         </p>
       </div>
     </div>
@@ -92,11 +92,13 @@
         category: "バレーボール部",
         level: "地区大会優勝程度",
         member: "1年生一人、2年生3人",
-        leader: "魚谷　知司",
         introduction: "こういう人たちです。",
-        leaderEmail: "s.uotani@kobe.un.com",
-        subLeader: "魚谷　知司",
-        subLeaderEmail: "s.uotani@kobe.un.com",
+        leader_email: "s.uotani@kobe.un.com",
+        leader_name: "魚谷　知司",
+        leader_role: "教員",
+        sub_leader_name: "魚谷　知司",
+        sub_leader_email: "s.uotani@kobe.un.com",
+        sub_leader_role: "部長"
       },
       this.schedules = [
           {day: 1, plans: ["練習試合", "練習"], request: true},

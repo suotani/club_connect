@@ -7,7 +7,6 @@ import HomeCalender from './components/home/calender.vue'
 import HomeSetting from './components/home/setting.vue'
 import Teams from './components/teams/index.vue'
 import Team from './components/teams/show.vue'
-import TeamCalender from './components/teams/calender.vue'
 import TeamRequest from './components/teams/request.vue'
 import Messages from './components/messages/index.vue'
 import Message from './components/messages/show.vue'
@@ -22,7 +21,6 @@ const router = new VueRouter({
         {path: '/setting', component: HomeSetting, name: 'setting'},
         {path: '/teams', component: Teams, name: 'teams'},
         {path: '/teams/:id', component: Team, name: 'team'},
-        {path: '/teams/:id/calender',component: TeamCalender, name: 'teamCalender'},
         {path: '/teams/:id/request', component: TeamRequest, name: 'request'},
         {path: '/messages', component: Messages, name: 'messages'},
         {path: '/messages/:id', component: Message, name: 'message'}
