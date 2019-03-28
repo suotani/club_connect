@@ -23,14 +23,15 @@
         <el-button type="primary" @click="onSubmit">検索</el-button>
       </el-form-item>
     </el-form>
-    <p class="my-2">{{totalTeamCount}}件見つかりました</p>
-    <div v-loading="loading" class="mt-2">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <p>奈良教育大学 剣道部</p>
-        </div>
+    <p class="my-2">{{teams.length}}件見つかりました</p>
+    <div v-loading="loading" class="mt-2 teams">
+      <el-card class="box-card" v-for="t in teams" v-bind:key="t.id">
+        <router-link :to= "{name: 'team', params: {id: t.id}}" :tag="div" slot="header" class="clearfix link-to-team">
+        <!--<div slot="header" class="clearfix">-->
+          <p>{{t.school}} {{t.category}}</p>
+        </router-link>
         <div class="text item">
-         
+         <p>{{t.leader}}</p>
         </div>
       </el-card>
     </div>
@@ -38,7 +39,7 @@
       background
       @current-change="handleCurrentChange"
       layout="prev, pager, next"
-      :total="totalTeamCount">
+      :total="teams.length">
     </el-pagination>
   </div>
 </template>
@@ -57,8 +58,13 @@
           {id: 3, name: "柔道"},
           {id: 4, name: "バレーボール"},
         ],
-        teams: [],
-        totalTeamCount: 80,
+        teams: [
+          {id: 1,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
+          {id: 2,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
+          {id: 3,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
+          {id: 4,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
+          {id: 5,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
+        ],
         loading: true
       }
     },
@@ -85,6 +91,14 @@
     border: solid 3px #ddd;
     padding: 1rem 5rem 0;
   }
+  .link-to-team {
+    color: rgba(0,0,0,0.5);
+  }
+  
+  .link-to-team:hover {
+    color: rgba(0,0,0,0.8);
+  }
+  
  .text {
     font-size: 14px;
   }
@@ -103,12 +117,18 @@
   }
 
   .box-card {
-    width: 480px;
+    width: 48%;
+    margin: auto !important;
+    margin-bottom: 1rem !important;
   }
   
   .el-pagination{
     margin: 1rem 0;
     text-align: center;
   }
-
+  .teams{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 </style>
