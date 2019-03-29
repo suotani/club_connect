@@ -17,25 +17,39 @@
           <tr>
             <th>日にち</th>
             <th>予定</th>
-            <th>募集</th>
+            <th>合同練習・練習試合等</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="schedule in schedules">
-            <td class="tx-center">{{schedule.date}}</td>
+          <tr v-for="s in schedules">
+            <td class="tx-center">{{s.date}}</td>
             <td>
               <ul>
-                <li v-show="schedule.plans.length !== 0" v-for="plan in schedule.plans">{{plan}}</li>
-                <button type="button">予定を追加</button>
+                <li v-show="s.events.length !== 0" v-for="event in s.events">{{event}}</li>
+                <button v-on:click="openScheduleModal(s.id)">予定を追加</button>
               </ul>
             </td>
             <td class="tx-center">
-              <p v-if="schedule.request">募集している</p>
+              <p v-if="s.request">募集中</p>
               <p v-else>募集する</p>
             </td>
           </tr>
         </tbody>
       </table>
+      <div class="modal-wrapper" v-show="modalOpen">
+        <div class="modal" v-loading="modalLoading">
+          <el-form ref="form" :model="schedule" label-width="120px">
+            <el-form-item label="予定">
+              <el-input v-model="schedule.title"></el-input>
+            </el-form-item>
+
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">更新</el-button>
+              <el-button @click="modalClose">キャンセル</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -47,22 +61,25 @@ export default{
       currentDate: "2019/1",
       nextMonth: "",
       prevMonth: "",
-      loading: true
+      loading: true,
+      modalOpen: false,
+      modalLoading: false,
+      schedule: {title: ""}
     }
   },
   created: function(){
       this.loading = false,
       this.schedules = [
-        {date: 1, plans: ["試合", "練習"], request: false},
-        {date: 2, plans: ["試合", "練習"], request: false},
-        {date: 3, plans: [], request: true},
-        {date: 4, plans: [], request: true},
-        {date: 5, plans: [], request: false},
-        {date: 6, plans: [], request: false},
-        {date: 7, plans: [], request: false},
-        {date: 8, plans: [], request: false},
-        {date: 9, plans: ["試合", "練習"], request: false},
-        {date: 10, plans: ["試合", "練習"], request: true},
+        {date: 1,  events: ["試合", "練習"], request: false},
+        {date: 2,  events: ["試合", "練習"], request: false},
+        {date: 3,  events: [], request: true},
+        {date: 4,  events: [], request: true},
+        {date: 5,  events: [], request: false},
+        {date: 6,  events: [], request: false},
+        {date: 7,  events: [], request: false},
+        {date: 8,  events: [], request: false},
+        {date: 9,  events: ["試合", "練習"], request: false},
+        {date: 10, events: ["試合", "練習"], request: true},
       ]
   },
   computed: {
@@ -70,10 +87,19 @@ export default{
   },
   methods: {
     changeMonthTo: function(m){
-      
+      //update schedules, currentDate, nextMonth, prevMonth
     },
     changeMonth: function(){
-      
+      //update schedules, currentDate, nextMonth, prevMonth
+    },
+    openScheduleModal: function(){
+      this.modalOpen = true
+    },
+    onSubmit: function(){
+      this.modalLoading = true
+    },
+    modalClose: function(){
+      this.modalOpen = false
     }
   }
 }
@@ -129,4 +155,22 @@ export default{
     color: rgba(0,0,255,0.8);
     font-weight: 800;
   }
+
+  .modal-wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+  }
+  
+  .modal{
+    width: 600px;
+    padding: 1rem;
+    margin: auto;
+    margin-top: 100px;
+    background-color: white;
+  }
+
 </style>

@@ -20,6 +20,12 @@
         部活動・サークルを検索
       </router-link>
     </li>
+    <li class="nav-item">
+      <router-link :to= "{name: 'requests'}">
+        <i class="fas fa-search"></i>
+        申し込み一覧
+      </router-link>
+    </li>
     <!--<li class="nav-item">-->
     <!--  <router-link :to= "{name: 'messages'}">-->
     <!--    <i class="fas fa-envelope"></i>-->
@@ -40,6 +46,15 @@
         予定表
       </router-link>
     </li>
+
+    <hr class="sidebar-divider" />
+    <div class="sidebar-heading">OTHER</div>
+    <li class="nav-item">
+      <a href="/teams/sign_out" data-method="delete">
+        <i class="fas fa-sign-out-alt" v-bind:class="{w100: isToggled}"></i>
+        お問い合わせ
+      </a>
+    </li>    
     <li class="nav-item">
       <a href="/teams/sign_out" data-method="delete">
         <i class="fas fa-sign-out-alt" v-bind:class="{w100: isToggled}"></i>
@@ -74,7 +89,7 @@
   ul{
     min-height: 100vh;
     background-color: #4e73df;
-    width: 15rem;
+    width: 16rem;
     list-style: none;
     padding: 0;
     box-sizing: border-box;

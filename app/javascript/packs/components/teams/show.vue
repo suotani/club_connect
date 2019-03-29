@@ -49,23 +49,38 @@
           <tr>
             <th>日にち</th>
             <th>予定</th>
-            <th>募集</th>
+            <th>合同練習・練習試合等</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="date in dayCount">
-            <td class="tx-center">{{date}}</td>
+          <tr v-for="schedule in schedules">
+            <td class="tx-center">{{schedule.date}}</td>
             <td>
               <ul>
-                <li v-for="plan in findSchedule(date).plans">{{plan}}</li>
+                <li v-for="event in schedule.events">{{event}}</li>
               </ul>
             </td>
             <td class="tx-center">
-              <p v-if="findSchedule(date).request">募集してます</p>
+              <p v-if="schedule.request" class="request-open" v-on:click="modalOpen(schedule.id)">募集してます</p>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="modal-wrapper" v-show="modalShow">
+      <div class="modal" v-loading="modalLoading">
+        <el-form ref="form" :model="request" label-width="120px">
+          <h3>合同練習・練習試合等の申請を行います。</h3>
+          <el-form-item label="メッセージ">
+            <el-input type="textarea" v-model="request.text" placeholder=""></el-input>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">申請する</el-button>
+            <el-button @click="modalClose">キャンセル</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -76,13 +91,15 @@
       return{
         team: {},
         photos: [],
-        dayCount: 0,
         schedules: [],
         loading: true,
+        modalLoading: false,
         calenderLoading: false,
         currentDate: "",
         prevMonth: "",
-        nextMonth: ""
+        nextMonth: "",
+        modalShow: false,
+        request: {}
       }
     },
     created: function(){
@@ -98,19 +115,26 @@
         leader_role: "教員",
         sub_leader_name: "魚谷　知司",
         sub_leader_email: "s.uotani@kobe.un.com",
-        sub_leader_role: "部長"
+        sub_leader_role: "部長",
       },
       this.schedules = [
-          {day: 1, plans: ["練習試合", "練習"], request: true},
-          {day: 9, plans: ["練習試合", "練習"], request: false},
-          {day: 20, plans: ["練習試合", "練習"], request: true},
+        {date: 1,  events: ["試合", "練習"], request: false},
+        {date: 2,  events: ["試合", "練習"], request: false},
+        {date: 3,  events: [], request: true},
+        {date: 4,  events: [], request: true},
+        {date: 5,  events: [], request: false},
+        {date: 6,  events: [], request: false},
+        {date: 7,  events: [], request: false},
+        {date: 8,  events: [], request: false},
+        {date: 9,  events: ["試合", "練習"], request: false},
+        {date: 10, events: ["試合", "練習"], request: true},
       ],
       this.photos = [1,2,3,4,5],
-      this.dayCount = 31,
       this.loading = false,
       this.currentDate = "2019/4",
       this.prevMonth = "2019/4",
-      this.nextMonth = "2019/4"
+      this.nextMonth = "2019/4",
+      this.request = {id: 0, text: ""}
     },
     methods: {
       findSchedule: function(day){
@@ -118,7 +142,7 @@
           return element.day === day;
         });
         if(schedule === undefined){
-          schedule = {plans: [], request: false}
+          schedule = {events: [], request: false}
         }
         return schedule
       },
@@ -127,6 +151,16 @@
       },
       changeMonthTo: function(m){
         
+      },
+      onSubmit: function(){
+        
+      },
+      modalOpen: function(id){
+        this.modalShow = true
+        this.request.id = id
+      },
+      modalClose: function(){
+        this.modalShow = false
       }
       
     }
@@ -204,6 +238,27 @@
     cursor: pointer;
     color: rgba(0,0,255,0.8);
     font-weight: 800;
+  }
+  
+  .request-open{
+    cursor: pointer;
+    color: rgba(0,0,255,0.8);
+  }
+  .modal-wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+  }
+  
+  .modal{
+    width: 600px;
+    padding: 1rem;
+    margin: auto;
+    margin-top: 100px;
+    background-color: white;
   }
   .el-carousel__item h3 {
     color: #475669;

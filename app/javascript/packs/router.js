@@ -5,6 +5,7 @@ import Todo from './components/todo/index.vue'
 import Home from './components/home/index.vue'
 import HomeCalender from './components/home/calender.vue'
 import HomeSetting from './components/home/setting.vue'
+import HomeRequests from './components/home/requests.vue'
 import Teams from './components/teams/index.vue'
 import Team from './components/teams/show.vue'
 import TeamRequest from './components/teams/request.vue'
@@ -19,6 +20,7 @@ const router = new VueRouter({
         {path: '/todo', component: Todo, name: "todo"},
         {path: '/calender', component: HomeCalender, name: 'calender'},
         {path: '/setting', component: HomeSetting, name: 'setting'},
+        {path: '/requests', component: HomeRequests, name: 'requests'},
         {path: '/teams', component: Teams, name: 'teams'},
         {path: '/teams/:id', component: Team, name: 'team'},
         {path: '/teams/:id/request', component: TeamRequest, name: 'request'},

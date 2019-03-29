@@ -17,6 +17,20 @@
           </el-select>
         </el-form-item>
         
+        <el-form-item label="写真のアップロード">
+          <el-upload
+            class="upload-demo"
+            action=""
+            :auto-upload="false"
+            :on-change="handleChange"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+            list-type="picture">
+            <el-button size="small" type="primary">Click to upload</el-button>
+            <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+          </el-upload>
+        </el-form-item>
+        
         <el-form-item label="紹介文">
           <el-input type="textarea" v-model="team.introduction" placeholder="活動内容や大会での記録、メンバーのレベル感など、紹介文を入力してください"></el-input>
         </el-form-item>
@@ -84,6 +98,7 @@
         categories: [],
         roles: [],
         loading: true,
+        fileList: []
       }
     },
     created: function(){
@@ -109,8 +124,22 @@
     methods: {
       onSubmit: function(){
         console.log(this.team)
+      },
+      handleRemove(file, fileList) {
+        console.log(file.name)
+        const fileName = file.name
+        const index = this.fileList.findIndex(function(e){return e.name == fileName});
+        console.log(index)
+        this.fileList.splice(index, 1)
+      },
+      handleChange(file, fileList) {
+        this.fileList.push(file);
       }
     }
+  }
+
+  function matchName(element, name) {
+    return element.name === name;
   }
 </script>
 
