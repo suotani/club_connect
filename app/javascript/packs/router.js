@@ -5,12 +5,11 @@ import Todo from './components/todo/index.vue'
 import Home from './components/home/index.vue'
 import HomeCalender from './components/home/calender.vue'
 import HomeSetting from './components/home/setting.vue'
-import HomeRequests from './components/home/requests.vue'
+import Contacts from './components/contact/index.vue'
+import Contact from './components/contact/show.vue'
 import Teams from './components/teams/index.vue'
 import Team from './components/teams/show.vue'
 import TeamRequest from './components/teams/request.vue'
-import Messages from './components/messages/index.vue'
-import Message from './components/messages/show.vue'
 
 Vue.use(VueRouter)
 
@@ -20,12 +19,11 @@ const router = new VueRouter({
         {path: '/todo', component: Todo, name: "todo"},
         {path: '/calender', component: HomeCalender, name: 'calender'},
         {path: '/setting', component: HomeSetting, name: 'setting'},
-        {path: '/requests', component: HomeRequests, name: 'requests'},
+        {path: '/contact', component: Contacts, name: 'contacts'},
+        {path: '/contact/:id', component: Contact, name: 'contact'},
         {path: '/teams', component: Teams, name: 'teams'},
         {path: '/teams/:id', component: Team, name: 'team'},
-        {path: '/teams/:id/request', component: TeamRequest, name: 'request'},
-        {path: '/messages', component: Messages, name: 'messages'},
-        {path: '/messages/:id', component: Message, name: 'message'}
+        {path: '/teams/:id/request', component: TeamRequest, name: 'request'}
     ]
 })
 

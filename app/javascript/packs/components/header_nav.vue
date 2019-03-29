@@ -2,7 +2,11 @@
     <nav class="topbar mb-4 px-3 py-2">
       <ul class="icons">
         <li>
-
+          <router-link :to= "{name: 'contact'}" class="px-3 py-3">
+            <i class="fas fa-envelope">
+              <span class="count-info">3</span>
+            </i>
+          </router-link>
         </li>
       </ul>
       <div class="topbar-devider mx-4"></div>

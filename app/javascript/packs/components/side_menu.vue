@@ -21,11 +21,12 @@
       </router-link>
     </li>
     <li class="nav-item">
-      <router-link :to= "{name: 'requests'}">
-        <i class="fas fa-search"></i>
-        申し込み一覧
+      <router-link :to= "{name: 'contacts'}">
+        <i class="far fa-envelope"></i>
+        メールボックス
       </router-link>
     </li>
+
     <!--<li class="nav-item">-->
     <!--  <router-link :to= "{name: 'messages'}">-->
     <!--    <i class="fas fa-envelope"></i>-->

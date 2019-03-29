@@ -125,3 +125,15 @@ a{
 .pl-4, .px-4{
     padding-left: 1.5rem !important;
 }
+.el-tabs__active-bar{
+  width: 160px !important;
+}
+
+  .el-tabs__item{
+    width: 142px;
+    margin-right: 30px;
+    padding-left: 9px !important;
+  }
+  .el-tabs__header{
+    margin: 0 !important;
+  }
