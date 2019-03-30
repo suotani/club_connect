@@ -156,21 +156,4 @@ export default{
     font-weight: 800;
   }
 
-  .modal-wrapper{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.2);
-  }
-  
-  .modal{
-    width: 600px;
-    padding: 1rem;
-    margin: auto;
-    margin-top: 100px;
-    background-color: white;
-  }
-
 </style>

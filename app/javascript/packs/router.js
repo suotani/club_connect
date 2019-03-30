@@ -19,7 +19,7 @@ const router = new VueRouter({
         {path: '/todo', component: Todo, name: "todo"},
         {path: '/calender', component: HomeCalender, name: 'calender'},
         {path: '/setting', component: HomeSetting, name: 'setting'},
-        {path: '/contact', component: Contacts, name: 'contacts'},
+        {path: '/contacts', component: Contacts, name: 'contacts'},
         {path: '/contact/:id', component: Contact, name: 'contact'},
         {path: '/teams', component: Teams, name: 'teams'},
         {path: '/teams/:id', component: Team, name: 'team'},

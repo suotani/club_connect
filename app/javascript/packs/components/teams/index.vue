@@ -74,7 +74,7 @@
     },
     methods: {
       onSubmit: function(){
-         this.loading = true
+        this.loading = true
         console.log(this.query);
       },
       handleCurrentChange: function(val) {

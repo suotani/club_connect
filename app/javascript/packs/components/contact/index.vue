@@ -14,6 +14,14 @@
             </ul>
           </router-link>
         </ul>
+        
+        <div class="block">
+          <el-pagination
+            @current-change="handleRequestsChange"
+            layout="prev, pager, next"
+            :total="requests.length">
+          </el-pagination>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="メッセージ" name="second">
         <ul>
@@ -22,12 +30,19 @@
               <li class="message-tag">{{contact.tag}}</li>
               <li class="message-from">{{contact.from}}</li>
               <li class="message-text">
-                <span class="message-title">{{contact.title}}</span> |
+                <span class="message-title">{{contact.title}}</span>
                 <span class="message-short-text">{{contact.short_text}}</span>
               </li>
             </ul>
           </router-link>
         </ul>
+        <div class="block">
+          <el-pagination
+            @current-change="handleContactsChange"
+            layout="prev, pager, next"
+            :total="contacts.length">
+          </el-pagination>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -45,16 +60,21 @@
     },
     created: function(){
       this.requests = [
-        {tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {tag: "replyed", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {tag: "", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."}, 
+        {id: 1,tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
+        {id: 2,tag: "replyed", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
+        {id: 3,tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
+        {id: 4,tag: "", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
+        {id: 5,tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."}, 
       ],
       this.loading = false
     },
     methods: {
-
+      handleRequestsChange: function(val){
+        
+      },
+      handleContactsChange: function(val){
+        
+      }
     }
   };
 </script>
@@ -110,5 +130,10 @@
   
   .message-short-text{
     color: rgba(0,0,0,0.5);
+  }
+
+  .el-pagination{
+    margin: 1rem 0;
+    text-align: center;
   }
 </style>
