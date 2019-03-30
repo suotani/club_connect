@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_team_id: 1
+  from_team_status: 1
+  to_team_id: 1
+  to_team_status: 1
+  title: MyString
+
+two:
+  from_team_id: 1
+  from_team_status: 1
+  to_team_id: 1
+  to_team_status: 1
+  title: MyString
