@@ -14,7 +14,7 @@
       <h3>
         <i class="fas fa-angle-double-left"></i>メンバの構成<i class="fas fa-angle-double-right"></i>
       </h3>
-      <p class="content-text">{{team.member}}</p>
+      <p class="content-text">{{team.members}}</p>
       <h3>
         <i class="fas fa-angle-double-left"></i>代表連絡先<i class="fas fa-angle-double-right"></i>
       </h3>
@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default{
     data(){
       return{
@@ -104,19 +105,10 @@
     },
     created: function(){
       // get team
-      this.team = {
-        school: "奈良教育大学",
-        category: "バレーボール部",
-        level: "地区大会優勝程度",
-        member: "1年生一人、2年生3人",
-        introduction: "こういう人たちです。",
-        leader_email: "s.uotani@kobe.un.com",
-        leader_name: "魚谷　知司",
-        leader_role: "教員",
-        sub_leader_name: "魚谷　知司",
-        sub_leader_email: "s.uotani@kobe.un.com",
-        sub_leader_role: "部長",
-      },
+      axios.get('/api/teams/' + this.$route.params.id)
+      .then(res => {
+        this.team = res.data.team
+      });
       this.schedules = [
         {date: 1,  events: ["試合", "練習"], request: false},
         {date: 2,  events: ["試合", "練習"], request: false},

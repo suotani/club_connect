@@ -122,10 +122,14 @@
     min-height: 100vh;
     height: 100%;
     background-color: #4e73df;
-    width: 16rem;
+    width: 15rem;
     list-style: none;
     padding: 0;
     box-sizing: border-box;
+  }
+  
+  i{
+    text-align: center;
   }
   
   li:hover{

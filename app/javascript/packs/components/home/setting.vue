@@ -1,7 +1,7 @@
 <template>
   <div class="team-content-wrapper" v-loading="loading">
     <div class="team-info px-4 py-4">
-      <el-form ref="form" :model="team" label-width="120px">
+      <el-form ref="form" :model="team" label-width="120px" enctype="multipart/form-data">
         <el-form-item label="学校名">
           <el-input v-model="team.school"></el-input>
         </el-form-item>
@@ -16,14 +16,25 @@
             </el-option>
           </el-select>
         </el-form-item>
+
+        <el-form-item label="学校種別">
+          <el-select v-model="team.school_type" placeholder="Select">
+            <el-option
+              v-for="s in school_types"
+              :key="s.id"
+              :label="s.name"
+              :value="s.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
         
         <el-form-item label="写真のアップロード">
           <el-upload
             class="upload-demo"
-            action=""
-            :auto-upload="false"
-            :on-change="handleChange"
+            action="/api/teams/file_upload"
+            :auto-upload="true"
             :on-remove="handleRemove"
+            :on-success = "handleUploaded"
             :file-list="fileList"
             list-type="picture">
             <el-button size="small" type="primary">Click to upload</el-button>
@@ -36,7 +47,7 @@
         </el-form-item>
         
         <el-form-item label="メンバーの構成">
-          <el-input type="textarea" v-model="team.member" placeholder="学年単位、男女単位で各何名在籍しているか入力してください"></el-input>
+          <el-input type="textarea" v-model="team.members" placeholder="学年単位、男女単位で各何名在籍しているか入力してください"></el-input>
         </el-form-item>
     
         <hr class="my-4" />
@@ -47,12 +58,12 @@
         </el-form-item>
 
         <el-form-item label="代表者役職">
-          <el-select v-model="team.leader_role_id" placeholder="Select">
+          <el-select v-model="team.leader_role" placeholder="Select">
             <el-option
               v-for="r in roles"
               :key="r.id"
               :label="r.name"
-              :value="r.id">
+              :value="r.name">
             </el-option>
           </el-select>
         </el-form-item>
@@ -66,12 +77,12 @@
         </el-form-item>
 
         <el-form-item label="副代表者役職">
-          <el-select v-model="team.sub_leader_role_id" placeholder="Select">
+          <el-select v-model="team.sub_leader_role" placeholder="Select">
             <el-option
               v-for="r in roles"
               :key="r.id"
               :label="r.name"
-              :value="r.id">
+              :value="r.name">
             </el-option>
           </el-select>
         </el-form-item>
@@ -89,51 +100,59 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default{
     data(){
       return{
         team: {},
-        photos: [],
-        dayCount: 0,
         categories: [],
         roles: [],
         loading: true,
-        fileList: []
+        fileList: [],
+        school_types: [],
       }
     },
     created: function(){
       // get team
-      this.team = {
-        school: "奈良教育大学",
-        category: "バレーボール部",
-        level: "地区大会優勝程度",
-        member: "1年生一人、2年生3人",
-        introduction: "こういう人たちです。",
-        leader_name: "魚谷　知司",
-        leader_email: "s.uotani@kobe.un.com",
-        leader_role_id: 1,
-        sub_leader_name: "魚谷　知司",
-        sub_leader_email: "s.uotani@kobe.un.com",
-        sub_leader_role_id: 2
-      },
-      this.photos = [1,2,3,4,5],
-      this.loading = false,
-      this.categories = [],
-      this.roles = []
+      axios.get('/api/setting')
+      .then(res => {
+        this.team = res.data.team
+        this.categories = res.data.categories
+        this.roles = res.data.roles
+        this.fileList = res.data.images //{name: name, url: url, id: id}
+        this.school_types = res.data.school_types
+      });
+      this.loading = false
     },
     methods: {
       onSubmit: function(){
-        console.log(this.team)
+        this.loading = true
+        axios.post('/api/setting_update', {
+          team: this.team
+        })
+        .then(res => {
+          this.$message('更新しました');
+        })
+        this.loading = false
       },
+      
       handleRemove(file, fileList) {
-        console.log(file.name)
-        const fileName = file.name
-        const index = this.fileList.findIndex(function(e){return e.name == fileName});
-        console.log(index)
-        this.fileList.splice(index, 1)
+        const id = file.id
+        axios.get('/api/teams/file_delete',{
+          params: {id: id}
+        })
+        .then(res => {
+          this.fileList = fileList
+          this.$message('画像を1枚削除しました');
+        })
       },
-      handleChange(file, fileList) {
-        this.fileList.push(file);
+      handleUploaded(response, file, fileList){
+        var id = response.id
+        const index = this.fileList.findIndex(function(e){return e == file});
+        var input = file
+        input.id = id
+        this.fileList = fileList
+        this.fileList.splice(index, 1, file)
       }
     }
   }

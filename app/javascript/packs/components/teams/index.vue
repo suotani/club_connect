@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-form :inline="true" :model="query" class="demo-form-inline ">
       <el-form-item label="学校名">
         <el-input v-model="query.school" placeholder="〇〇大学"></el-input>
       </el-form-item>
       <el-form-item label="部活・サークルの種類">
-        <el-select v-model="query.category" placeholder="">
-          <el-option v-for="c in categories" v-bind:label="c.name" v-bind:value="c.id" v-bind:key="c.id"></el-option>
+        <el-select v-model="query.category_id" placeholder="">
+          <el-option v-for="c in categories" v-bind:label="c.name" v-bind:value="c.id" v-bind:key="c.id" :clearable="true"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="部活・サークルの種類">
-        <el-select v-model="query.category" placeholder="">
-          <el-option v-for="c in categories" v-bind:label="c.name" v-bind:value="c.id" v-bind:key="c.id"></el-option>
+      <el-form-item label="学校種別">
+        <el-select v-model="query.school_type" placeholder="">
+          <el-option v-for="s in school_types" v-bind:label="s.name" v-bind:value="s.id" v-bind:key="s.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="部活・サークルの種類">
@@ -23,14 +23,14 @@
         <el-button type="primary" @click="onSubmit">検索</el-button>
       </el-form-item>
     </el-form>
-    <p class="my-2">{{teams.length}}件見つかりました</p>
-    <div v-loading="loading" class="mt-2 teams">
+    <p class="my-2">{{total_team_count}}件見つかりました</p>
+    <div class="mt-2 teams">
       <el-card class="box-card" v-for="t in teams" v-bind:key="t.id">
         <router-link :to= "{name: 'team', params: {id: t.id}}" slot="header" class="clearfix link-to-team">
           <p>{{t.school}} {{t.category}}</p>
         </router-link>
         <div class="text item">
-         <p>{{t.leader}}</p>
+         <p>{{t.leader_name}}</p>
         </div>
       </el-card>
     </div>
@@ -38,47 +38,65 @@
       background
       @current-change="handleCurrentChange"
       layout="prev, pager, next"
-      :total="teams.length">
+      :total="total_team_count">
     </el-pagination>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
   export default{
     data(){
       return {
         query: {
           school: "",
-          category: ""
+          category_id: "",
+          school_type: "",
+          page: 1
         },
-        categories: [
-          {id: 1, name: "テニス"},
-          {id: 2, name: "剣道"},
-          {id: 3, name: "柔道"},
-          {id: 4, name: "バレーボール"},
-        ],
-        teams: [
-          {id: 1,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
-          {id: 2,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
-          {id: 3,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
-          {id: 4,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
-          {id: 5,school: "奈良教育大学", category: "バレーボール", leader: "魚谷　知司"},
-        ],
+        categories: [],
+        teams: [],
+        school_types: [],
+        total_team_count: 0,
         loading: true
       }
     },
     created: function(){
-      //get categories
-      // this.categories = []
+      axios.get('/api/teams',{
+          params: this.query
+        })
+      .then(res => {
+          this.categories = [""].concat(res.data.categories)
+          this.teams = res.data.teams
+          this.school_types = [""].concat(res.data.school_types)
+          this.total_team_count = res.data.total_team_count
+      });
       this.loading = false
     },
     methods: {
       onSubmit: function(){
         this.loading = true
-        console.log(this.query);
+        this.query.page = 1
+        axios.get('/api/teams',{
+          params: this.query
+        })
+        .then(res => {
+           this.teams = res.data.teams
+           this.total_team_count = res.data.total_team_count
+        });
+        this.loading = false
       },
       handleCurrentChange: function(val) {
-        console.log(`current page: ${val}`);
+        this.query.page = val
+        this.loading = true
+        axios.get('/api/teams',{
+          params: this.query
+        })
+        .then(res => {
+           this.teams = res.data.teams
+           this.total_team_count = res.data.total_team_count
+        });
+        this.loading = false
       }
     }
   }

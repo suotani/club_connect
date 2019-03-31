@@ -18,5 +18,10 @@ Rails.application.routes.draw do
   
   namespace :api do
     resources :todos
+    post '/teams/file_upload', to: 'teams#file_upload'
+    get '/teams/file_delete', to: 'teams#file_delete'
+    resources :teams
+    get '/setting', to: "teams#setting"
+    post '/setting_update', to: "teams#setting_update"
   end
 end
