@@ -3,8 +3,8 @@
     <div class="team-info px-4 py-4">
       <h2>{{team.school}} {{team.category}}</h2>
       <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="item in photos" :key="item">
-          <h3>{{ item }}</h3>
+        <el-carousel-item v-for="item in photos" :key="item.id">
+          <img v-bind:src="item.url"></img>
         </el-carousel-item>
       </el-carousel>
       <h3>
@@ -54,7 +54,7 @@
         </thead>
         <tbody>
           <tr v-for="schedule in schedules">
-            <td class="tx-center">{{schedule.date}}</td>
+            <td class="tx-center">{{schedule.day}}</td>
             <td>
               <ul>
                 <li v-for="event in schedule.events">{{event}}</li>
@@ -77,7 +77,7 @@
 
           <el-form-item>
             <el-button type="primary" @click="onSubmit">申請する</el-button>
-            <el-button @click="modalClose">キャンセル</el-button>
+            <el-button @click="modalShow=false">キャンセル</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -108,41 +108,29 @@ import axios from 'axios'
       axios.get('/api/teams/' + this.$route.params.id)
       .then(res => {
         this.team = res.data.team
+        this.photos = res.data.images
+        this.schedules = res.data.schedules
+        this.currentDate = res.data.currentDate
+        this.prevMonth = res.data.prevMonth
+        this.nextMonth = res.data.nextMonth
+        this.loading = false,
+        this.request = {id: 0, text: ""}
       });
-      this.schedules = [
-        {date: 1,  events: ["試合", "練習"], request: false},
-        {date: 2,  events: ["試合", "練習"], request: false},
-        {date: 3,  events: [], request: true},
-        {date: 4,  events: [], request: true},
-        {date: 5,  events: [], request: false},
-        {date: 6,  events: [], request: false},
-        {date: 7,  events: [], request: false},
-        {date: 8,  events: [], request: false},
-        {date: 9,  events: ["試合", "練習"], request: false},
-        {date: 10, events: ["試合", "練習"], request: true},
-      ],
-      this.photos = [1,2,3,4,5],
-      this.loading = false,
-      this.currentDate = "2019/4",
-      this.prevMonth = "2019/4",
-      this.nextMonth = "2019/4",
-      this.request = {id: 0, text: ""}
     },
     methods: {
-      findSchedule: function(day){
-        let schedule = this.schedules.find(function(element) {
-          return element.day === day;
-        });
-        if(schedule === undefined){
-          schedule = {events: [], request: false}
-        }
-        return schedule
-      },
       changeMonth: function(){
-        console.log(this.currentDate)
+        this.changeMonthTo(this.currentDate)
       },
       changeMonthTo: function(m){
-        
+        this.calenderLoading = true
+        axios.get('/api/teams/' + this.team.id + "/change_calender", { params: {date: m} })
+        .then(res => {
+          this.schedules = res.data.schedules
+          this.currentDate = res.data.currentDate
+          this.prevMonth = res.data.prevMonth
+          this.nextMonth = res.data.nextMonth
+          this.calenderLoading = false
+        });
       },
       onSubmit: function(){
         
@@ -151,10 +139,6 @@ import axios from 'axios'
         this.modalShow = true
         this.request.id = id
       },
-      modalClose: function(){
-        this.modalShow = false
-      }
-      
     }
   }
 </script>
@@ -252,13 +236,6 @@ import axios from 'axios'
     margin-top: 100px;
     background-color: white;
   }
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
 
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
@@ -266,5 +243,13 @@ import axios from 'axios'
 
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+  }
+  
+  .el-carousel__item{
+    text-align: center;
+  }
+  
+  .el-carousel__item img{
+    height: 100%;
   }
 </style>

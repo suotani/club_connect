@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_31_150618) do
+ActiveRecord::Schema.define(version: 2019_04_01_010727) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2019_03_31_150618) do
     t.integer "month"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "team_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -104,6 +105,7 @@ ActiveRecord::Schema.define(version: 2019_03_31_150618) do
     t.string "leader_role"
     t.string "sub_leader_role"
     t.integer "school_type"
+    t.string "name"
     t.index ["confirmation_token"], name: "index_teams_on_confirmation_token", unique: true
     t.index ["email"], name: "index_teams_on_email", unique: true
     t.index ["reset_password_token"], name: "index_teams_on_reset_password_token", unique: true

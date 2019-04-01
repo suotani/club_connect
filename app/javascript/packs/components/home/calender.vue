@@ -22,11 +22,11 @@
         </thead>
         <tbody>
           <tr v-for="s in schedules">
-            <td class="tx-center">{{s.date}}</td>
+            <td class="tx-center">{{s.day}}</td>
             <td>
               <ul>
                 <li v-show="s.events.length !== 0" v-for="event in s.events">{{event}}</li>
-                <button v-on:click="openScheduleModal(s.id)">予定を追加</button>
+                <button v-on:click="openScheduleModal(s.id, s.day)">予定を追加</button>
               </ul>
             </td>
             <td class="tx-center">
@@ -40,7 +40,7 @@
         <div class="modal" v-loading="modalLoading">
           <el-form ref="form" :model="schedule" label-width="120px">
             <el-form-item label="予定">
-              <el-input v-model="schedule.title"></el-input>
+              <el-input v-model="schedule.text"></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default{
   data(){
     return{
@@ -64,39 +65,54 @@ export default{
       loading: true,
       modalOpen: false,
       modalLoading: false,
-      schedule: {title: ""}
+      schedule: {text: "", id: "", day: 0}
     }
   },
   created: function(){
-      this.loading = false,
-      this.schedules = [
-        {date: 1,  events: ["試合", "練習"], request: false},
-        {date: 2,  events: ["試合", "練習"], request: false},
-        {date: 3,  events: [], request: true},
-        {date: 4,  events: [], request: true},
-        {date: 5,  events: [], request: false},
-        {date: 6,  events: [], request: false},
-        {date: 7,  events: [], request: false},
-        {date: 8,  events: [], request: false},
-        {date: 9,  events: ["試合", "練習"], request: false},
-        {date: 10, events: ["試合", "練習"], request: true},
-      ]
+    axios.get('/api/calender')
+    .then(res => {
+        this.schedules = res.data.schedules
+        this.currentDate = res.data.currentDate
+        this.prevMonth = res.data.prevMonth
+        this.nextMonth = res.data.nextMonth
+        this.loading = false
+    })
   },
   computed: {
 
   },
   methods: {
     changeMonthTo: function(m){
-      //update schedules, currentDate, nextMonth, prevMonth
+      this.loading = true
+      axios.get('/api/calender/', { params: {date: m} })
+      .then(res => {
+          this.schedules = res.data.schedules
+          this.currentDate = res.data.currentDate
+          this.prevMonth = res.data.prevMonth
+          this.nextMonth = res.data.nextMonth
+          this.loading = false
+      })
     },
     changeMonth: function(){
-      //update schedules, currentDate, nextMonth, prevMonth
+      this.changeMonthTo(this.currentDate)
     },
-    openScheduleModal: function(){
+    openScheduleModal: function(id, day){
+      this.schedule = {id: id, day: day, date: this.currentDate}
       this.modalOpen = true
     },
     onSubmit: function(){
       this.modalLoading = true
+      self = this
+      axios.post("/api/calender_add_event",{
+        schedule: this.schedule
+      })
+      .then(res => {
+        var index = self.schedules.findIndex(function(e){ return e.day === self.schedule.day})
+        self.schedules[index].events.splice(self.schedules[index].events.length, 1, self.schedule.text)
+        self.schedules[index].id = res.data.schedule_id
+        self.modalLoading = false
+        this.modalOpen = false
+      })
     },
     modalClose: function(){
       this.modalOpen = false

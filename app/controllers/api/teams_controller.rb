@@ -11,8 +11,37 @@ class Api::TeamsController < ApiController
   end
   
   def show
+    @current_date = Time.zone.today
     @team = Team.find(params[:id])
+    @current_calender = @team.calenders.where(year: @current_date.year, month: @current_date.month).first
+    if @current_calender.blank?
+      @current_calender = Calender.create(team_id: @team.id, year: @current_date.year, month: @current_date.month)
+    end
     render 'show', formats: 'json', handlers: 'jbuilder'
+  end
+  
+  def calender
+    # TODO: ログインチームのみ
+    @team = Team.find(1)
+    render_calender_json
+  end
+  
+  def change_calender
+    @team = Team.find(params[:id])
+    render_calender_json
+  end
+  
+  def calender_add_event
+    @team = Team.find(1)
+    if params[:schedule][:id]
+      @schedule = Schedule.find(params[:schedule][:id])
+    else
+      year, month = params[:schedule][:date].split("/")
+      calender = @team.calenders.where(year: year, month: month).first
+      @schedule = Schedule.create(calender_id: calender.id, day: params[:schedule][:day])
+    end
+    Event.create(schedule_id: @schedule.id, text: params[:schedule][:text])
+    render json: {result: "success", schedule_id: @schedule.id}
   end
   
   def setting
@@ -45,8 +74,17 @@ class Api::TeamsController < ApiController
   
   def team_params
     params.require(:team).permit(
-      :school, :category_id, :introduction, :members, :leader_name, :leader_email,
+      :school, :name, :category_id, :introduction, :members, :leader_name, :leader_email,
       :leader_role, :sub_leader_name, :sub_leader_email, :sub_leader_role, :school_type, images: []
     )
+  end
+  
+  def render_calender_json
+    @current_date = Date.parse(params[:date] || Time.zone.today.strftime("%Y/%m"))
+    @current_calender = @team.calenders.where(year: @current_date.year, month: @current_date.month).first
+    if @current_calender.blank?
+      @current_calender = Calender.create(team_id: @team.id, year: @current_date.year, month: @current_date.month)
+    end
+    render 'change_calender', formats: 'json', handlers: 'jbuilder'
   end
 end

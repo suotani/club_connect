@@ -70,8 +70,8 @@ import axios from 'axios'
           this.teams = res.data.teams
           this.school_types = [""].concat(res.data.school_types)
           this.total_team_count = res.data.total_team_count
+          this.loading = false
       });
-      this.loading = false
     },
     methods: {
       onSubmit: function(){

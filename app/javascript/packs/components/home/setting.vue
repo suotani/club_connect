@@ -1,13 +1,17 @@
 <template>
-  <div class="team-content-wrapper" v-loading="loading">
+  <div class="team-content-wrapper" v-loading="loading" v-cloak>
     <div class="team-info px-4 py-4">
       <el-form ref="form" :model="team" label-width="120px" enctype="multipart/form-data">
         <el-form-item label="学校名">
           <el-input v-model="team.school"></el-input>
         </el-form-item>
+
+        <el-form-item label="チーム名">
+          <el-input v-model="team.school"></el-input>
+        </el-form-item>
       
         <el-form-item label="カテゴリー">
-          <el-select v-model="team.category_id" placeholder="Select">
+          <el-select v-model="team.category_id" placeholder="Select" v-on:change="handleChangeCategory">
             <el-option
               v-for="c in categories"
               :key="c.id"
@@ -15,6 +19,10 @@
               :value="c.id">
             </el-option>
           </el-select>
+        </el-form-item>
+
+        <el-form-item label="チーム名">
+          <el-input v-model="team.name"></el-input>
         </el-form-item>
 
         <el-form-item label="学校種別">
@@ -37,7 +45,7 @@
             :on-success = "handleUploaded"
             :file-list="fileList"
             list-type="picture">
-            <el-button size="small" type="primary">Click to upload</el-button>
+            <el-button size="small" type="primary">写真のアップロード</el-button>
             <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
           </el-upload>
         </el-form-item>
@@ -121,8 +129,8 @@ import axios from 'axios'
         this.roles = res.data.roles
         this.fileList = res.data.images //{name: name, url: url, id: id}
         this.school_types = res.data.school_types
+        this.loading = false
       });
-      this.loading = false
     },
     methods: {
       onSubmit: function(){
@@ -132,8 +140,8 @@ import axios from 'axios'
         })
         .then(res => {
           this.$message('更新しました');
+          this.loading = false
         })
-        this.loading = false
       },
       
       handleRemove(file, fileList) {
@@ -153,6 +161,11 @@ import axios from 'axios'
         input.id = id
         this.fileList = fileList
         this.fileList.splice(index, 1, file)
+      },
+      handleChangeCategory(){
+        var category_id = this.team.category_id
+        var category = this.categories.find(function(e) {return e.id === category_id})
+        this.team.name = category.name + "部"
       }
     }
   }
