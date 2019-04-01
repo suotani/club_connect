@@ -30,8 +30,8 @@
               </ul>
             </td>
             <td class="tx-center">
-              <p v-if="s.request">募集中</p>
-              <p v-else>募集する</p>
+              <p v-if="s.request">募集中<el-button v-on:click="onRequestChange(s)">変更する</el-button></p>
+              <p v-else>募集していません<el-button v-on:click="onRequestChange(s)">変更する</el-button></p>
             </td>
           </tr>
         </tbody>
@@ -45,7 +45,7 @@
 
             <el-form-item>
               <el-button type="primary" @click="onSubmit">更新</el-button>
-              <el-button @click="modalClose">キャンセル</el-button>
+              <el-button @click="modalOpen = false">キャンセル</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -69,7 +69,7 @@ export default{
     }
   },
   created: function(){
-    axios.get('/api/calender')
+    axios.get('/api/calenders')
     .then(res => {
         this.schedules = res.data.schedules
         this.currentDate = res.data.currentDate
@@ -84,7 +84,7 @@ export default{
   methods: {
     changeMonthTo: function(m){
       this.loading = true
-      axios.get('/api/calender/', { params: {date: m} })
+      axios.get('/api/calenders', { params: {date: m} })
       .then(res => {
           this.schedules = res.data.schedules
           this.currentDate = res.data.currentDate
@@ -103,7 +103,7 @@ export default{
     onSubmit: function(){
       this.modalLoading = true
       self = this
-      axios.post("/api/calender_add_event",{
+      axios.post("/api/calenders/update",{
         schedule: this.schedule
       })
       .then(res => {
@@ -114,9 +114,20 @@ export default{
         this.modalOpen = false
       })
     },
-    modalClose: function(){
-      this.modalOpen = false
+    onRequestChange: function(schedule){
+      axios.post("/api/schedules/update", {
+        request: !schedule.request,
+        date: this.currentDate,
+        day: schedule.day,
+        id: schedule.id
+      })
+      .then(res => {
+        const index = this.schedules.findIndex(function(e) {return e === schedule})
+        schedule.request = !schedule.request
+        this.schedules.splice(index, 1, schedule)
+      })
     }
+    
   }
 }
 

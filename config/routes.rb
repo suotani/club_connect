@@ -18,13 +18,28 @@ Rails.application.routes.draw do
   
   namespace :api do
     resources :todos
-    post '/teams/file_upload', to: 'teams#file_upload'
-    get '/teams/file_delete', to: 'teams#file_delete'
-    get '/teams/:id/change_calender', to: "teams#change_calender"
-    resources :teams
-    get '/setting', to: "teams#setting"
-    post '/setting_update', to: "teams#setting_update"
-    get '/calender', to: "teams#calender"
-    post '/calender_add_event', to: "teams#calender_add_event"
+    
+    resources :teams, only: [:index, :show] do
+      collection do
+        get 'edit'
+        post 'update'
+      end
+    end
+    
+    resources :files, only: [:create, :destroy]
+    
+    resources :calenders, only: [:index, :show] do
+      collection do
+        post "update"
+      end
+    end
+    
+    resources :schedules, only: [] do
+      collection do
+        post "update"
+      end
+    end
+    
+    resources :requests, only: [:create]
   end
 end

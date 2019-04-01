@@ -123,7 +123,7 @@ import axios from 'axios'
       },
       changeMonthTo: function(m){
         this.calenderLoading = true
-        axios.get('/api/teams/' + this.team.id + "/change_calender", { params: {date: m} })
+        axios.get('/api/calenders/' + this.team.id, { params: {date: m} })
         .then(res => {
           this.schedules = res.data.schedules
           this.currentDate = res.data.currentDate
@@ -133,7 +133,19 @@ import axios from 'axios'
         });
       },
       onSubmit: function(){
-        
+        this.modalLoading = true
+        axios.post("/api/requests", {
+          request: {
+            schedule_id: this.request.id,
+            to_team_id: this.team.id
+          },
+          text: this.request.text
+        })
+        .then(res =>{
+          this.$message("リクエストを送信しました")
+          this.modalLoading = false
+          this.modalShow = false
+        })
       },
       modalOpen: function(id){
         this.modalShow = true

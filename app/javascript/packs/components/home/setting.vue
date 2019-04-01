@@ -1,12 +1,15 @@
 <template>
   <div class="team-content-wrapper" v-loading="loading" v-cloak>
+    <div class="error_messages" v-if="error_messages.length > 0">
+      <ul>
+        <li v-for="error in error_messages">
+          <i class="fab fa-studiovinari"></i>{{error}}
+        </li>
+      </ul>
+    </div>
     <div class="team-info px-4 py-4">
       <el-form ref="form" :model="team" label-width="120px" enctype="multipart/form-data">
         <el-form-item label="学校名">
-          <el-input v-model="team.school"></el-input>
-        </el-form-item>
-
-        <el-form-item label="チーム名">
           <el-input v-model="team.school"></el-input>
         </el-form-item>
       
@@ -39,7 +42,7 @@
         <el-form-item label="写真のアップロード">
           <el-upload
             class="upload-demo"
-            action="/api/teams/file_upload"
+            action="/api/files"
             :auto-upload="true"
             :on-remove="handleRemove"
             :on-success = "handleUploaded"
@@ -118,11 +121,12 @@ import axios from 'axios'
         loading: true,
         fileList: [],
         school_types: [],
+        error_messages: []
       }
     },
     created: function(){
       // get team
-      axios.get('/api/setting')
+      axios.get('/api/teams/edit')
       .then(res => {
         this.team = res.data.team
         this.categories = res.data.categories
@@ -135,20 +139,23 @@ import axios from 'axios'
     methods: {
       onSubmit: function(){
         this.loading = true
-        axios.post('/api/setting_update', {
+        axios.post('/api/teams/update', {
           team: this.team
         })
         .then(res => {
-          this.$message('更新しました');
+          if(res.data.result === "success"){
+            this.$message('更新しました');
+          }else{
+            this.$message('更新に失敗しました');
+            this.error_messages = res.data.errors
+          }
           this.loading = false
         })
       },
       
       handleRemove(file, fileList) {
         const id = file.id
-        axios.get('/api/teams/file_delete',{
-          params: {id: id}
-        })
+        axios.delete('/api/files/' + file.id, {})
         .then(res => {
           this.fileList = fileList
           this.$message('画像を1枚削除しました');
@@ -161,7 +168,9 @@ import axios from 'axios'
         input.id = id
         this.fileList = fileList
         this.fileList.splice(index, 1, file)
+        this.$message('画像をアップロードしました');
       },
+
       handleChangeCategory(){
         var category_id = this.team.category_id
         var category = this.categories.find(function(e) {return e.id === category_id})
@@ -208,4 +217,10 @@ import axios from 'axios'
    .tx-right{
      text-align: right;
    }
+   
+  .error_messages{
+    border: solid 4px rgba(255,0,0,0.3);
+    margin: 5px 13px;
+    color: rgba(255,0,0,0.8);
+  }
 </style>
