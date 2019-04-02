@@ -1,14 +1,14 @@
 <template>
   <div v-loading="loading">
-    <h2 class="title">{{title}}</h2>
+    <h2 class="title">{{contact.title}}</h2>
     <ul>
-      <li v-for="(message, index) in messages" v-on:click="toggleRow(index)">
+      <li v-for="(message, index) in messages" v-on:click="toggleRow(index)" v-bind:key="message.id">
         <div class="message-head">
-          <span class="message-from">{{message.from}}</span>
-          <span class="message-post-at">{{message.post_at}}</span>
+          <span class="message-from">{{message.from_team}}</span>
+          <span class="message-post-at">{{message.created_at}}</span>
         </div>
-        <div v-if="message.short">short{{message.short_text}}</div>
-        <div v-else>long{{message.text}}</div>
+        <div v-if="message.short">{{message.short_text}}</div>
+        <div v-else>{{message.text}}</div>
       </li>
     </ul>
     <div v-if="showReply" class="wrap-reply">
@@ -19,7 +19,7 @@
         v-model="reply">
       </el-input>
       <el-row>
-        <el-button type="primary">送信</el-button>
+        <el-button type="primary" v-on:click="onSubmit">送信</el-button>
         <el-button v-on:click="cancelReply">キャンセル</el-button>
       </el-row>
     </div>
@@ -32,24 +32,25 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default{
     data(){
       return {
         title: "",
         reply: "",
+        contact: {},
         messages: [],
         showReply: false,
         loading: true
       }
     },
     created: function(){
-      this.title = "title"
-      this.messages = [
-        {from: "fromA", post_at: "2019/01/01 10:00", short_text: "aaa", text: "bbbbbb", short: true},
-        {from: "fromB", post_at: "2019/01/01 10:00", short_text: "aaa", text: "bbbbbb", short: true},
-        {from: "fromA", post_at: "2019/01/01 10:00", short_text: "aaa", text: "bbbbbb", short: false}
-      ],
-      this.loading = false
+      axios.get("/api/contacts/" + this.$route.params.id)
+      .then(res => {
+        this.messages = res.data.messages
+        this.contact = res.data.contact
+        this.loading = false
+      })
     },
     methods: {
       toggleRow: function(index){
@@ -60,6 +61,18 @@
       cancelReply: function(){
         this.reply = ""
         this.showReply = false
+      },
+      onSubmit: function(){
+        this.loading = true
+        axios.patch("/api/contacts/"+this.$route.params.id,{
+          text: this.reply
+        })
+        .then(res => {
+          var message = res.data.message
+          this.messages.splice(this.messages.length, 1, message)
+          this.$message("送信しました")
+          this.loading = false
+        })
       }
     }
   }

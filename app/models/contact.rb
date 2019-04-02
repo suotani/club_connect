@@ -1,5 +1,9 @@
 class Contact < ApplicationRecord
   has_many :messages
+  
+  belongs_to :to_team, class_name: "Team"
+  belongs_to :from_team, class_name: "Team"
+  
   enum contact_type: {
     request_message: 1,
     normal_message: 2
@@ -17,4 +21,6 @@ class Contact < ApplicationRecord
     to_team_read: 2,
     to_team_replyed: 3
   }
+  
+  TAG = ["", "new", "", "replyed"]
 end

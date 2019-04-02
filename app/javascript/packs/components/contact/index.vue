@@ -6,7 +6,7 @@
           <router-link tag="li" :to= "{name: 'contact', params: {id: request.id}}" class="row" v-for="request in requests" v-bind:key="request.id">
             <ul class="message" v-bind:class="request.tag">
               <li class="message-tag">{{request.tag}}</li>
-              <li class="message-from">{{request.from}}</li>
+              <li class="message-destination">{{request.destination}}</li>
               <li class="message-text">
                 <span class="message-title">{{request.title}}</span> |
                 <span class="message-short-text">{{request.short_text}}</span>
@@ -19,7 +19,7 @@
           <el-pagination
             @current-change="handleRequestsChange"
             layout="prev, pager, next"
-            :total="requests.length">
+            :total="requests_total_count">
           </el-pagination>
         </div>
       </el-tab-pane>
@@ -28,7 +28,7 @@
           <router-link tag="li" :to= "{name: 'contact', params: {id: contact.id}}" class="row" v-for="contact in contacts" v-bind:key="contact.id">
             <ul class="message" v-bind:class="contact.tag">
               <li class="message-tag">{{contact.tag}}</li>
-              <li class="message-from">{{contact.from}}</li>
+              <li class="message-destination">{{contact.destination}}</li>
               <li class="message-text">
                 <span class="message-title">{{contact.title}}</span>
                 <span class="message-short-text">{{contact.short_text}}</span>
@@ -40,7 +40,7 @@
           <el-pagination
             @current-change="handleContactsChange"
             layout="prev, pager, next"
-            :total="contacts.length">
+            :total="contacts_total_count">
           </el-pagination>
         </div>
       </el-tab-pane>
@@ -49,31 +49,50 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default {
     data() {
       return {
         activeName: 'first',
         requests: [],
         contacts: [],
+        requests_total_count: 0,
+        contacts_total_count: 0,
         loading: true
       };
     },
     created: function(){
-      this.requests = [
-        {id: 1,tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {id: 2,tag: "replyed", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {id: 3,tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {id: 4,tag: "", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."},
-        {id: 5,tag: "new", from: "奈良教育大学剣道部", title: "2/18合同練習の申し込み", short_text: "はじめまして。..."}, 
-      ],
-      this.loading = false
+      axios.get("/api/contacts", {
+        params: {contact_type: "both"}
+      })
+      .then(res =>{
+        this.requests = res.data.request_contacts
+        this.contacts_total_count = res.data.contacts_total_count
+        this.requests_total_count = res.data.requests_total_count
+        this.contacts = res.data.normal_contacts
+        this.loading = false
+      });
     },
     methods: {
       handleRequestsChange: function(val){
-        
+        this.loading = true
+        axios.get("/api/contacts", {
+          params: {contact_type: "request", page: val}
+        })
+        .then(res =>{
+          this.requests = res.data.request_contacts
+          this.loading = false
+        });
       },
       handleContactsChange: function(val){
-        
+        this.loading = true
+        axios.get("/api/contacts", {
+          params: {contact_type: "normal", page: val}
+        })
+        .then(res =>{
+          this.contacts = res.data.normal_contacts
+          this.loading = false
+        });
       }
     }
   };
@@ -120,7 +139,7 @@
   .message-tag{
     width: 10%;
   }
-  .message-from{
+  .message-destination{
     width: 30%;
   }
   .message-text{

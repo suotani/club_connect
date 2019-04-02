@@ -1,7 +1,10 @@
 <template>
   <div class="team-content-wrapper" v-loading="loading">
     <div class="team-info px-4 py-4">
-      <h2>{{team.school}} {{team.category}}</h2>
+      <div class="team-head">
+        <h2>{{team.school}} {{team.category}}</h2>
+        <el-button type="success" round v-on:click="messageModalShow = true">メッセージを送る</el-button>
+      </div>
       <el-carousel :interval="4000" type="card" height="200px">
         <el-carousel-item v-for="item in photos" :key="item.id">
           <img v-bind:src="item.url"></img>
@@ -67,6 +70,7 @@
         </tbody>
       </table>
     </div>
+
     <div class="modal-wrapper" v-show="modalShow">
       <div class="modal" v-loading="modalLoading">
         <el-form ref="form" :model="request" label-width="120px">
@@ -78,6 +82,25 @@
           <el-form-item>
             <el-button type="primary" @click="onSubmit">申請する</el-button>
             <el-button @click="modalShow=false">キャンセル</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+
+    <div class="modal-wrapper" v-show="messageModalShow">
+      <div class="modal" v-loading="modalLoading">
+        <el-form ref="form" :model="message" label-width="120px">
+          <h3>メッセージを送信します。</h3>
+          <el-form-item label="title">
+            <el-input type="text" v-model="message.title" placeholder=""></el-input>
+          </el-form-item>
+          <el-form-item label="メッセージ">
+            <el-input type="textarea" v-model="message.text" placeholder=""></el-input>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button type="primary" @click="onMessageSubmit">送信する</el-button>
+            <el-button @click="messageModalShow=false">キャンセル</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -100,7 +123,9 @@ import axios from 'axios'
         prevMonth: "",
         nextMonth: "",
         modalShow: false,
-        request: {}
+        request: {},
+        messageModalShow: false,
+        message: {}
       }
     },
     created: function(){
@@ -151,6 +176,20 @@ import axios from 'axios'
         this.modalShow = true
         this.request.id = id
       },
+      onMessageSubmit:function(){
+        this.modalLoading = true
+        axios.post("/api/contacts",{
+          id: this.team.id,
+          title: this.message.title,
+          text: this.message.text
+        })
+        .then(res =>{
+          this.message.title = ""
+          this.message.text = ""
+          this.messageModalShow = false
+          this.$message("メッセージを送信しました。返信はメールボックスから確認できます")
+        })
+      }
     }
   }
 </script>
@@ -164,12 +203,16 @@ import axios from 'axios'
   h3{
     text-align: center;
   }
+
   .team-content-wrapper{
     width: 93%;
     margin:auto;
     margin-bottom: 2rem;
   }
-  
+  .team-head{
+    display: flex;
+    justify-content:space-between;
+  }
   .team-info{
     box-shadow: 0.25rem 0.15rem 1rem 0.25rem rgba(58,59,69,.15);
   }

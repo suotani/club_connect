@@ -41,5 +41,7 @@ Rails.application.routes.draw do
     end
     
     resources :requests, only: [:create]
+    
+    resources :contacts, only: [:index, :show, :create, :update]
   end
 end
