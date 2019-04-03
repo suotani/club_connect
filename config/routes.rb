@@ -43,5 +43,7 @@ Rails.application.routes.draw do
     resources :requests, only: [:create]
     
     resources :contacts, only: [:index, :show, :create, :update]
+    
+    get 'dashboard', to: "dashboard#index"
   end
 end

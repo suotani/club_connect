@@ -157,3 +157,14 @@ a{
     margin-top: 100px;
     background-color: white;
   }
+
+  .el-card__header{
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+    color: #4e73df;
+    font-weight: 800;
+  }
+  
+  .el-card__body{
+    padding: 14px 20px !important;
+  }

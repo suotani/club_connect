@@ -7,7 +7,8 @@ class Api::SchedulesController < ApiController
     else
       year, month = params[:date].split("/")
       calender = current_team.calenders.where(year: year, month: month).first
-      Schedule.create(day: params[:day], request: params[:request], calender_id: calender.id)
+      date = Date.parse("#{year}/#{month}/#{params[:day]}")
+      Schedule.create(day: params[:day], request: params[:request], calender_id: calender.id, date: date)
     end
     render json: {result: "success"}
   end

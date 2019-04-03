@@ -12,7 +12,8 @@ class Api::CalendersController < ApiController
     else
       year, month = schedule_params[:date].split("/")
       calender = @team.calenders.where(year: year, month: month).first
-      @schedule = Schedule.create(calender_id: calender.id, day: schedule_params[:day])
+      date = Date.parse("#{calender.year}/#{calender.month}/#{schedule_params[:day]}")
+      @schedule = Schedule.create(calender_id: calender.id, day: schedule_params[:day], date: date)
     end
     Event.create(schedule_id: @schedule.id, text: schedule_params[:text])
     render json: {result: "success", schedule_id: @schedule.id}
