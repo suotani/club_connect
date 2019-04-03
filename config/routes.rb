@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       end
     end
     
-    resources :requests, only: [:create]
+    resources :requests, only: [:create, :update, :destroy]
     
     resources :contacts, only: [:index, :show, :create, :update]
     

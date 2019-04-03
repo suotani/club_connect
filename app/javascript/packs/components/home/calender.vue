@@ -25,13 +25,18 @@
             <td class="tx-center">{{s.day}}</td>
             <td>
               <ul>
-                <li v-show="s.events.length !== 0" v-for="event in s.events">{{event}}</li>
-                <button v-on:click="openScheduleModal(s.id, s.day)">予定を追加</button>
+                <li v-show="s.events.length !== 0" v-for="event in s.events">
+                  {{event.text}}
+                  <router-link :to= "{name: 'team', params: {id: event.team_id}}" v-if="event.team_name !=='' ">
+                    ({{event.team_name}})
+                  </router-link>
+                </li>
+                <el-button v-on:click="openScheduleModal(s.id, s.day)" size="small" type="primary" round>＋ 予定を追加</el-button>
               </ul>
             </td>
             <td class="tx-center">
-              <p v-if="s.request">募集中<el-button v-on:click="onRequestChange(s)">変更する</el-button></p>
-              <p v-else>募集していません<el-button v-on:click="onRequestChange(s)">変更する</el-button></p>
+              <p v-if="s.request">募集中<el-button v-on:click="onRequestChange(s)" class="">変更する</el-button></p>
+              <p v-else>募集していません<el-button v-on:click="onRequestChange(s)" class="change-button">変更する</el-button></p>
             </td>
           </tr>
         </tbody>
@@ -171,6 +176,9 @@ export default{
   
   .tx-center{
     text-align:center;
+  }
+  .change-button{
+    margin-left: 3px;
   }
   .month-select{
     display: flex;

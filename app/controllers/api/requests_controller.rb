@@ -14,6 +14,28 @@ class Api::RequestsController < ApiController
     render json: {result: "success"}
   end
   
+  def update
+    contact = current_team.contacts.find(params[:id])
+    y,m,d = params[:schedule][:date].split("-").map(&:to_i)
+    calender = current_team.calenders.where(year: y, month: m).first
+    if calender.nil?
+      calender= Calender.create(year: y, month: m, team_id: current_team.id)
+    end
+    schedule = calender.schedules.where(day: d).first
+    if schedule.nil?
+      schedule = Schedule.create(calender_id: calender.id, day: d, date: params[:schedule][:date])
+    end
+    Event.create(text: "合同練習", team_id: params[:schedule][:team_id], schedule_id: schedule.id)
+    contact.update(request_status: true)
+    render json: {result: "success"}
+  end
+  
+  def delete
+    contact = current_team.contacts.find(params[:id])
+    contact.update(request_status: false)
+    render json: {}
+  end
+  
   private
   
   def request_params

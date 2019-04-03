@@ -3,6 +3,7 @@ class Contact < ApplicationRecord
   
   belongs_to :to_team, class_name: "Team"
   belongs_to :from_team, class_name: "Team"
+  belongs_to :schedule, optional: true
   
   enum contact_type: {
     request_message: 1,

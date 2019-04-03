@@ -55,7 +55,7 @@
       </el-col>
       
       <el-col :span="9">
-        <el-card class="block">
+        <el-card class="block teams">
           <div slot="header" class="clearfix">
             Recently Join
           </div>
@@ -151,6 +151,10 @@ import axios from 'axios'
   
   .schedule .el-card__body p{
     font-size: 16px;
+  }
+
+  .teams .el-card__body p{
+    font-size: 12px;
   }
   
   .inner-summary{

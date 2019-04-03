@@ -17,11 +17,12 @@ class Api::ContactsController < ApiController
   
   #mail show
   def show
-    p @contact
     if @contact.from_team_id == current_team.id
       @contact.from_team_read!
+      @target_team = @contact.to_team
     else
       @contact.to_team.read!
+      @target_team = @contact.from_team
     end
     render 'show', formats: 'json', handlers: 'jbuilder'
   end

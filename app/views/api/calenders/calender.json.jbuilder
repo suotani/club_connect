@@ -4,7 +4,13 @@ json.schedules do
     if dates.include?(d)
       s = @current_calender.schedules.find_by(day: d)
       json.day d
-      json.events s.events.map(&:text)
+      json.events do
+        json.array! s.events do |e|
+          json.text      e.text
+          json.team_id   e.team_id
+          json.team_name e.team.present? ? e.team.school + " " + (e.team.name || "") : ""
+        end
+      end
       json.request s.request
     else
       json.day d
