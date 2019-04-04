@@ -1,5 +1,9 @@
 <template>
   <div class="team-content-wrapper" v-loading="loading">
+    <router-link :to= "{name: 'teams'}">
+      <i class="fas fa-arrow-left"></i>
+      戻る
+    </router-link>
     <div class="team-info px-4 py-4">
       <div class="team-head">
         <h2>{{team.school}} {{team.category}}</h2>

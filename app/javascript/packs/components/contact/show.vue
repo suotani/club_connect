@@ -1,5 +1,9 @@
 <template>
   <div v-loading="loading">
+    <router-link :to= "{name: 'contacts'}">
+      <i class="fas fa-arrow-left"></i>
+      戻る
+    </router-link>
     <h2 class="title">{{contact.title}}</h2>
     <ul>
       <li v-for="(message, index) in messages" v-on:click="toggleRow(index)" v-bind:key="message.id">

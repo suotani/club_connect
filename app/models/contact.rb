@@ -1,9 +1,12 @@
 class Contact < ApplicationRecord
+  
   has_many :messages
   
   belongs_to :to_team, class_name: "Team"
   belongs_to :from_team, class_name: "Team"
   belongs_to :schedule, optional: true
+  
+  validates :title, presence: true
   
   enum contact_type: {
     request_message: 1,

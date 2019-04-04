@@ -40,6 +40,8 @@ class Api::TeamsController < ApiController
     params.require(:team).permit(
       :school, :name, :category_id, :introduction, :members, :leader_name, :leader_email,
       :leader_role, :sub_leader_name, :sub_leader_email, :sub_leader_role, :school_type, images: []
-    )
+    ).tap do |v|
+      v[:exec_valid] = true
+    end
   end
 end

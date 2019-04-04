@@ -14,11 +14,6 @@
           <el-option v-for="s in school_types" v-bind:label="s.name" v-bind:value="s.id" v-bind:key="s.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="部活・サークルの種類">
-        <el-select v-model="query.category" placeholder="">
-          <el-option v-for="c in categories" v-bind:label="c.name" v-bind:value="c.id" v-bind:key="c.id"></el-option>
-        </el-select>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">検索</el-button>
       </el-form-item>
@@ -37,6 +32,7 @@
     <el-pagination
       background
       @current-change="handleCurrentChange"
+      :current-page="$store.getters.team_query.page"
       layout="prev, pager, next"
       :total="total_team_count">
     </el-pagination>
@@ -48,12 +44,6 @@ import axios from 'axios'
   export default{
     data(){
       return {
-        query: {
-          school: "",
-          category_id: "",
-          school_type: "",
-          page: 1
-        },
         categories: [],
         teams: [],
         school_types: [],
@@ -61,9 +51,15 @@ import axios from 'axios'
         loading: true
       }
     },
+    computed: {
+      query: {
+        get() {return this.$store.getters.team_query},
+        set(value){this.$store.dispatch('updateTeamQuery', value)}
+      },
+    },
     created: function(){
       axios.get('/api/teams',{
-          params: this.query
+          params: this.$store.getters.team_query
         })
       .then(res => {
           this.categories = [""].concat(res.data.categories)
@@ -75,28 +71,20 @@ import axios from 'axios'
     },
     methods: {
       onSubmit: function(){
-        this.loading = true
-        this.query.page = 1
-        axios.get('/api/teams',{
-          params: this.query
-        })
-        .then(res => {
-           this.teams = res.data.teams
-           this.total_team_count = res.data.total_team_count
-        });
-        this.loading = false
+        this.handleCurrentChange(1);
       },
+
       handleCurrentChange: function(val) {
-        this.query.page = val
+        this.$store.dispatch('updateTeamQueryPage', val)
         this.loading = true
         axios.get('/api/teams',{
-          params: this.query
+          params:this.$store.getters.team_query
         })
         .then(res => {
            this.teams = res.data.teams
            this.total_team_count = res.data.total_team_count
+           this.loading = false
         });
-        this.loading = false
       }
     }
   }

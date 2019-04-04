@@ -27,13 +27,6 @@
           メールボックス
         </router-link>
       </li>
-  
-      <!--<li class="nav-item">-->
-      <!--  <router-link :to= "{name: 'messages'}">-->
-      <!--    <i class="fas fa-envelope"></i>-->
-      <!--    メッセージ一覧-->
-      <!--  </router-link>-->
-      <!--</li>-->
       <hr class="sidebar-divider" />
       <div class="sidebar-heading">SETTINGS</div>
       <li class="nav-item">
@@ -65,7 +58,7 @@
       </li>
       <hr class="sidebar-divider" />
       <div class="text-center">
-        <button type="button" id="sidebar-toggle" v-on:click="toggleSidebar">
+        <button type="button" id="sidebar-toggle" v-on:click="isToggled = !isToggled">
           <i class="fas" v-bind:class="{'fa-chevron-left': !isToggled, 'fa-chevron-right': isToggled}"></i>
         </button>
       </div>
@@ -82,7 +75,7 @@
 
           <el-form-item>
             <el-button type="primary" @click="onSubmit">送信</el-button>
-            <el-button @click="closeModal">キャンセル</el-button>
+            <el-button @click="modalOpen = false">キャンセル</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -91,6 +84,7 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default{
     data(){
       return{
@@ -101,17 +95,16 @@
       }
     },
     methods: {
-      toggleSidebar: function(){
-        this.isToggled = !this.isToggled
-      },
-      openModal: function(){
-        this.modalOpen = true
-      },
-      closeModal: function(){
-        this.modalOpen = false
-      },
       onSubmit: function(){
-        
+        this.modalLoading = true
+        axios.post("/api/inquiry",{
+          inquiry: this.inquiry
+        })
+        .then(res => {
+          this.$message("お問い合わせを送信しました。")
+          this.modalLoading = false
+          this.modalOpen = false
+        })
       }
     }
   }
@@ -206,9 +199,10 @@
     cursor: pointer;
   }
   
-  ul.toggled li a{
+  ul.toggled li a, ul.toggled li span{
     font-size: 11px;
     padding: 0.5rem 0.25rem;
+    text-align: center;
   }
   
   ul.toggled li i{
