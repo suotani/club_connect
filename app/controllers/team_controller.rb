@@ -1,6 +1,4 @@
 class TeamController < ApplicationController
-    
-    def current_team
-        Team.find(1)
-    end
+    before_action :authenticate_team!
+
 end

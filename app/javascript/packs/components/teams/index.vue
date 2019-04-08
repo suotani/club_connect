@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading">
-    <el-form :inline="true" :model="query" class="demo-form-inline ">
+    <el-form :inline="true" :model="query" class="demo-form-inline " v-if="!error_exist">
       <el-form-item label="学校名">
         <el-input v-model="query.school" placeholder="〇〇大学"></el-input>
       </el-form-item>
@@ -18,24 +18,26 @@
         <el-button type="primary" @click="onSubmit">検索</el-button>
       </el-form-item>
     </el-form>
-    <p class="my-2">{{total_team_count}}件見つかりました</p>
-    <div class="mt-2 teams">
-      <el-card class="box-card" v-for="t in teams" v-bind:key="t.id">
-        <router-link :to= "{name: 'team', params: {id: t.id}}" slot="header" class="clearfix link-to-team">
-          <p>{{t.school}} {{t.category}}</p>
-        </router-link>
-        <div class="text item">
-         <p>{{t.leader_name}}</p>
-        </div>
-      </el-card>
+    <div>
+      <p class="my-2">{{total_team_count}}件見つかりました</p>
+      <div class="mt-2 teams">
+        <el-card class="box-card" v-for="t in teams" v-bind:key="t.id">
+          <router-link :to= "{name: 'team', params: {id: t.id}}" slot="header" class="clearfix link-to-team">
+            <p>{{t.school}} {{t.category}}</p>
+          </router-link>
+          <div class="text item">
+           <p>{{t.leader_name}}</p>
+          </div>
+        </el-card>
+      </div>
+      <el-pagination
+        background
+        @current-change="handleCurrentChange"
+        :current-page="$store.getters.team_query.page"
+        layout="prev, pager, next"
+        :total="total_team_count">
+      </el-pagination>
     </div>
-    <el-pagination
-      background
-      @current-change="handleCurrentChange"
-      :current-page="$store.getters.team_query.page"
-      layout="prev, pager, next"
-      :total="total_team_count">
-    </el-pagination>
   </div>
 </template>
 
@@ -51,6 +53,7 @@ import axios from 'axios'
         loading: true
       }
     },
+    props: ["error_exist"],
     computed: {
       query: {
         get() {return this.$store.getters.team_query},
@@ -67,7 +70,12 @@ import axios from 'axios'
           this.school_types = [""].concat(res.data.school_types)
           this.total_team_count = res.data.total_team_count
           this.loading = false
-      });
+          this.$emit('appyl_error_message', "")
+      })
+      .catch(error => {
+        this.$emit('appyl_error_message', er.response.data.message)
+        this.loading = false
+      })
     },
     methods: {
       onSubmit: function(){

@@ -1,5 +1,5 @@
 <template>
-  <div class="team-content-wrapper" v-loading="loading" v-cloak>
+  <div class="team-content-wrapper" v-loading="loading" v-cloak v-if="!error_exist">
     <div class="error_messages" v-if="error_messages.length > 0">
       <ul>
         <li v-for="error in error_messages">
@@ -124,6 +124,7 @@ import axios from 'axios'
         error_messages: []
       }
     },
+    props: ["error_exist"],
     created: function(){
       // get team
       axios.get('/api/teams/edit')
@@ -134,7 +135,11 @@ import axios from 'axios'
         this.fileList = res.data.images //{name: name, url: url, id: id}
         this.school_types = res.data.school_types
         this.loading = false
-      });
+      })
+      .catch(er => {
+        this.$emit('appyl_error_message', er.response.data.message)
+        this.loading = false
+      })
     },
     methods: {
       onSubmit: function(){
@@ -194,6 +199,10 @@ import axios from 'axios'
   }
   h3{
     text-align: center;
+  }
+  
+  textarea{
+    min-height: 120px !important;
   }
   .team-content-wrapper{
     width: 93%;

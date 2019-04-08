@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" v-if="error_exist">
     <el-row :gutter="24" class="summary">
       <el-col :span="6">
         <el-card shadow="always" class="no-read-contact-count">
@@ -85,7 +85,7 @@ import axios from 'axios'
         loading: true
       }
     },
-    
+    props: ["error_exist"],
     created: function(){
       axios.get("/api/dashboard", {
         params: {}
@@ -95,6 +95,10 @@ import axios from 'axios'
         this.no_read_contact_count = res.data.no_read_contact_count
         this.schedules = res.data.schedules
         this.teams = res.data.teams
+        this.loading = false
+      })
+      .catch(er => {
+        this.$emit('appyl_error_message', er.response.data.message)
         this.loading = false
       })
     }

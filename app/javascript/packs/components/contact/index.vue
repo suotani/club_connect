@@ -61,6 +61,7 @@ import axios from 'axios'
         loading: true
       };
     },
+    props: ["error_exist"],
     created: function(){
       axios.get("/api/contacts", {
         params: {contact_type: "both"}
@@ -71,7 +72,11 @@ import axios from 'axios'
         this.requests_total_count = res.data.requests_total_count
         this.contacts = res.data.normal_contacts
         this.loading = false
-      });
+      })
+      .catch(er => {
+        this.$emit('appyl_error_message', er.response.data.message)
+        this.loading = false
+      })
     },
     methods: {
       handleRequestsChange: function(val){
@@ -82,7 +87,11 @@ import axios from 'axios'
         .then(res =>{
           this.requests = res.data.request_contacts
           this.loading = false
-        });
+        })
+        .catch(er => {
+          this.$emit('appyl_error_message', er.response.data.message)
+          this.loading = false
+        })
       },
       handleContactsChange: function(val){
         this.loading = true
@@ -92,7 +101,11 @@ import axios from 'axios'
         .then(res =>{
           this.contacts = res.data.normal_contacts
           this.loading = false
-        });
+        })
+        .catch(er => {
+          this.$emit('appyl_error_message', er.response.data.message)
+          this.loading = false
+        })
       }
     }
   };

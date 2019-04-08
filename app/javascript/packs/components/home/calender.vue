@@ -12,7 +12,7 @@
         </el-date-picker>
         <p class="move-month" v-on:click="changeMonthTo(nextMonth)">後ろの月 >></p>
       </div>
-      <table class="calender" v-loading="loading">
+      <table class="calender" v-loading="loading" v-if="error_exist">
         <thead>
           <tr>
             <th>日にち</th>
@@ -82,7 +82,12 @@ export default{
         this.nextMonth = res.data.nextMonth
         this.loading = false
     })
+    .catch(er => {
+      this.$emit('appyl_error_message', er.response.data.message)
+      this.loading = false
+    })
   },
+  props: ["error_exist"],
   computed: {
 
   },
@@ -96,6 +101,10 @@ export default{
           this.prevMonth = res.data.prevMonth
           this.nextMonth = res.data.nextMonth
           this.loading = false
+      })
+      .catch(er => {
+        this.$emit('appyl_error_message', er.response.data.message)
+        this.loading = false
       })
     },
     changeMonth: function(){
@@ -118,6 +127,11 @@ export default{
         self.modalLoading = false
         this.modalOpen = false
       })
+      .catch(er => {
+        this.$messager("登録に失敗しました")
+        this.modalLoading = false
+        this.modalOpen = false
+      })
     },
     onRequestChange: function(schedule){
       axios.post("/api/schedules/update", {
@@ -130,6 +144,9 @@ export default{
         const index = this.schedules.findIndex(function(e) {return e === schedule})
         schedule.request = !schedule.request
         this.schedules.splice(index, 1, schedule)
+      })
+      .catch(er => {
+        this.$message("登録に失敗しました")
       })
     }
     

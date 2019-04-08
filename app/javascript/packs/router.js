@@ -9,7 +9,6 @@ import Contacts from './components/contact/index.vue'
 import Contact from './components/contact/show.vue'
 import Teams from './components/teams/index.vue'
 import Team from './components/teams/show.vue'
-import TeamRequest from './components/teams/request.vue'
 
 Vue.use(VueRouter)
 
@@ -23,7 +22,6 @@ const router = new VueRouter({
         {path: '/contact/:id', component: Contact, name: 'contact'},
         {path: '/teams', component: Teams, name: 'teams'},
         {path: '/teams/:id', component: Team, name: 'team'},
-        {path: '/teams/:id/request', component: TeamRequest, name: 'request'}
     ]
 })
 

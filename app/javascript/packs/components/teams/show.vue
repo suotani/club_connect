@@ -1,112 +1,111 @@
 <template>
-  <div class="team-content-wrapper" v-loading="loading">
-    <router-link :to= "{name: 'teams'}">
-      <i class="fas fa-arrow-left"></i>
-      戻る
-    </router-link>
-    <div class="team-info px-4 py-4">
-      <div class="team-head">
-        <h2>{{team.school}} {{team.category}}</h2>
-        <el-button type="success" round v-on:click="messageModalShow = true">メッセージを送る</el-button>
+  <div>
+     <div class="team-content-wrapper" v-loading="loading" v-if="!error_exist">
+      <router-link :to= "{name: 'teams'}"><i class="fas fa-arrow-left"></i>戻る</router-link>
+      <div class="team-info px-4 py-4">
+        <div class="team-head">
+          <h2>{{team.school}} {{team.category}}</h2>
+          <el-button type="success" round v-on:click="messageModalShow = true">メッセージを送る</el-button>
+        </div>
+        <el-carousel :interval="4000" type="card" height="200px">
+          <el-carousel-item v-for="item in photos" :key="item.id">
+            <img v-bind:src="item.url"></img>
+          </el-carousel-item>
+        </el-carousel>
+        <h3>
+          <i class="fas fa-angle-double-left"></i>紹介<i class="fas fa-angle-double-right"></i>
+        </h3>
+        <p class="content-text">{{team.introduction}}</p>
+        <h3>
+          <i class="fas fa-angle-double-left"></i>メンバの構成<i class="fas fa-angle-double-right"></i>
+        </h3>
+        <p class="content-text">{{team.members}}</p>
+        <h3>
+          <i class="fas fa-angle-double-left"></i>代表連絡先<i class="fas fa-angle-double-right"></i>
+        </h3>
+        <div class="leader-info content-text">
+          <h4>代表</h4>
+          <p class="content-text">
+            {{team.leader_name}}({{team.leader_role}})<br />
+            {{team.leader_email}}
+          </p>
+          <h4>副代表</h4></h4>
+          <p class="content-text">
+            {{team.sub_leader_name}}({{team.sub_leader_role}})<br />
+            {{team.sub_leader_email}}
+          </p>
+        </div>
       </div>
-      <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="item in photos" :key="item.id">
-          <img v-bind:src="item.url"></img>
-        </el-carousel-item>
-      </el-carousel>
-      <h3>
-        <i class="fas fa-angle-double-left"></i>紹介<i class="fas fa-angle-double-right"></i>
-      </h3>
-      <p class="content-text">{{team.introduction}}</p>
-      <h3>
-        <i class="fas fa-angle-double-left"></i>メンバの構成<i class="fas fa-angle-double-right"></i>
-      </h3>
-      <p class="content-text">{{team.members}}</p>
-      <h3>
-        <i class="fas fa-angle-double-left"></i>代表連絡先<i class="fas fa-angle-double-right"></i>
-      </h3>
-      <div class="leader-info content-text">
-        <h4>代表</h4>
-        <p class="content-text">
-          {{team.leader_name}}({{team.leader_role}})<br />
-          {{team.leader_email}}
-        </p>
-        <h4>副代表</h4></h4>
-        <p class="content-text">
-          {{team.sub_leader_name}}({{team.sub_leader_role}})<br />
-          {{team.sub_leader_email}}
-        </p>
+      <div class="calender-wrapper">
+        <h2>予定表</h2>
+        <div class="block month-select">
+          <p class="move-month" v-on:click="changeMonthTo(prevMonth)"><< 前の月</p>
+          <el-date-picker
+            v-on:change="changeMonth"
+            v-model="currentDate"
+            type="month"
+            value-format="yyyy/M"
+            placeholder="Pick a month">
+          </el-date-picker>
+          <p class="move-month" v-on:click="changeMonthTo(nextMonth)">後ろの月 >></p>
+        </div>
+        <table class="calender" v-loading="calenderLoading">
+          <thead>
+            <tr>
+              <th>日にち</th>
+              <th>予定</th>
+              <th>合同練習・練習試合等</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="schedule in schedules">
+              <td class="tx-center">{{schedule.day}}</td>
+              <td>
+                <ul>
+                  <li v-for="event in schedule.events">{{event}}</li>
+                </ul>
+              </td>
+              <td class="tx-center">
+                <p v-if="schedule.request" class="request-open" v-on:click="modalOpen(schedule.id)">募集してます</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-    <div class="calender-wrapper">
-      <h2>予定表</h2>
-      <div class="block month-select">
-        <p class="move-month" v-on:click="changeMonthTo(prevMonth)"><< 前の月</p>
-        <el-date-picker
-          v-on:change="changeMonth"
-          v-model="currentDate"
-          type="month"
-          value-format="yyyy/M"
-          placeholder="Pick a month">
-        </el-date-picker>
-        <p class="move-month" v-on:click="changeMonthTo(nextMonth)">後ろの月 >></p>
+  
+      <div class="modal-wrapper" v-show="modalShow">
+        <div class="modal" v-loading="modalLoading">
+          <el-form ref="form" :model="request" label-width="120px">
+            <h3>合同練習・練習試合等の申請を行います。</h3>
+            <el-form-item label="メッセージ">
+              <el-input type="textarea" v-model="request.text" placeholder=""></el-input>
+            </el-form-item>
+  
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">申請する</el-button>
+              <el-button @click="modalShow=false">キャンセル</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
-      <table class="calender" v-loading="calenderLoading">
-        <thead>
-          <tr>
-            <th>日にち</th>
-            <th>予定</th>
-            <th>合同練習・練習試合等</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="schedule in schedules">
-            <td class="tx-center">{{schedule.day}}</td>
-            <td>
-              <ul>
-                <li v-for="event in schedule.events">{{event}}</li>
-              </ul>
-            </td>
-            <td class="tx-center">
-              <p v-if="schedule.request" class="request-open" v-on:click="modalOpen(schedule.id)">募集してます</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="modal-wrapper" v-show="modalShow">
-      <div class="modal" v-loading="modalLoading">
-        <el-form ref="form" :model="request" label-width="120px">
-          <h3>合同練習・練習試合等の申請を行います。</h3>
-          <el-form-item label="メッセージ">
-            <el-input type="textarea" v-model="request.text" placeholder=""></el-input>
-          </el-form-item>
-
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">申請する</el-button>
-            <el-button @click="modalShow=false">キャンセル</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </div>
-
-    <div class="modal-wrapper" v-show="messageModalShow">
-      <div class="modal" v-loading="modalLoading">
-        <el-form ref="form" :model="message" label-width="120px">
-          <h3>メッセージを送信します。</h3>
-          <el-form-item label="title">
-            <el-input type="text" v-model="message.title" placeholder=""></el-input>
-          </el-form-item>
-          <el-form-item label="メッセージ">
-            <el-input type="textarea" v-model="message.text" placeholder=""></el-input>
-          </el-form-item>
-
-          <el-form-item>
-            <el-button type="primary" @click="onMessageSubmit">送信する</el-button>
-            <el-button @click="messageModalShow=false">キャンセル</el-button>
-          </el-form-item>
-        </el-form>
+  
+      <div class="modal-wrapper" v-show="messageModalShow">
+        <div class="modal" v-loading="modalLoading">
+          <el-form ref="form" :model="message" label-width="120px">
+            <h3>メッセージを送信します。</h3>
+            <el-form-item label="title">
+              <el-input type="text" v-model="message.title" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="メッセージ">
+              <el-input type="textarea" v-model="message.text" placeholder=""></el-input>
+            </el-form-item>
+  
+            <el-form-item>
+              <el-button type="primary" @click="onMessageSubmit">送信する</el-button>
+              <el-button @click="messageModalShow=false">キャンセル</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -129,9 +128,10 @@ import axios from 'axios'
         modalShow: false,
         request: {},
         messageModalShow: false,
-        message: {}
+        message: {},
       }
     },
+    props: ["error_exist"],
     created: function(){
       // get team
       axios.get('/api/teams/' + this.$route.params.id)
@@ -142,9 +142,14 @@ import axios from 'axios'
         this.currentDate = res.data.currentDate
         this.prevMonth = res.data.prevMonth
         this.nextMonth = res.data.nextMonth
-        this.loading = false,
+        this.loading = false
         this.request = {id: 0, text: ""}
-      });
+        this.$emit('appyl_error_message', "")
+      })
+      .catch(er => {
+        this.$emit('appyl_error_message', er.response.data.message)
+        this.loading = false
+      })
     },
     methods: {
       changeMonth: function(){
@@ -159,7 +164,12 @@ import axios from 'axios'
           this.prevMonth = res.data.prevMonth
           this.nextMonth = res.data.nextMonth
           this.calenderLoading = false
-        });
+        })
+        .catch(er => {
+          this.$message("エラーが発生しました。")
+          this.schedules = res.data.schedules
+          this.calenderLoading = false
+        })
       },
       onSubmit: function(){
         this.modalLoading = true
@@ -172,6 +182,11 @@ import axios from 'axios'
         })
         .then(res =>{
           this.$message("リクエストを送信しました")
+          this.modalLoading = false
+          this.modalShow = false
+        })
+        .catch(er => {
+          this.$message("エラーが発生しました。")
           this.modalLoading = false
           this.modalShow = false
         })
@@ -192,6 +207,14 @@ import axios from 'axios'
           this.message.text = ""
           this.messageModalShow = false
           this.$message("メッセージを送信しました。返信はメールボックスから確認できます")
+          this.modalLoading = false
+        })
+        .catch(er => {
+          this.message.title = ""
+          this.message.text = ""
+          this.$message("エラーが発生しました。")
+          this.messageModalShow = false
+          this.modalLoading = false
         })
       }
     }

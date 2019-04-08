@@ -4,70 +4,72 @@
       <i class="fas fa-arrow-left"></i>
       戻る
     </router-link>
-    <h2 class="title">{{contact.title}}</h2>
-    <ul>
-      <li v-for="(message, index) in messages" v-on:click="toggleRow(index)" v-bind:key="message.id">
-        <div class="message-head">
-          <span class="message-from">{{message.from_team}}</span>
-          <span class="message-post-at">{{message.created_at}}</span>
-        </div>
-        <div v-if="message.short">{{message.short_text}}</div>
-        <div v-else>{{message.text}}</div>
-      </li>
-    </ul>
-    <div v-if="showReply" class="wrap-reply">
-      <el-input
-        type="textarea"
-        :rows="2"
-        placeholder="Please input"
-        v-model="reply">
-      </el-input>
-      <el-row>
-        <el-button type="primary" v-on:click="onSubmit">送信</el-button>
-        <el-button v-on:click="cancelReply">キャンセル</el-button>
-      </el-row>
-    </div>
-    <div v-if="!showReply" class="wrap-reply">
-      <el-row>
-        <el-button v-on:click="showReply=true">返信</el-button>
-        <el-button v-on:click="showAddScheduleModal=true" type="primary" v-if="contact.requesting">スケジュールへ追加</el-button>
-        <el-button v-on:click="showRejectModal=true" type="danger" v-if="contact.requesting" >申し込みを断る</el-button>
-      </el-row>
-    </div>
-
-    <div class="modal-wrapper" v-show="showAddScheduleModal">
-      <div class="modal" v-loading="modalLoading">
-        <el-form ref="form" :model="contact" label-width="120px">
-          <p>以下の内容でスケジュールを登録します。<br />異なる場合は、お手数ですが予定表から入力をお願いいたします。</p>
-          <el-form-item label="パートナー">
-            <p>{{contact.schedule.team_name}}</p>
-          </el-form-item>
-          <el-form-item label="日付">
-            <p>{{contact.schedule.date}}</p>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmitSchedule">送信する</el-button>
-            <el-button @click="showAddScheduleModal=false">キャンセル</el-button>
-          </el-form-item>
-        </el-form>
+    <div v-if="!error_exist">
+      <h2 class="title">{{contact.title}}</h2>
+      <ul>
+        <li v-for="(message, index) in messages" v-on:click="toggleRow(index)" v-bind:key="message.id">
+          <div class="message-head">
+            <span class="message-from">{{message.from_team}}</span>
+            <span class="message-post-at">{{message.created_at}}</span>
+          </div>
+          <div v-if="message.short">{{message.short_text}}</div>
+          <div v-else>{{message.text}}</div>
+        </li>
+      </ul>
+      <div v-if="showReply" class="wrap-reply">
+        <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="Please input"
+          v-model="reply">
+        </el-input>
+        <el-row>
+          <el-button type="primary" v-on:click="onSubmit">送信</el-button>
+          <el-button v-on:click="cancelReply">キャンセル</el-button>
+        </el-row>
       </div>
-    </div>
+      <div v-if="!showReply" class="wrap-reply">
+        <el-row>
+          <el-button v-on:click="showReply=true">返信</el-button>
+          <el-button v-on:click="showAddScheduleModal=true" type="primary" v-if="contact.requesting">スケジュールへ追加</el-button>
+          <el-button v-on:click="showRejectModal=true" type="danger" v-if="contact.requesting" >申し込みを断る</el-button>
+        </el-row>
+      </div>
 
-    <div class="modal-wrapper" v-show="showRejectModal">
-      <div class="modal" v-loading="modalLoading">
-        <el-form ref="form" :model="contact" label-width="120px">
-          <p>以下の申し込みを断ります。<br />この操作では相手に通知やメッセージは送らせません。</p>
-          <el-form-item label="パートナー">
-            <p>{{contact.schedule.team_name}}</p>
-          </el-form-item>
-          <el-form-item label="日付">
-            <p>{{contact.schedule.date}}</p>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmitReject">決定</el-button>
-            <el-button @click="showRejectModal=false">キャンセル</el-button>
-          </el-form-item>
-        </el-form>
+      <div class="modal-wrapper" v-show="showAddScheduleModal">
+        <div class="modal" v-loading="modalLoading">
+          <el-form ref="form" :model="contact" label-width="120px">
+            <p>以下の内容でスケジュールを登録します。<br />異なる場合は、お手数ですが予定表から入力をお願いいたします。</p>
+            <el-form-item label="パートナー">
+              <p>{{contact.schedule.team_name}}</p>
+            </el-form-item>
+            <el-form-item label="日付">
+              <p>{{contact.schedule.date}}</p>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmitSchedule">送信する</el-button>
+              <el-button @click="showAddScheduleModal=false">キャンセル</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+
+      <div class="modal-wrapper" v-show="showRejectModal">
+        <div class="modal" v-loading="modalLoading">
+          <el-form ref="form" :model="contact" label-width="120px">
+            <p>以下の申し込みを断ります。<br />この操作では相手に通知やメッセージは送らせません。</p>
+            <el-form-item label="パートナー">
+              <p>{{contact.schedule.team_name}}</p>
+            </el-form-item>
+            <el-form-item label="日付">
+              <p>{{contact.schedule.date}}</p>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmitReject">決定</el-button>
+              <el-button @click="showRejectModal=false">キャンセル</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -89,12 +91,18 @@ import axios from 'axios'
         modalLoading: false
       }
     },
+    props: ["error_exist"],
     created: function(){
       axios.get("/api/contacts/" + this.$route.params.id)
       .then(res => {
         this.messages = res.data.messages
         this.contact = res.data.contact
         this.loading = false
+      })
+      .catch(er => {
+        this.$emit('appyl_error_message', er.response.data.message)
+        this.modalLoading = false
+        this.modalOpen = false
       })
     },
     methods: {
@@ -118,6 +126,10 @@ import axios from 'axios'
           this.$message("送信しました")
           this.loading = false
         })
+        .catch(er => {
+          this.$message("送信に失敗しました")
+          this.loading = false
+        })
       },
       onSubmitSchedule: function(){
         this.modalLoading = true
@@ -132,12 +144,22 @@ import axios from 'axios'
           this.modalLoading = false
           this.showAddScheduleModal = false
         })
+        .catch(er => {
+          this.$message("登録に失敗しました")
+          this.modalLoading = false
+          this.showAddScheduleModal = false
+        })
       },
       onSubmitReject: function(){
         this.modalLoading = true
         axios.delete("/api/requests/" + this.contact.id, {})
         .then(res => {
           this.$message("処理が完了しました。")
+          this.modalLoading = false
+          this.showRejectModal = false
+        })
+        .catch(er => {
+          this.$message("登録に失敗しました")
           this.modalLoading = false
           this.showRejectModal = false
         })
