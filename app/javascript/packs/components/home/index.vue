@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" v-if="error_exist">
+  <div v-loading="loading" v-if="!error_exist">
     <el-row :gutter="24" class="summary">
       <el-col :span="6">
         <el-card shadow="always" class="no-read-contact-count">

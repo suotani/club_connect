@@ -34,7 +34,7 @@ export default {
     SideMenu,
     Error
   },
-  conputed: {
+  computed: {
     error_exist: function(){
       return this.error_message !== ''
     }
