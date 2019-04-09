@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul v-bind:class="{toggled: isToggled}">
+    <ul class="size-menu" v-bind:class="{toggled: isToggled}">
       <a href="#" class="sidebar-bland">
         <div class="sidebar-bland-text">
           <i class="far fa-dot-circle"></i>Torus
@@ -208,5 +208,24 @@ import axios from 'axios'
   ul.toggled li i{
     width: 100%;
     font-size: 13px;
+  }
+
+  @media screen and (max-width:768px){
+    .size-menu{
+      width: 6.5rem;
+    }
+    ul li a, ul li span{
+      font-size: 11px;
+      padding: 0.5rem 0.25rem;
+      text-align: center;
+    }
+    
+    ul li i{
+      width: 100%;
+      font-size: 13px;
+    }
+    #sidebar-toggle{
+      display: none;
+    }
   }
 </style>

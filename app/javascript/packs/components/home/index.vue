@@ -29,8 +29,8 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="24" class="mt-4">
-      <el-col :span="15">
+    <el-row :gutter="24" class="mt-4 main-wrapper">
+      <el-col :span="15" class="schedules">
         <el-card class="block schedule">
           <div slot="header" class="clearfix">
             Schedule
@@ -54,12 +54,13 @@
         </el-card>
       </el-col>
       
-      <el-col :span="9">
+      <el-col :span="9" class="recentries">
         <el-card class="block teams">
           <div slot="header" class="clearfix">
             Recently Join
           </div>
-          <el-card v-for="team in teams" v-bind:key="team.id">
+          <div class="teams-body">
+          <el-card v-for="team in teams" v-bind:key="team.id" class="joined-team">
             <div slot="header" class="clearfix">
               <router-link :to= "{name: 'team', params: {id: team.id}}">
                 {{team.name}}
@@ -67,6 +68,7 @@
             </div>
             <p>{{team.introduction}}</p>
           </el-card>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -175,5 +177,28 @@ import axios from 'axios'
     align-self: center;
     color: rgba(0,0,0,0.3);
     text-align:center;
+  }
+  @media screen and (max-width:768px){
+    .main-wrapper{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .schedules{
+      width: 100%;
+      margin: auto;
+    }
+    .recentries{
+      width: 100%;
+      margin: auto;
+    }
+    .teams-body{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .joined-team{
+      width: 100%;
+      box-sizing: border-box;
+      padding: 3px;
+    }
   }
 </style>

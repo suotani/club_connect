@@ -13,10 +13,10 @@ end
 
 json.teams do
   json.array! @teams do |t|
-    json.name         t.school + " " + (t.name || "")
+    json.name         (t.school || "") + " " + (t.name || "")
     json.id           t.id
     json.created_at   t.created_at.strftime("%Y/%m/%d")
-    json.introduction t.introduction[0..50]
+    json.introduction (t.introduction || "")[0..50]
   end
 end
 
