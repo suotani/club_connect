@@ -6,7 +6,7 @@ class Team < ApplicationRecord
   
   attr_accessor :exec_valid
          
-  belongs_to :category
+  belongs_to :category, optional: true
   has_many_attached :images
   has_many :calenders
   has_many :contacts
