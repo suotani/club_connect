@@ -75,7 +75,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = true # falseをtrueに修正
   config.action_mailer.delivery_method = :letter_opener_web # 追加
 
-
+  config.i18n.default_locale = :ja
   config.slack_webhook_url = Rails.application.credentials.dig(:slack_webhook_url, :development)
   # notifier = Slack::Notifier.new(Rails.application.config.slack_webhook_url)
 end

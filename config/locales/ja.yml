@@ -1,0 +1,333 @@
+ja:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "バリデーションに失敗しました: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "%{record}が存在しているので削除できません"
+          has_many: "%{record}が存在しているので削除できません"
+  date:
+    abbr_day_names:
+    - 日
+    - 月
+    - 火
+    - 水
+    - 木
+    - 金
+    - 土
+    abbr_month_names:
+    -
+    - 1月
+    - 2月
+    - 3月
+    - 4月
+    - 5月
+    - 6月
+    - 7月
+    - 8月
+    - 9月
+    - 10月
+    - 11月
+    - 12月
+    day_names:
+    - 日曜日
+    - 月曜日
+    - 火曜日
+    - 水曜日
+    - 木曜日
+    - 金曜日
+    - 土曜日
+    formats:
+      default: "%Y/%m/%d"
+      long: "%Y年%m月%d日(%a)"
+      short: "%m/%d"
+    month_names:
+    -
+    - 1月
+    - 2月
+    - 3月
+    - 4月
+    - 5月
+    - 6月
+    - 7月
+    - 8月
+    - 9月
+    - 10月
+    - 11月
+    - 12月
+    order:
+    - :year
+    - :month
+    - :day
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: 約1時間
+        other: 約%{count}時間
+      about_x_months:
+        one: 約1ヶ月
+        other: 約%{count}ヶ月
+      about_x_years:
+        one: 約1年
+        other: 約%{count}年
+      almost_x_years:
+        one: 1年弱
+        other: "%{count}年弱"
+      half_a_minute: 30秒前後
+      less_than_x_minutes:
+        one: 1分以内
+        other: "%{count}分未満"
+      less_than_x_seconds:
+        one: 1秒以内
+        other: "%{count}秒未満"
+      over_x_years:
+        one: 1年以上
+        other: "%{count}年以上"
+      x_days:
+        one: 1日
+        other: "%{count}日"
+      x_minutes:
+        one: 1分
+        other: "%{count}分"
+      x_months:
+        one: 1ヶ月
+        other: "%{count}ヶ月"
+      x_years:
+        one: 1年
+        other: "%{count}年"
+      x_seconds:
+        one: 1秒
+        other: "%{count}秒"
+    prompts:
+      day: 日
+      hour: 時
+      minute: 分
+      month: 月
+      second: 秒
+      year: 年
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      accepted: を受諾してください
+      blank: を入力してください
+      present: は入力しないでください
+      confirmation: と%{attribute}の入力が一致しません
+      empty: を入力してください
+      equal_to: は%{count}にしてください
+      even: は偶数にしてください
+      exclusion: は予約されています
+      greater_than: は%{count}より大きい値にしてください
+      greater_than_or_equal_to: は%{count}以上の値にしてください
+      inclusion: は一覧にありません
+      invalid: は不正な値です
+      less_than: は%{count}より小さい値にしてください
+      less_than_or_equal_to: は%{count}以下の値にしてください
+      model_invalid: "バリデーションに失敗しました: %{errors}"
+      not_a_number: は数値で入力してください
+      not_an_integer: は整数で入力してください
+      odd: は奇数にしてください
+      required: を入力してください
+      taken: はすでに存在します
+      too_long: は%{count}文字以内で入力してください
+      too_short: は%{count}文字以上で入力してください
+      wrong_length: は%{count}文字で入力してください
+      other_than: は%{count}以外の値にしてください
+    template:
+      body: 次の項目を確認してください
+      header:
+        one: "%{model}にエラーが発生しました"
+        other: "%{model}に%{count}個のエラーが発生しました"
+  helpers:
+    select:
+      prompt: 選択してください
+    submit:
+      create: 登録する
+      submit: 保存する
+      update: 更新する
+  number:
+    currency:
+      format:
+        delimiter: ","
+        format: "%n%u"
+        precision: 0
+        separator: "."
+        significant: false
+        strip_insignificant_zeros: false
+        unit: 円
+    format:
+      delimiter: ","
+      precision: 3
+      separator: "."
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: 十億
+          million: 百万
+          quadrillion: 千兆
+          thousand: 千
+          trillion: 兆
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n%u"
+        units:
+          byte: バイト
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+          pb: PB
+          eb: EB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: 、
+      two_words_connector: 、
+      words_connector: 、
+  time:
+    am: 午前
+    formats:
+      default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      long: "%Y/%m/%d %H:%M"
+      short: "%m/%d %H:%M"
+    pm: 午後
+  activerecord:
+    attributes:
+      house:
+        name: "物件名"
+        postal_code: "郵便番号"
+        address: "住所"
+      resident:
+        name: 氏名
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+        phone_number: 電話番号
+        family: 家族構成
+        post_mail_setting: お知らせメール設定
+        contact_mail_setting: チャット受信メール設定
+      owner:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: 確認用パスワード
+        phone_number: 電話番号
+        request_mail_setting: お知らせメール設定
+        contact_mail_setting: チャット受信メール設定
+      inquiry:
+        text: お問い合わせ内容
+        category: お問い合わせ種別
+        email: 返信用メールアドレス
+      post:
+        title: タイトル
+        post_at: お知らせ日時
+        text: 本文
+  enums:
+    resident:
+      post_mail_setting:
+        post_none: 受け取らない
+        post_approval: 受け取る
+      contact_mail_setting:
+        contact_none: 受け取らない
+        contact_approval: 受け取る
+    owner:
+      request_mail_setting:
+        request_none: 受け取らない
+        request_approval: 受け取る
+        request_weekday_only: 平日のみ受け取る
+      contact_mail_setting:
+        contact_none: 受け取らない
+        contact_approval: 受け取る
+        contact_weekday_only: 平日のみ受け取る
+    inquiry:
+      category:
+        bug: 不具合・問題
+        howto: 使い方に関するお問い合わせ
+        product: 改善・要望
+        other: その他
+    post_resident:
+      read_status:
+        read: 既読
+        yet: 未読
+  residents:
+    registrations:
+      new:
+        registration: 入居者登録
+        name: お名前
+        email: メールアドレス
+        password: パスワード
+        more_than: "半角英数%{min_length} 文字以上"
+        password_confirmation: パスワードをもう一度入力してください
+        phone_number: 電話番号
+        family: 家族構成
+        language: 言語
+        submit: 登録
+    mailer:
+      confirmation_instructions:
+        welcome: "ようこそ%{name}さん"
+        thanks: この度は会員登録していただきありがとうございます。
+        click_link: まずは以下のリンク「メールアドレスの認証」をクリックしてください。
+        loginable: クリックしてメールアドレスが認証されますと、ログインが可能となります
+        confirm_link: メールアドレスの認証
+        loged_in: ログイン後、ご入居されます物件と部屋番号を入力し、入居リクエストを行ってください。
+        couse: 注意
+        no_reply: このメールには返信することができません。
+    sessions:
+      new:
+        login: ログイン
+        email: メールアドレス
+        password: パスワード
+        remember_me: ログインいたままにする
+        submit: ログイン
+    shared:
+      links:
+        login: ログイン
+        password_forgot: パスワードをお忘れですか？
+        new_registration: ご新規の登録はこちらから
+        mail_no_reach: メールアドレス確認用メールが届いていない方はこちら
+  resident:
+    contacts:
+      edit:
+        message: メッセージ
+        read: 既読
+        no_read: 未読
+        submit: 送信
+    houses:
+      new:
+        request: 入居リクエスト
+        search: 検索
+        house: 物件
+        no_select: 未選択
+        room_number: 部屋番号
+        submit: リクエストを送信
+    inquiries:
+      new:
+        inquiry: お問い合わせ
+        email: 返信用メールアドレス
+        category: お問い合わせ種別
+        text: お問い合わせ内容
+        submit: 送信
+    posts:
+      index:
+        search: 検索
+        list: お知らせ一覧
+        title: タイトル
+        post_at: 配信日時
+  posts:
+    end_option:
+      no_delete: '掲載終了しない'
+      one_week: '掲載日の1週間後'
+      one_month: '掲載日の1か月後'
