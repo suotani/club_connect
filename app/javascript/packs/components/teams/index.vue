@@ -144,4 +144,9 @@ import axios from 'axios'
     flex-wrap: wrap;
     justify-content: flex-start;
   }
+  @media screen and (max-width:768px){
+    form{
+      padding: 1rem;
+    }
+  }
 </style>

@@ -10,7 +10,7 @@
       <li class="nav-item">
         <router-link :to= "{name: 'home'}" class="active">
           <i class="fas fa-tachometer-alt"></i>
-          Dashboard
+          <span class="menu-text">Dashboard</span>
         </router-link>
       </li>
       <hr class="sidebar-divider" />
@@ -18,13 +18,13 @@
       <li class="nav-item">
         <router-link :to= "{name: 'teams'}">
           <i class="fas fa-search"></i>
-          部活動・サークルを検索
+          <span class="menu-text">部活動・サークルを検索</span>
         </router-link>
       </li>
       <li class="nav-item">
         <router-link :to= "{name: 'contacts'}">
           <i class="far fa-envelope"></i>
-          メールボックス
+          <span class="menu-text">メールボックス</span>
         </router-link>
       </li>
       <hr class="sidebar-divider" />
@@ -32,28 +32,28 @@
       <li class="nav-item">
         <router-link :to= "{name: 'setting'}">
           <i class="fas fa-sliders-h" v-bind:class="{w100: isToggled}"></i>
-          各種設定
+          <span class="menu-text">各種設定</span>
         </router-link>
       </li>
       <li class="nav-item">
         <router-link :to= "{name: 'calender'}">
           <i class="far fa-calendar-alt" v-bind:class="{w100: isToggled}"></i>
-          予定表
+          <span class="menu-text">予定表</span>
         </router-link>
       </li>
   
       <hr class="sidebar-divider" />
       <div class="sidebar-heading">OTHER</div>
       <li class="nav-item">
-        <span v-on:click="modalOpen=true">
+        <span v-on:click="modalOpen=true" class="inquiry-link">
           <i class="far fa-question-circle" v-bind:class="{w100: isToggled}"></i>
-          お問い合わせ
+          <span class="menu-text">お問い合わせ</span>
         </span>
       </li>    
       <li class="nav-item">
         <a href="/teams/sign_out" data-method="delete">
           <i class="fas fa-sign-out-alt" v-bind:class="{w100: isToggled}"></i>
-          ログアウト
+          <span class="menu-text">ログアウト</span>
         </a>
       </li>
       <hr class="sidebar-divider" />
@@ -163,7 +163,7 @@ import axios from 'axios'
     text-align: left;
   }
   
-  .nav-item a, span{
+  .nav-item a, .nav-item span.inquiry-link{
     display: block;
     text-align: left;
     padding: 1rem;
@@ -212,7 +212,7 @@ import axios from 'axios'
 
   @media screen and (max-width:768px){
     .size-menu{
-      width: 6.5rem;
+      width: 4.5rem;
     }
     ul li a, ul li span{
       font-size: 11px;
@@ -222,9 +222,26 @@ import axios from 'axios'
     
     ul li i{
       width: 100%;
-      font-size: 13px;
+      font-size: 24px;
     }
     #sidebar-toggle{
+      display: none;
+    }
+
+    .nav-item a, .nav-item span.inquiry-link{
+      text-align: center;
+      padding: 0.5rem 0.1rem;
+    }
+    
+    .topbar-devider{
+      display: none;
+    }
+    
+    .sidebar-heading{
+      padding: 0;
+      text-align: center;
+    }
+    .topbar-devider{
       display: none;
     }
   }

@@ -6,7 +6,7 @@ class Api::DashboardController < ApiController
                          .where("date >= ?", Time.zone.today)
                          .order(date: :asc)
                          .limit(5)
-    @teams = Team.order(created_at: :desc).limit(5)
+    @teams = Team.where.not(school: nil).order(created_at: :desc).limit(5)
     @request_count = Contact.request_message
                             .where(to_team_id: current_team.id)
                             .where(request_status: nil)

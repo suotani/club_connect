@@ -135,6 +135,9 @@ import axios from 'axios'
   .el-row.summary{
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    flex-direction: row;
   }
   
   .el-card__header{
@@ -199,6 +202,28 @@ import axios from 'axios'
       width: 100%;
       box-sizing: border-box;
       padding: 3px;
+      margin-bottom: 5px;
+    }
+    .team-name{
+      padding: 0 !important;
+    }
+    
+    .el-col-6{
+      width: 48%;
+    }
+    
+    .summary-right i{
+      display: none;
+    }
+    
+    .summary .el-card__body{
+      padding: 0.3rem 0 0.3rem 0.8rem !important;
+    }
+    .summary-left{
+      width: 100%;
+    }
+    .main-content{
+      padding: 0 0.5rem !important;
     }
   }
 </style>
