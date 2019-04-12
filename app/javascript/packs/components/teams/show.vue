@@ -1,6 +1,6 @@
 <template>
-  <div>
-     <div class="team-content-wrapper" v-loading="loading" v-if="!error_exist">
+  <div class="team">
+    <div class="team-content-wrapper" v-loading="loading" v-if="!error_exist">
       <router-link :to= "{name: 'teams'}"><i class="fas fa-arrow-left"></i>戻る</router-link>
       <div class="team-info px-4 py-4">
         <div class="team-head">
@@ -52,21 +52,26 @@
         <table class="calender" v-loading="calenderLoading">
           <thead>
             <tr>
-              <th>日にち</th>
-              <th>予定</th>
-              <th>合同練習・練習試合等</th>
+              <th class="schedule-day">日にち</th>
+              <th class="schedule-status">合同練習</th>
+              <th clas="schedule-events">予定</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="schedule in schedules">
-              <td class="tx-center">{{schedule.day}}</td>
-              <td>
-                <ul>
-                  <li v-for="event in schedule.events">{{event}}</li>
-                </ul>
-              </td>
-              <td class="tx-center">
+              <td class="tx-center schedule-day">{{schedule.day}}</td>
+              <td class="schedule-status tx-center">
                 <p v-if="schedule.request" class="request-open" v-on:click="modalOpen(schedule.id)">募集してます</p>
+              </td>
+              <td class="schedule-events">
+                <ul>
+                  <li v-for="event in schedule.events">
+                    {{event.text}}
+                    <router-link :to= "{name: 'team', params: {id: event.team_id}}" v-if="event.team_id !== null">
+                      ({{event.team_name}})
+                    </router-link>
+                  </li>
+                </ul>
               </td>
             </tr>
           </tbody>
@@ -167,7 +172,6 @@ import axios from 'axios'
         })
         .catch(er => {
           this.$message("エラーが発生しました。")
-          this.schedules = res.data.schedules
           this.calenderLoading = false
         })
       },
@@ -232,13 +236,15 @@ import axios from 'axios'
   }
 
   .team-content-wrapper{
-    width: 93%;
+    width: 97%;
     margin:auto;
     margin-bottom: 2rem;
   }
   .team-head{
     display: flex;
     justify-content:space-between;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
   }
   .team-info{
     box-shadow: 0.25rem 0.15rem 1rem 0.25rem rgba(58,59,69,.15);
@@ -318,4 +324,58 @@ import axios from 'axios'
   .el-carousel__item img{
     height: 100%;
   }
+</style>
+
+<style lang='scss'>
+@media screen and (max-width:768px){
+  .team{
+    .main-content{
+      padding: 0.2rem !important;
+    }
+    .content-text{
+      width: 95%;
+      word-wrap: break-word;
+    }
+    h2{
+      font-size: 18px;
+    }
+    .month-select .move-month{
+      font-size: 12px;
+    }
+    .el-date-editor.el-input, .el-date-editor.el-input__inner{
+      width: 100px;
+    }
+    .el-input--prefix .el-input__inner{
+      padding-right: 10px;
+    }
+    .calender{
+      width: 100%;
+      tr{
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .schedule-day{
+        width: 30%;
+        box-sizing: border-box;
+        text-align: left;
+      }
+      .schedule-status{
+        width: 70%;
+        box-sizing: border-box;
+      }
+      .schedule-events{
+        width: 100%;
+      }
+      thead .schedule-events{
+        text-align: center;
+      }
+      tbody{
+        .schedule-day{
+          font-size: 20px;
+          font-weight: 800;
+        }
+      }
+    }
+  }
+}
 </style>

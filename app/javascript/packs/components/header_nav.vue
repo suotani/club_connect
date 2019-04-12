@@ -1,4 +1,5 @@
 <template>
+  <div style="width: 100%">
     <nav class="topbar mb-4 px-3 py-2">
       <ul class="icons">
         <li>
@@ -10,6 +11,7 @@
         <p>奈良先端科学技術大学院大学<br />剣道部</p>
       </div>
     </nav>
+  </div>
 </template>
 
 <style scoped>
@@ -29,10 +31,6 @@
   
   .icons li{
     align-self: center;
-  }
-  
-  .icons .count-info{
-    
   }
   
   .icons i, .team-name{

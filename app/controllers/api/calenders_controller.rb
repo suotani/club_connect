@@ -16,7 +16,7 @@ class Api::CalendersController < ApiController
       @schedule = Schedule.create(calender_id: calender.id, day: schedule_params[:day], date: date)
     end
     Event.create(schedule_id: @schedule.id, text: schedule_params[:text])
-    render json: {result: "success", schedule_id: @schedule.id}
+    render json: {result: "success", schedule_id: @schedule.id, event: {text: schedule_params[:text], team_id: nil, team_name: ""}}
   end
   
   def show

@@ -1,5 +1,6 @@
 class ApiController < TeamController
   protect_from_forgery
+  skip_before_action :verify_authenticity_token
   
   rescue_from StandardError, with: :notify_standard
   rescue_from ActiveRecord::RecordNotFound, with: :render_json_404

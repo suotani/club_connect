@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" class="messages">
     <el-tabs v-model="activeName">
       <el-tab-pane label="合同練習等の申し込み" name="first">
         <ul>
@@ -30,7 +30,7 @@
               <li class="message-tag">{{contact.tag}}</li>
               <li class="message-destination">{{contact.destination}}</li>
               <li class="message-text">
-                <span class="message-title">{{contact.title}}</span>
+                <span class="message-title">{{contact.title}}</span> |
                 <span class="message-short-text">{{contact.short_text}}</span>
               </li>
             </ul>
@@ -128,6 +128,7 @@ import axios from 'axios'
   }
   .message{
     display: flex;
+    flex-wrap: wrap;
   }
   
   ul.message.new{
@@ -168,4 +169,17 @@ import axios from 'axios'
     margin: 1rem 0;
     text-align: center;
   }
+</style>
+
+<style lang='scss'>
+@media screen and (max-width:768px){
+  .messages{
+    .message-destination{
+      width: 90%;
+    }
+    .message-text{
+      width: 100%;
+    }
+  }
+}
 </style>

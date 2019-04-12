@@ -124,6 +124,8 @@ import axios from 'axios'
           var message = res.data.message
           this.messages.splice(this.messages.length, 1, message)
           this.$message("送信しました")
+          this.reply = ""
+          this.showReply = false
           this.loading = false
         })
         .catch(er => {

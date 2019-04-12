@@ -1,5 +1,5 @@
 <template>
-    <div class="calender-wrapper">
+    <div class="calender-wrapper schedule">
       <h2>予定表</h2>
       <div class="block month-select">
         <p class="move-month" v-on:click="changeMonthTo(prevMonth)"><< 前の月</p>
@@ -12,18 +12,22 @@
         </el-date-picker>
         <p class="move-month" v-on:click="changeMonthTo(nextMonth)">後ろの月 >></p>
       </div>
-      <table class="calender" v-loading="loading" v-if="error_exist">
+      <table class="calender" v-loading="loading" v-if="!error_exist">
         <thead>
           <tr>
-            <th>日にち</th>
-            <th>予定</th>
-            <th>合同練習・練習試合等</th>
+            <th class="schedule-day">日にち</th>
+            <th class="schedule-status">合同練習</th>
+            <th class="schedule-events">予定</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="s in schedules">
-            <td class="tx-center">{{s.day}}</td>
-            <td>
+            <td class="tx-center schedule-day">{{s.day}}</td>
+            <td class="tx-center schedule-status">
+              <p v-if="s.request">募集中<el-button v-on:click="onRequestChange(s)" class="">変更する</el-button></p>
+              <p v-else>募集していません<el-button v-on:click="onRequestChange(s)" class="change-button">変更する</el-button></p>
+            </td>
+            <td class="schedule-events">
               <ul>
                 <li v-show="s.events.length !== 0" v-for="event in s.events">
                   {{event.text}}
@@ -33,10 +37,6 @@
                 </li>
                 <el-button v-on:click="openScheduleModal(s.id, s.day)" size="small" type="primary" round>＋ 予定を追加</el-button>
               </ul>
-            </td>
-            <td class="tx-center">
-              <p v-if="s.request">募集中<el-button v-on:click="onRequestChange(s)" class="">変更する</el-button></p>
-              <p v-else>募集していません<el-button v-on:click="onRequestChange(s)" class="change-button">変更する</el-button></p>
             </td>
           </tr>
         </tbody>
@@ -122,7 +122,7 @@ export default{
       })
       .then(res => {
         var index = self.schedules.findIndex(function(e){ return e.day === self.schedule.day})
-        self.schedules[index].events.splice(self.schedules[index].events.length, 1, self.schedule.text)
+        self.schedules[index].events.splice(self.schedules[index].events.length, 1, res.data.event)
         self.schedules[index].id = res.data.schedule_id
         self.modalLoading = false
         this.modalOpen = false
@@ -134,6 +134,7 @@ export default{
       })
     },
     onRequestChange: function(schedule){
+      this.loading = true
       axios.post("/api/schedules/update", {
         request: !schedule.request,
         date: this.currentDate,
@@ -144,9 +145,11 @@ export default{
         const index = this.schedules.findIndex(function(e) {return e === schedule})
         schedule.request = !schedule.request
         this.schedules.splice(index, 1, schedule)
+        this.loading = false
       })
       .catch(er => {
         this.$message("登録に失敗しました")
+        this.loading = false
       })
     }
     
@@ -208,4 +211,70 @@ export default{
     font-weight: 800;
   }
 
+</style>
+
+<style lang='scss'>
+@media screen and (max-width:768px){
+  .calender-wrapper{
+    padding: 1rem 0.3rem;
+  }
+  .schedule{
+    table.calender{
+      width: 100%;
+    }
+    .main-content{
+      padding: 0.2rem !important;
+    }
+    .content-text{
+      width: 95%;
+      word-wrap: break-word;
+    }
+    h2{
+      font-size: 18px;
+    }
+    .month-select .move-month{
+      font-size: 12px;
+    }
+    .el-date-editor.el-input, .el-date-editor.el-input__inner{
+      width: 100px;
+    }
+    .el-input--prefix .el-input__inner{
+      padding-right: 10px;
+    }
+    .calender{
+      width: 100%;
+      tr{
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .schedule-day{
+        width: 30%;
+        box-sizing: border-box;
+        text-align: left;
+      }
+      .schedule-status{
+        width: 70%;
+        box-sizing: border-box;
+      }
+      .schedule-events{
+        width: 100%;
+      }
+      thead .schedule-events{
+        text-align: center;
+      }
+      tbody{
+        .schedule-day{
+          width: 5%;
+          align-self: center;
+          font-size: 20px;
+          font-weight: 800;
+        }
+        .schedule-status{
+          width: 95%;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
 </style>

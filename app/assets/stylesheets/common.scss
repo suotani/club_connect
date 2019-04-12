@@ -197,4 +197,19 @@ a{
     .topbar-devider{
       display: none;
     }
+    .modal{
+      width: 75%;
+      .el-form-item{
+        display: flex;
+        flex-direction: column;
+      }
+      .el-form-item__content{
+        width: 98%;
+        margin: auto !important;
+        
+      }
+      .el-form-item__label{
+        text-align: left;
+      }
+    }
 }

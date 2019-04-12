@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" class="teams">
     <el-form :inline="true" :model="query" class="demo-form-inline " v-if="!error_exist">
       <el-form-item label="学校名">
         <el-input v-model="query.school" placeholder="〇〇大学"></el-input>
@@ -14,7 +14,7 @@
           <el-option v-for="s in school_types" v-bind:label="s.name" v-bind:value="s.id" v-bind:key="s.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="button-wrap">
         <el-button type="primary" @click="onSubmit">検索</el-button>
       </el-form-item>
     </el-form>
@@ -23,10 +23,10 @@
       <div class="mt-2 teams">
         <el-card class="box-card" v-for="t in teams" v-bind:key="t.id">
           <router-link :to= "{name: 'team', params: {id: t.id}}" slot="header" class="clearfix link-to-team">
-            <p>{{t.school}} {{t.category}}</p>
+            <p>{{t.school}} {{t.name}}</p>
           </router-link>
           <div class="text item">
-           <p>{{t.leader_name}}</p>
+           <p>(代表){{t.leader_name}}</p>
           </div>
         </el-card>
       </div>
@@ -144,9 +144,45 @@ import axios from 'axios'
     flex-wrap: wrap;
     justify-content: flex-start;
   }
-  @media screen and (max-width:768px){
+
+</style>
+
+
+<style lang='scss'>
+@media screen and (max-width:768px){
+  .teams {
+    .el-form--inline .el-form-item label{
+      width: 35%;
+      line-height: 20px;
+    }
+    .el-form--inline .el-form-item__content{
+      width: 65%;
+    }
+    .el-form--inline .button-wrap .el-form-item__content{
+      width: 100%;
+      text-align: right;
+    }
     form{
-      padding: 1rem;
+      padding: 0.5rem 0.3rem;
+    }
+    .el-form--inline .el-form-item{
+      display: flex;
+      margin-bottom: 10px;
+    }
+    .el-form--inline .el-form-item label{
+      width: 50%;
+      line-height: 20px;
+    }
+    .button-wrap{
+      justify-content: flex-end;
+    }
+    .link-to-team{
+      font-size: 12px;
+    }
+    .el-card__header{
+      height: 75px;
+      padding: 1rem 0.3rem;
     }
   }
+}
 </style>
