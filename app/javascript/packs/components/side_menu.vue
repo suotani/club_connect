@@ -18,13 +18,13 @@
       <li class="nav-item">
         <router-link :to= "{name: 'teams'}">
           <i class="fas fa-search"></i>
-          <span class="menu-text">部活動・サークルを検索</span>
+          <span class="menu-text">探す</span>
         </router-link>
       </li>
       <li class="nav-item">
         <router-link :to= "{name: 'contacts'}">
           <i class="far fa-envelope"></i>
-          <span class="menu-text">メールボックス</span>
+          <span class="menu-text">メール</span>
         </router-link>
       </li>
       <hr class="sidebar-divider" />

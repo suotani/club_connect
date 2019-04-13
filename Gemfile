@@ -36,6 +36,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rails-i18n'
 gem 'devise'
+gem 'devise-i18n'
+gem 'devise-i18n-views'
 gem 'kaminari'
 gem "aws-sdk-s3", require: false
 gem 'slack-notifier'

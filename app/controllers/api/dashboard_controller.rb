@@ -20,4 +20,8 @@ class Api::DashboardController < ApiController
     @no_read_contact_count = @no_read_to_contact_count + @no_read_from_contact_count
     render 'index', formats: 'json', handlers: 'jbuilder'
   end
+  
+  def show
+    render json: {team: current_team}
+  end
 end

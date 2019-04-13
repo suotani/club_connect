@@ -8,11 +8,29 @@
       </ul>
       <div class="topbar-devider mx-4"></div>
       <div class="team-name px-3">
-        <p>奈良先端科学技術大学院大学<br />剣道部</p>
+        <p>{{team.school}}<br />{{team.name}}</p>
       </div>
     </nav>
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+export default{
+  data(){
+    return{
+      team: {}
+    }
+  },
+  created: function(){
+    axios.get('/api/dashboard-info')
+    .then(res =>{
+      this.team = res.data.team
+    })
+  }
+  
+}
+</script>
 
 <style scoped>
   .topbar{
