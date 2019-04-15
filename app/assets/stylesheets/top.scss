@@ -24,6 +24,7 @@
     // box-shadow:0px 8px 9px -3px #cdc8ca;
     z-index: 1000;
     color: white;
+    position: absolute;
     h1{
       margin: 0;
       margin-left: 10px;
@@ -45,5 +46,62 @@
     }
   }
   main{
+    .main-visual-wrap{
+      display: flex;
+      position: relative;
+      background-image: url(/images/top.png);
+      height: 100vh;
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: white;
+      z-index: 0;
+      overflow: hidden;
+      .inner-visual{
+        align-self: center;
+        margin: auto;
+        text-align: center;
+        h2{
+          font-size: 50px;
+          font-family: serif;
+        }
+      }
+    }
+    .main-visual-wrap:before{
+      content: '';
+      background: inherit;/*.bgImageで設定した背景画像を継承する*/
+      -webkit-filter: blur(5px);
+      -moz-filter: blur(5px);
+      -o-filter: blur(5px);
+      -ms-filter: blur(5px);
+      filter: brightness(60%);
+      position: absolute;
+      /*ブラー効果で画像の端がボヤけた分だけ位置を調整*/
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      z-index: -1;/*重なり順序を一番下にしておく*/
+    }
+    
+    .main-content{
+      .content-wrap{
+        margin-top: 30px;
+        h2{
+          text-align: center;
+          font-family: serif;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width:768px){
+  .top{
+    .container{
+      width: 100%;
+    }
+    header .links a{
+      margin-right: 0;
+      padding: 0.3rem;
+    }
   }
 }
