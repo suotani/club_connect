@@ -61,7 +61,7 @@
         margin: auto;
         text-align: center;
         h2{
-          font-size: 50px;
+          font-size: 48px;
           font-family: serif;
         }
       }
@@ -69,10 +69,10 @@
     .main-visual-wrap:before{
       content: '';
       background: inherit;/*.bgImageで設定した背景画像を継承する*/
-      -webkit-filter: blur(5px);
-      -moz-filter: blur(5px);
-      -o-filter: blur(5px);
-      -ms-filter: blur(5px);
+      -webkit-filter: brightness(60%);
+      -moz-filter: brightness(60%);
+      -o-filter: brightness(60%);
+      -ms-filter: brightness(60%);
       filter: brightness(60%);
       position: absolute;
       /*ブラー効果で画像の端がボヤけた分だけ位置を調整*/
@@ -82,7 +82,6 @@
       bottom: -5px;
       z-index: -1;/*重なり順序を一番下にしておく*/
     }
-    
     .main-content{
       .content-wrap{
         margin-top: 30px;
@@ -91,6 +90,17 @@
           font-family: serif;
         }
       }
+    }
+    .big_button{
+      background-color: #423ff1;
+      width: 200px;
+      line-height: 50px;
+      display: block;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      margin: auto;
+      margin-top: 20px;
     }
   }
 }
@@ -109,6 +119,21 @@
         .inner-visual{
           h2{
             font-size: 38px;
+          }
+        }
+      }
+      .main-content{
+        .content{
+          width: 85%;
+          margin: auto;
+          line-height: 25px;
+          p, ul{
+            margin-top: 25px;
+          }
+          ul{
+            border: solid 1px #486ef9;
+            padding: 1rem 0.3rem;
+            box-sizing: border-box;
           }
         }
       }
