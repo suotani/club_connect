@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_04_023227) do
+ActiveRecord::Schema.define(version: 2019_04_17_142105) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -77,10 +77,47 @@ ActiveRecord::Schema.define(version: 2019_04_04_023227) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "member_teams", force: :cascade do |t|
+    t.integer "team_id"
+    t.integer "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.integer "role_id", null: false
+    t.integer "team_id"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_members_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
+  end
+
   create_table "messages", force: :cascade do |t|
     t.integer "contact_id"
     t.text "text"
     t.string "from_team"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.boolean "member_edit"
+    t.boolean "contact"
+    t.boolean "schedule"
+    t.boolean "login"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -95,22 +132,14 @@ ActiveRecord::Schema.define(version: 2019_04_04_023227) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
     t.string "school"
-    t.string "members"
+    t.string "members_info"
     t.string "level"
-    t.string "leader_name"
-    t.string "leader_email"
-    t.string "sub_leader_name"
-    t.string "sub_leader_email"
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
+    t.string "prefecture"
+    t.string "city"
+    t.string "address"
+    t.integer "leader_id"
+    t.integer "subleader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "introduction"
@@ -119,9 +148,6 @@ ActiveRecord::Schema.define(version: 2019_04_04_023227) do
     t.string "sub_leader_role"
     t.integer "school_type"
     t.string "name"
-    t.index ["confirmation_token"], name: "index_teams_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_teams_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_teams_on_reset_password_token", unique: true
   end
 
   create_table "todos", force: :cascade do |t|

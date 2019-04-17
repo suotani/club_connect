@@ -4,20 +4,25 @@ Rails.application.routes.draw do
 
   get "privacy", to: 'static#privacy'
 
-  devise_for :teams, controllers: {
-    sessions: 'teams/sessions',
-    unlocks: 'teams/unlocks',
-    registrations: 'teams/registrations',
-    passwords: 'teams/passwords',
-    confirmations: 'teams/confirmations',
+  devise_for :members, controllers: {
+    sessions: 'members/sessions',
+    unlocks: 'members/unlocks',
+    registrations: 'members/registrations',
+    passwords: 'members/passwords',
+    confirmations: 'members/confirmations',
   }
   
   resources :todos, only: [:index]
   
   get 'home', to: "home#index"
+  get 'new', to: 'home#new'
+  post 'create', to: 'home#create'
+  post 'update', to: 'home#update'
   
   namespace :api do
     resources :todos
+    
+    resources :members
     
     resources :teams, only: [:index, :show] do
       collection do
