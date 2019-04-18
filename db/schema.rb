@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 2019_04_17_142105) do
     t.string "name", default: "", null: false
     t.integer "role_id", null: false
     t.integer "team_id"
+    t.string "role_in_team"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -144,8 +145,6 @@ ActiveRecord::Schema.define(version: 2019_04_17_142105) do
     t.datetime "updated_at", null: false
     t.text "introduction"
     t.integer "category_id"
-    t.string "leader_role"
-    t.string "sub_leader_role"
     t.integer "school_type"
     t.string "name"
   end

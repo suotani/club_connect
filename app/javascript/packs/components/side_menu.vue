@@ -27,27 +27,38 @@
           <span class="menu-text">メール</span>
         </router-link>
       </li>
-      <hr class="sidebar-divider" />
-      <div class="sidebar-heading">SETTINGS</div>
-      <li class="nav-item">
-        <router-link :to= "{name: 'setting'}">
-          <i class="fas fa-sliders-h" v-bind:class="{w100: isToggled}"></i>
-          <span class="menu-text">各種設定</span>
-        </router-link>
-      </li>
       <li class="nav-item">
         <router-link :to= "{name: 'calender'}">
           <i class="far fa-calendar-alt" v-bind:class="{w100: isToggled}"></i>
           <span class="menu-text">予定表</span>
         </router-link>
       </li>
-  
+      <li class="nav-item">
+        <router-link :to= "{name: 'calender'}">
+          <i class="fas fa-users" v-bind:class="{w100: isToggled}"></i>
+          <span class="menu-text">メンバー</span>
+        </router-link>
+      </li>
+      <hr class="sidebar-divider" />
+      <div class="sidebar-heading">SETTINGS</div>
+      <li class="nav-item">
+        <router-link :to= "{name: 'setting'}">
+          <i class="fas fa-sliders-h" v-bind:class="{w100: isToggled}"></i>
+          <span class="menu-text">チーム</span>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link :to= "{name: 'setting'}">
+          <i class="fas fa-sliders-h" v-bind:class="{w100: isToggled}"></i>
+          <span class="menu-text">個人</span>
+        </router-link>
+      </li>
       <hr class="sidebar-divider" />
       <div class="sidebar-heading">OTHER</div>
       <li class="nav-item">
         <span v-on:click="modalOpen=true" class="inquiry-link">
           <i class="far fa-question-circle" v-bind:class="{w100: isToggled}"></i>
-          <span class="menu-text">お問い合わせ</span>
+          <span class="menu-text">問合せ</span>
         </span>
       </li>    
       <li class="nav-item">

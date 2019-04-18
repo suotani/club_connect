@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   
   get 'home', to: "home#index"
   get 'new', to: 'home#new'
+  get 'edit', to: 'home#edit'
   post 'create', to: 'home#create'
   post 'update', to: 'home#update'
   

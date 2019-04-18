@@ -1,5 +1,5 @@
 <template>
-  <div class="team-content-wrapper" v-loading="loading" v-cloak v-if="!error_exist">
+  <div class="team-content-wrapper setting" v-loading="loading" v-cloak v-if="!error_exist">
     <div class="error_messages" v-if="error_messages.length > 0">
       <ul>
         <li v-for="error in error_messages">
@@ -65,41 +65,27 @@
         <h2>代表・副代表設定</h2>
         
         <el-form-item label="代表者名">
-          <el-input placeholder="代表して部外とやり取りをされる方のお名前です" v-model="team.leader_name"></el-input>
+          {{leader.name}}
         </el-form-item>
 
         <el-form-item label="代表者役職">
-          <el-select v-model="team.leader_role" placeholder="Select">
-            <el-option
-              v-for="r in roles"
-              :key="r.id"
-              :label="r.name"
-              :value="r.name">
-            </el-option>
-          </el-select>
+          {{leader.role_in_team}}
         </el-form-item>
 
         <el-form-item label="代表者連絡先">
-          <el-input placeholder="" v-model="team.leader_email"></el-input>
+          {{leader.email}}
         </el-form-item>
 
         <el-form-item label="副代表者名">
-          <el-input placeholder="" v-model="team.sub_leader_name"></el-input>
+          {{subleader.name}}
         </el-form-item>
 
         <el-form-item label="副代表者役職">
-          <el-select v-model="team.sub_leader_role" placeholder="Select">
-            <el-option
-              v-for="r in roles"
-              :key="r.id"
-              :label="r.name"
-              :value="r.name">
-            </el-option>
-          </el-select>
+          {{subleader.role_in_team}}
         </el-form-item>
 
         <el-form-item label="副代表者連絡先">
-          <el-input placeholder="" v-model="team.sub_leader_email"></el-input>
+          {{subleader.email}}
         </el-form-item>
 
         <el-form-item class="tx-right">
@@ -116,6 +102,8 @@ import axios from 'axios'
     data(){
       return{
         team: {},
+        leader: {},
+        subleader: {},
         categories: [],
         roles: [],
         loading: true,
@@ -130,6 +118,8 @@ import axios from 'axios'
       axios.get('/api/teams/edit')
       .then(res => {
         this.team = res.data.team
+        this.leader = res.data.leader
+        this.subleader = res.data.subleader
         this.categories = res.data.categories
         this.roles = res.data.roles
         this.fileList = res.data.images //{name: name, url: url, id: id}
@@ -189,7 +179,7 @@ import axios from 'axios'
   }
 </script>
 
-<style>
+<style scoped>
 
   h2{
     text-align: left;
@@ -232,4 +222,23 @@ import axios from 'axios'
     margin: 5px 13px;
     color: rgba(255,0,0,0.8);
   }
+</style>
+
+<style lang="scss">
+@media screen and (max-width:768px){
+  .setting{
+    .el-form-item{
+      display: flex;
+      flex-direction: column;
+      label{
+        width: 100% !important;
+        text-align: left;
+      }
+      .el-form-item__content{
+        width: 100%;
+        margin: 0 !important;
+      }
+    }
+  }
+}
 </style>

@@ -3,6 +3,8 @@ class Team < ApplicationRecord
   attr_accessor :exec_valid
          
   belongs_to :category, optional: true
+  belongs_to :leader, class_name: "Member"
+  belongs_to :subleader, class_name: "Member", optional: true
   has_many_attached :images
   has_many :calenders
   has_many :contacts
@@ -13,7 +15,6 @@ class Team < ApplicationRecord
   validates :name, presence: true
   validates :category_id, presence: true
   
-  ROLE = %w(部長 マネージャ 副部長 顧問教員 外部顧問 その他)
   SCHOOL_TYPE = %w(大学 高校 短期大学)
   
   def contacts

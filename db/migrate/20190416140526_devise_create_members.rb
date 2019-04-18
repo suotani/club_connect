@@ -7,6 +7,7 @@ class DeviseCreateMembers < ActiveRecord::Migration[5.2]
       t.string :name,               null: false, default: ""
       t.integer :role_id,           null: false
       t.integer :team_id
+      t.string  :role_in_team
       
       ## Database authenticatable
       t.string :email,              null: false, default: ""

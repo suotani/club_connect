@@ -16,7 +16,5 @@ school_types = (Team::SCHOOL_TYPE).map.with_index do |s, index|
 end
 json.school_types school_types
 
-roles = (Team::ROLE).map.with_index do |r, index|
-  {name: r, id: index}
-end
-json.roles roles
+json.leader @team.leader
+json.subleader @team.subleader
