@@ -16,10 +16,20 @@ class Team < ApplicationRecord
   validates :category_id, presence: true
   
   SCHOOL_TYPE = %w(大学 高校 短期大学)
+  INVITE_CODE_LENGTH = 7
+  LETTER = ('a'..'z').to_a + (0..9).to_a
   
   def contacts
     Contact.where(from_team_id: id)
     .or(Contact.where(to_team_id: id))
+  end
+  
+  def self.generate_invite_code
+    code = ""
+    INVITE_CODE_LENGTH.times do
+      code = code + LETTER[rand(0..LETTER.size-1)].to_s
+    end
+    code
   end
 
 end

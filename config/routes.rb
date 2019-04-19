@@ -14,9 +14,11 @@ Rails.application.routes.draw do
   
   resources :todos, only: [:index]
   
-  get 'home', to: "home#index"
-  get 'new', to: 'home#new'
-  get 'edit', to: 'home#edit'
+  get 'home', to: "home#index"#ホーム
+  get 'new', to: 'home#new'#招待コード入力＋チーム作成
+  get 'edit', to: 'home#edit'#
+  get 'show', to: 'home#show'
+  get 'search', to: 'home#search'
   post 'create', to: 'home#create'
   post 'update', to: 'home#update'
   

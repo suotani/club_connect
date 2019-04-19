@@ -34,7 +34,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link :to= "{name: 'calender'}">
+        <router-link :to= "{name: 'members'}">
           <i class="fas fa-users" v-bind:class="{w100: isToggled}"></i>
           <span class="menu-text">メンバー</span>
         </router-link>

@@ -9,6 +9,8 @@ import Contacts from './components/contact/index.vue'
 import Contact from './components/contact/show.vue'
 import Teams from './components/teams/index.vue'
 import Team from './components/teams/show.vue'
+import Members from './components/members/index.vue'
+import EditMember from './components/members/edit.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +24,8 @@ const router = new VueRouter({
         {path: '/contact/:id', component: Contact, name: 'contact'},
         {path: '/teams', component: Teams, name: 'teams'},
         {path: '/teams/:id', component: Team, name: 'team'},
+        {path: '/members', component: Members, name: 'members'},
+        {path: '/self', component: EditMember, name: 'edit'}
     ]
 })
 

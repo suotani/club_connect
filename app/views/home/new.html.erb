@@ -1,3 +1,54 @@
+<div class="header">
+  <div class="logo">
+    <a href="#" class="sidebar-bland">
+      <div class="sidebar-bland-text">
+        <i class="far fa-dot-circle"></i>Torus
+      </div>
+    </a>
+  </div>
+  <div class="member">
+    ようこそ <%= @member.name %>さん
+  </div>
+</div>
 <div id='app'></div>
 <%= javascript_pack_tag 'new' %>
 <%= stylesheet_pack_tag 'new' %>
+
+<style lang="scss">
+  .header{
+    height: 4.375rem;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15);
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .logo{
+    width: 10rem;
+    background-color: #4e73df;
+  }
+  a.sidebar-bland{
+    height: 4.375rem;
+    font-size: 24px;
+    color: white;
+    display: flex;
+    text-decoration: none;
+  }
+  
+  .sidebar-bland .sidebar-bland-text{
+    display: inline;
+    align-self: center;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .sidebar-bland .sidebar-bland-text i{
+    margin-right: 5px;
+  }
+  
+  .member{
+    align-self: center;
+    padding-right: 30px;
+    font-size: 20px;
+  }
+</style>
