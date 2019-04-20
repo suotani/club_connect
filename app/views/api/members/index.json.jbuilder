@@ -7,5 +7,6 @@ json.members do
     json.role_in_team m.role_in_team
     json.avatar_url   url_for(m.avatar) if m.avatar.attached?
     json.profile      (m.profile || "")[0..50]
+    json.longProfile      (m.profile || "")
   end
 end
