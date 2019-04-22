@@ -48,7 +48,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link :to= "{name: 'setting'}">
+        <router-link :to= "{name: 'edit'}">
           <i class="fas fa-sliders-h" v-bind:class="{w100: isToggled}"></i>
           <span class="menu-text">個人</span>
         </router-link>

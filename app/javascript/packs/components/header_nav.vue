@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div style="width: 100%" class="header">
     <nav class="topbar mb-4 px-3 py-2">
       <ul class="icons">
         <li>
@@ -8,7 +8,20 @@
       </ul>
       <div class="topbar-devider mx-4"></div>
       <div class="team-name px-3">
-        <p>{{team.school}}<br />{{team.name}}</p>
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <div>
+              {{team.school}}<br />{{team.name}}
+            </div>
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="t in teams" :key="t.id">
+              <span v-on:click="handleClick(t.id)">{{t.school}} {{t.name}}</span>
+            </el-dropdown-item>
+            <el-button class="new-team"><a href="/new" class="text-link">新しくチームを作る</a></el-button>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </nav>
   </div>
@@ -19,20 +32,33 @@ import axios from 'axios'
 export default{
   data(){
     return{
-      team: {}
+      team: {},
+      teams: []
     }
   },
   created: function(){
     axios.get('/api/dashboard-info')
     .then(res =>{
       this.team = res.data.team
+      this.teams = res.data.teams
     })
+  },
+  methods: {
+    handleClick(id) {
+      console.log(id)
+      axios.get('/api/change-team', {
+        params: {id: id}
+      })
+      .then(res =>{
+        window.location = "/home"
+      })
+    }
   }
-  
 }
 </script>
 
 <style scoped>
+
   .topbar{
     height: 4.375rem;
     box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15);
@@ -84,4 +110,10 @@ export default{
   .topbar-devider{
     border-left: 1px solid #e3e6f0;
   }
+  .new-team{
+    margin: auto !important;
+    width: 90% !important;
+    display: block !important;
+  }
+
 </style>

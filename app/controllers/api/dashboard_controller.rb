@@ -22,6 +22,13 @@ class Api::DashboardController < ApiController
   end
   
   def show
-    render json: {team: current_team}
+    teams = current_member.teams.uniq
+    render json: {team: current_team, teams: teams}
+  end
+  
+  def update
+    team = current_member.teams.find(params[:id])
+    current_member.update(team_id: team.id)
+    render json: {}
   end
 end

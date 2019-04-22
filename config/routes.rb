@@ -25,7 +25,13 @@ Rails.application.routes.draw do
   namespace :api do
     resources :todos
     
-    resources :members
+    resources :members, only: [:index] do
+       collection do
+         get "setting"
+         post "setting", to: "members#update"
+         post "upload", to: "members#upload"
+       end
+    end
     
     resources :teams, only: [:index, :show] do
       collection do
@@ -54,6 +60,7 @@ Rails.application.routes.draw do
     
     get 'dashboard', to: "dashboard#index"
     get 'dashboard-info', to: 'dashboard#show'
+    get 'change-team', to: 'dashboard#update'
     post 'inquiry', to: "inquiry#create"
   end
 end

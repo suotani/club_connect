@@ -25,7 +25,7 @@ const router = new VueRouter({
         {path: '/teams', component: Teams, name: 'teams'},
         {path: '/teams/:id', component: Team, name: 'team'},
         {path: '/members', component: Members, name: 'members'},
-        {path: '/self', component: EditMember, name: 'edit'}
+        {path: '/edit', component: EditMember, name: 'edit'}
     ]
 })
 

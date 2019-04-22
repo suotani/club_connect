@@ -10,3 +10,4 @@ json.members do
     json.longProfile      (m.profile || "")
   end
 end
+json.members_count = @members_count

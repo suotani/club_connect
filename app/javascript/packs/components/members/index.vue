@@ -15,6 +15,7 @@
     </el-form>
     
     <div class="list">
+      <p>{{total_member_count}}名見つかりました</p>
       <ul class="row">
         <li v-for="member in members" class="listItem" v-on:click="onShow(member)">
           <div class="avatar">
@@ -86,7 +87,7 @@ export default {
     axios.get("/api/members",{params: {}})
     .then(res => {
       this.members = res.data.members
-      this.total_member_count = 100
+      this.total_member_count = res.data.members_count
       this.loading = false
     })
   },
@@ -124,6 +125,14 @@ export default {
 .members{
   .listItem:hover{
     background-color: rgba(0,0,0,0.05);
+  }
+  form{
+    border: solid 3px #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    .el-form-item{
+      margin-bottom: 0;
+    }
   }
   .listItem{
     display: flex;
@@ -163,11 +172,15 @@ export default {
     .profile{
       width: 80%;
       margin: auto;
+      margin-top: 5px;
     }
     .button-wrap{
       text-align: right;
       margin-top: 10px;
     }
+  }
+  .el-pagination{
+    text-align: center;
   }
 }
 </style>
