@@ -66,6 +66,7 @@
         
         <el-form-item label="代表者名">
           {{leader.name}}
+          <el-button v-on:click="changeLeader('leader', '代表')">変更</el-button>
         </el-form-item>
 
         <el-form-item label="代表者役職">
@@ -78,6 +79,7 @@
 
         <el-form-item label="副代表者名">
           {{subleader.name}}
+          <el-button v-on:click="changeLeader('subleader', '副代表')">変更</el-button>
         </el-form-item>
 
         <el-form-item label="副代表者役職">
@@ -93,6 +95,34 @@
         </el-form-item>
       </el-form>
     </div>
+
+      <div class="modal-wrapper" v-show="modalOpen">
+        <div class="modal" v-loading="modalLoading">
+          <el-form :inline="true" ref="form" label-width="120px">
+            <el-form-item>
+              <el-input v-model="candidate_name" placeholder="名前"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="searchCandidates">検索</el-button>
+            </el-form-item>
+          </el-form>
+            
+          <ul>
+            <li v-for="c in candidates" :key="c.id" @click="selected_new_leader = c">
+              {{c.name}}
+            </li>
+          </ul>
+          
+          <el-row>
+            <div>
+              <el-button type="primary" @click="onSubmitLeader" v-if="selected_new_leader.name !== undefined">
+                {{selected_new_leader.name}}で決定する
+              </el-button>
+              <el-button @click="modalOpen = false">キャンセル</el-button>
+            </div>
+          </el-row>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -109,7 +139,13 @@ import axios from 'axios'
         loading: true,
         fileList: [],
         school_types: [],
-        error_messages: []
+        error_messages: [],
+        modalOpen: false,
+        modalLoading: false,
+        candidates: [],
+        candidate_name: "",
+        selected_new_leader: {},
+        modalType: ""
       }
     },
     props: ["error_exist"],
@@ -167,15 +203,52 @@ import axios from 'axios'
       },
 
       handleChangeCategory(){
-        var category_id = this.team.category_id
-        var category = this.categories.find(function(e) {return e.id === category_id})
+        var category = this.categories.find(function(e) {return e.id === this.team.category_id})
         this.team.name = category.name + "部"
+      },
+      changeLeader(type, typeText){
+        this.modalOpen = true
+        this.modalType = type
+        if(this.candidates.length === 0){
+          this.modalLoading = true
+          axios.get("/api/teams/candidates")
+          .then(res => {this.candidates = res.data.members})
+          this.modalLoading = false
+        }
+      },
+      searchCandidates(){
+        this.modalLoading = true
+        axios.get("/api/teams/candidates",{params: {name: this.candidate_name}})
+        .then(res => {this.candidates = res.data.members})
+        this.modalLoading = false
+      },
+      onSubmitLeader(){
+        this.modalLoading = true
+        axios.post('/api/teams/update_leader', {
+          leader_id: this.selected_new_leader.id,
+          type: this.modalType
+        })
+        .then(res => {
+          this.$message('更新しました');
+          if(this.modalType === "leader"){
+            this.leader = res.data.leader
+          }else{
+            this.subleader = res.data.subleader
+          }
+          this.modalLoading = false
+          this.modalOpen = false
+        })
+        .catch(er => {
+          this.$message('更新に失敗しました');
+          this.error_messages = er.data.errors
+          this.modalLoading = false
+        })
       }
     }
   }
-
-  function matchName(element, name) {
-    return element.name === name;
+  function getCandidates(name){
+    axios.get("/api/teams/candidates",{params: {name: name}})
+    .then(res => {return  res.data.members})
   }
 </script>
 
@@ -222,9 +295,41 @@ import axios from 'axios'
     margin: 5px 13px;
     color: rgba(255,0,0,0.8);
   }
+  .modal {
+    form{
+      text-align: center;
+    }
+  }
 </style>
 
 <style lang="scss">
+.setting{
+  .modal {
+    form{
+      text-align: center;
+    }
+    .el-row{
+      display :flex;
+      justify-content: flex-end;
+      .selected_new_leader{
+        padding-right: 3rem;
+      }
+      
+    }
+    ul{
+      height: 200px;
+      overflow-y: scroll;
+      li{
+        cursor: pointer;
+        padding: 0.5rem;
+        box-sizing: border-box;
+      }
+      li:hover{
+        background-color: rgba(0,0,0,0.02);
+      }
+    }
+  }
+}
 @media screen and (max-width:768px){
   .setting{
     .el-form-item{

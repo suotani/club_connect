@@ -34,6 +34,22 @@ class Api::TeamsController < ApiController
     end
   end
   
+  def candidates
+    @members = current_team.members
+    @members = @members.where("name like ?", "%#{params[:name]}%") if params[:name].present?
+    render json: {members: @members}
+  end
+  
+  def update_leader
+    if params[:type] == "leader" && current_team.members.ids.include?(params[:leader_id])
+      current_team.update!(leader_id: params[:leader_id])
+      render json: {leader: current_team.leader}
+    elsif params[:type] == "subleader" && current_team.members.ids.include?(params[:leader_id])
+      current_team.update!(subleader_id: params[:leader_id])
+      render json: {subleader: current_team.subleader}
+    end
+  end
+  
   private
   
   def team_params

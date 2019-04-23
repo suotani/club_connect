@@ -36,6 +36,8 @@ Rails.application.routes.draw do
     resources :teams, only: [:index, :show] do
       collection do
         get 'edit'
+        get 'candidates'
+        post "update_leader"
         post 'update'
       end
     end
