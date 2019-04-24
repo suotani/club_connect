@@ -19,8 +19,8 @@
       <ul class="row">
         <li v-for="member in members" class="listItem" v-on:click="onShow(member)">
           <div class="avatar">
-            <img :src="member.avater_url" v-show="member.avater_url"></img>
-            <i class="fas fa-user" v-show="!member.avater_url"></i>
+            <img :src="member.avatar_url" v-show="member.avatar_url !== undefined"></img>
+            <i class="fas fa-user" v-show="member.avatar_url === undefined"></i>
           </div>
           <div class="info">
             <div class="name">
@@ -48,8 +48,8 @@
         <div class="modal-inner">
           <div class="member-info">
             <div class="image">
-              <img :src="member.avater_url" class="image" v-show="member.avater_url">
-              <i class="fas fa-user" v-show="!member.avater_url"></i>
+              <img :src="member.avatar_url" class="avatar" v-show="member.avatar_url">
+              <i class="fas fa-user" v-show="!member.avatar_url"></i>
             </div>
             <div class="basic-info">
               <p>[{{member.role_in_team}}]</p>
@@ -140,9 +140,14 @@ export default {
     .avatar{
       width: 70px;
       height: 70px;
+      display: flex;
       .fa-user{
         font-size: 63px;
         color: rgba(0,0,0,0.3);
+      }
+      img{
+        width: 60px;
+        margin: auto;
       }
     }
     .info{
@@ -160,6 +165,9 @@ export default {
         width: 30%;
         text-align: center;
         font-size: 100px;
+        .avatar{
+          width: 100%;
+        }
       }
       .basic-info{
         align-self: center;

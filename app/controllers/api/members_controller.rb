@@ -10,12 +10,28 @@ class Api::MembersController < ApiController
   end
   
   def setting
-    render json: {member: current_member, teams: current_member.teams}
+    render json: {
+      member: current_member,
+      teams: current_member.teams,
+      avatar_url: current_member.avatar.attached? ? url_for(current_member.avatar) : "",
+      roles: Member::ROLE
+    }
   end
   
   def update
+    current_member.update!(member_params)
+    render json: {result: "success"}
   end
   
   def upload
+    current_member.avatar.purge
+    image = current_member.avatar.attach(params[:file])
+    render json: {result: "success", url: url_for(current_member.avatar)}
+  end
+  
+  private
+  
+  def member_params
+    params.require(:member).permit(:name, :role_in_team, :grade, :profile)
   end
 end

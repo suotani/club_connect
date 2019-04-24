@@ -8,6 +8,24 @@
       </ul>
     </div>
     <div class="team-info px-4 py-4">
+      <div class="avatar">
+        <img v-bind:src="avatar_url"></img>
+        <el-form  enctype="multipart/form-data">
+          <el-form-item label="">
+            <el-upload
+              class="upload-demo"
+              action="/api/members/upload"
+              :auto-upload="true"
+              :on-remove="handleRemove"
+              :on-preview="handlePreview"
+              :on-success = "handleUploaded"
+              :file-list="fileList">
+              <el-button size="small" type="primary">プロフィール写真のアップロード</el-button>
+              <div slot="tip" class="el-upload__tip"></div>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+      </div>
       <el-form ref="form" :model="member" label-width="120px" enctype="multipart/form-data">
         <el-form-item label="名前">
           <el-input v-model="member.name"></el-input>
@@ -15,6 +33,17 @@
         
         <el-form-item label="学年">
           <el-input v-model="member.grade" type="number"></el-input>
+        </el-form-item>
+
+        <el-form-item label="役職">
+          <el-select v-model="member.role_in_team" placeholder="Select">
+            <el-option
+              v-for="r in roles"
+              :key="r"
+              :label="r"
+              :value="r">
+            </el-option>
+          </el-select>
         </el-form-item>
         
         <el-form-item label="紹介文">
@@ -37,7 +66,10 @@ import axios from 'axios'
         member: {},
         teams: [],
         loading: true,
-        error_messages: []
+        avatar_url: "",
+        error_messages: [],
+        fileList: [],
+        roles: []
       }
     },
     props: ["error_exist"],
@@ -47,6 +79,8 @@ import axios from 'axios'
       .then(res => {
         this.member = res.data.member
         this.teams = res.data.teams
+        this.avatar_url = res.data.avatar_url
+        this.roles = res.data.roles
         this.loading = false
       })
       .catch(er => {
@@ -71,12 +105,21 @@ import axios from 'axios'
           }
         })
       },
+      handleRemove(file) {
+
+      },
+      handlePreview(){},
+      handleUploaded(res, file){
+        console.log(res)
+        this.avatar_url = res.url
+        this.$message('画像をアップロードしました');
+      },
     }
   }
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
   h2{
     text-align: left;
@@ -99,6 +142,16 @@ import axios from 'axios'
   
   .team-info{
     box-shadow: 0.25rem 0.15rem 1rem 0.25rem rgba(58,59,69,.15);
+    display: flex;
+    .avatar{
+        width: 20%;
+        img{
+          width: 100%;
+        }
+    }
+    form{
+        width: 80%;
+    }
   }
   
   .content-text{

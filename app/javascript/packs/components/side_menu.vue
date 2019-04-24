@@ -177,7 +177,7 @@ import axios from 'axios'
   .nav-item a, .nav-item span.inquiry-link{
     display: block;
     text-align: left;
-    padding: 1rem;
+    padding: 0.7rem 1rem;
     color: rgba(255,255,255,0.8);
     text-decoration: none;
     font-size: 0.85rem;
