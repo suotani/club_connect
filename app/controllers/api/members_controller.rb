@@ -9,6 +9,13 @@ class Api::MembersController < ApiController
     render 'index', formats: 'json', handlers: 'jbuilder'
   end
   
+  def create
+    mails = params[:mails].split(",")
+    p mails
+    #TODO send mail
+    render json: {invite_count: mails.size}
+  end
+  
   def setting
     render json: {
       member: current_member,

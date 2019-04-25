@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :todos
     
-    resources :members, only: [:index] do
+    resources :members, only: [:index, :create] do
        collection do
          get "setting"
          post "setting", to: "members#update"

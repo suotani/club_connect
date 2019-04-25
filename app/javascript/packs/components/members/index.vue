@@ -1,5 +1,8 @@
 <template>
   <div class="members" v-loading="loading">
+    <el-row class="invite-mail-button">
+      <el-button type="primary" round v-on:click="inviteModalShow=true">メンバーを招待する</el-button>
+    </el-row>  
     <el-form :inline="true" :model="query" class="demo-form-inline " v-if="!error_exist">
       <el-form-item label="名前">
         <el-input v-model="query.name"></el-input>
@@ -64,6 +67,24 @@
         </div>
       </div>
     </div>
+    <div class="modal-wrapper invite-modal" v-show="inviteModalShow">
+      <div class="modal" v-loading="inviteModalLoading">
+        <div class="modal-inner">
+          <p v-show="invite_count !== 0">{{invite_count}}名の方に招待メールを送信しました</p>
+          <el-form>
+            <el-input
+             type="textarea"
+             v-model="invite_mails"
+             placeholder="カンマ(,)区切りでメールアドレスを入力してください。例)example@example.com,example2@example.com,example3@example.com">
+            </el-input>
+          </el-form>
+          <div class="button-wrap">
+            <el-button v-on:click="submitMails" type="primary">招待</el-button>
+            <el-button v-on:click="inviteModalShow=false">閉じる</el-button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -79,7 +100,11 @@ export default {
       modalLoading: false,
       member: {},
       loading: true,
-      total_member_count: 0
+      total_member_count: 0,
+      inviteModalShow: false,
+      inviteModalLoading: false,
+      invite_mails: "",
+      invite_count: 0
     };
   },
   props: ["error_exist"],
@@ -99,6 +124,7 @@ export default {
       })
       .then(res => {
         this.members = res.data.members
+        this.total_member_count = res.data.members_count
         this.loading = false
       })
     },
@@ -116,6 +142,19 @@ export default {
     onShow: function(member){
       this.modalShow = true
       this.member = member
+    },
+    submitMails: function(){
+      if(this.invite_mails !== ""){
+        this.inviteModalLoading = true
+        axios.post("/api/members", {
+          mails: this.invite_mails
+        })
+        .then(res =>{
+          this.invite_mails = ""
+          this.invite_count = res.data.invite_count
+          this.inviteModalLoading = false
+        })
+      }
     }
   }
 };
@@ -144,6 +183,7 @@ export default {
       .fa-user{
         font-size: 63px;
         color: rgba(0,0,0,0.3);
+        margin: auto;
       }
       img{
         width: 60px;
@@ -155,6 +195,9 @@ export default {
       .grade{
         width: 100px;
         display: inline-block;
+      }
+      .profile{
+        margin-top: 10px;
       }
     }
   }
@@ -189,6 +232,10 @@ export default {
   }
   .el-pagination{
     text-align: center;
+  }
+  .invite-mail-button{
+    text-align: right;
+    margin-bottom: 5px;
   }
 }
 </style>
