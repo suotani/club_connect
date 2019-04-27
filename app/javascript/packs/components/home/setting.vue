@@ -38,6 +38,10 @@
             </el-option>
           </el-select>
         </el-form-item>
+
+        <el-form-item label="活動場所の住所">
+          <el-input v-model="team.address"></el-input>
+        </el-form-item>
         
         <el-form-item label="写真のアップロード">
           <el-upload

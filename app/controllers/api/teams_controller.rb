@@ -54,8 +54,7 @@ class Api::TeamsController < ApiController
   
   def team_params
     params.require(:team).permit(
-      :school, :name, :category_id, :introduction, :members, :leader_name, :leader_email,
-      :leader_role, :sub_leader_name, :sub_leader_email, :sub_leader_role, :school_type, images: []
+      :school, :name, :category_id, :introduction, :members, :address, :school_type, images: []
     ).tap do |v|
       v[:exec_valid] = true
     end

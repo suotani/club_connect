@@ -99,10 +99,15 @@
         }
         .content{
           p{
+            color: #444;
             font-size: 18px;
             line-height: 2 !important;
             margin-top: 2em !important;
             margin-bottom: 36px !important;
+            .strong{
+              color: #2d09d6;
+              font-weight: 800;
+            }
           }
         }
       }

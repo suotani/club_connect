@@ -35,6 +35,7 @@
             {{team.sub_leader_email}}
           </p>
         </div>
+        <div id="map"></div>
       </div>
       <div class="calender-wrapper">
         <h2>予定表</h2>
@@ -118,115 +119,133 @@
 
 <script>
 import axios from 'axios'
-  export default{
-    data(){
-      return{
-        team: {},
-        photos: [],
-        schedules: [],
-        loading: true,
-        modalLoading: false,
-        calenderLoading: false,
-        currentDate: "",
-        prevMonth: "",
-        nextMonth: "",
-        modalShow: false,
-        request: {},
-        messageModalShow: false,
-        message: {},
-      }
+export default{
+  data(){
+    return{
+      team: {},
+      photos: [],
+      schedules: [],
+      loading: true,
+      modalLoading: false,
+      calenderLoading: false,
+      currentDate: "",
+      prevMonth: "",
+      nextMonth: "",
+      modalShow: false,
+      request: {},
+      messageModalShow: false,
+      message: {},
+    }
+  },
+  props: ["error_exist"],
+  created: function(){
+    // get team
+    axios.get('/api/teams/' + this.$route.params.id)
+    .then(res => {
+      this.team = res.data.team
+      this.photos = res.data.images
+      this.schedules = res.data.schedules
+      this.currentDate = res.data.currentDate
+      this.prevMonth = res.data.prevMonth
+      this.nextMonth = res.data.nextMonth
+      this.loading = false
+      this.request = {id: 0, text: ""}
+      this.$emit('appyl_error_message', "")
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({'address': res.data.team.address,'language':'ja'},function(results, status){
+        if (status == google.maps.GeocoderStatus.OK){
+          var latlng=results[0].geometry.location;//緯度と経度を取得
+          var mapOpt = {
+              center: latlng,//取得した緯度経度を地図の真ん中に設定
+              zoom: 15,//地図倍率1～20
+              mapTypeId: google.maps.MapTypeId.ROADMAP//普通の道路マップ
+          };
+          var map = new google.maps.Map(document.getElementById('map'),mapOpt);
+          var marker = new google.maps.Marker({//住所のポイントにマーカーを立てる
+              position: map.getCenter(),
+              map: map
+          });
+        }
+      });
+    })
+    .catch(er => {
+      this.$emit('appyl_error_message', er.response.data.message)
+      this.loading = false
+    })
+
+  },
+  methods: {
+    changeMonth: function(){
+      this.changeMonthTo(this.currentDate)
     },
-    props: ["error_exist"],
-    created: function(){
-      // get team
-      axios.get('/api/teams/' + this.$route.params.id)
+    changeMonthTo: function(m){
+      this.calenderLoading = true
+      axios.get('/api/calenders/' + this.team.id, { params: {date: m} })
       .then(res => {
-        this.team = res.data.team
-        this.photos = res.data.images
         this.schedules = res.data.schedules
         this.currentDate = res.data.currentDate
         this.prevMonth = res.data.prevMonth
         this.nextMonth = res.data.nextMonth
-        this.loading = false
-        this.request = {id: 0, text: ""}
-        this.$emit('appyl_error_message', "")
+        this.calenderLoading = false
       })
       .catch(er => {
-        this.$emit('appyl_error_message', er.response.data.message)
-        this.loading = false
+        this.$message("エラーが発生しました。")
+        this.calenderLoading = false
       })
     },
-    methods: {
-      changeMonth: function(){
-        this.changeMonthTo(this.currentDate)
-      },
-      changeMonthTo: function(m){
-        this.calenderLoading = true
-        axios.get('/api/calenders/' + this.team.id, { params: {date: m} })
-        .then(res => {
-          this.schedules = res.data.schedules
-          this.currentDate = res.data.currentDate
-          this.prevMonth = res.data.prevMonth
-          this.nextMonth = res.data.nextMonth
-          this.calenderLoading = false
-        })
-        .catch(er => {
-          this.$message("エラーが発生しました。")
-          this.calenderLoading = false
-        })
-      },
-      onSubmit: function(){
-        this.modalLoading = true
-        axios.post("/api/requests", {
-          request: {
-            schedule_id: this.request.id,
-            to_team_id: this.team.id
-          },
-          text: this.request.text
-        })
-        .then(res =>{
-          this.$message("リクエストを送信しました")
-          this.modalLoading = false
-          this.modalShow = false
-        })
-        .catch(er => {
-          this.$message("エラーが発生しました。")
-          this.modalLoading = false
-          this.modalShow = false
-        })
-      },
-      modalOpen: function(id){
-        this.modalShow = true
-        this.request.id = id
-      },
-      onMessageSubmit:function(){
-        this.modalLoading = true
-        axios.post("/api/contacts",{
-          id: this.team.id,
-          title: this.message.title,
-          text: this.message.text
-        })
-        .then(res =>{
-          this.message.title = ""
-          this.message.text = ""
-          this.messageModalShow = false
-          this.$message("メッセージを送信しました。返信はメールボックスから確認できます")
-          this.modalLoading = false
-        })
-        .catch(er => {
-          this.message.title = ""
-          this.message.text = ""
-          this.$message("エラーが発生しました。")
-          this.messageModalShow = false
-          this.modalLoading = false
-        })
-      }
+    onSubmit: function(){
+      this.modalLoading = true
+      axios.post("/api/requests", {
+        request: {
+          schedule_id: this.request.id,
+          to_team_id: this.team.id
+        },
+        text: this.request.text
+      })
+      .then(res =>{
+        this.$message("リクエストを送信しました")
+        this.modalLoading = false
+        this.modalShow = false
+      })
+      .catch(er => {
+        this.$message("エラーが発生しました。")
+        this.modalLoading = false
+        this.modalShow = false
+      })
+    },
+    modalOpen: function(id){
+      this.modalShow = true
+      this.request.id = id
+    },
+    onMessageSubmit:function(){
+      this.modalLoading = true
+      axios.post("/api/contacts",{
+        id: this.team.id,
+        title: this.message.title,
+        text: this.message.text
+      })
+      .then(res =>{
+        this.message.title = ""
+        this.message.text = ""
+        this.messageModalShow = false
+        this.$message("メッセージを送信しました。返信はメールボックスから確認できます")
+        this.modalLoading = false
+      })
+      .catch(er => {
+        this.message.title = ""
+        this.message.text = ""
+        this.$message("エラーが発生しました。")
+        this.messageModalShow = false
+        this.modalLoading = false
+      })
     }
   }
+}
 </script>
 
 <style>
 
+#map { height: 450px; width: 100%}
   h2{
     text-align: left;
     margin: 0;

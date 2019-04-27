@@ -2,14 +2,15 @@ json.set! :team do
   json.id @team.id
   json.school  @team.school
   json.category  @team.category.name
-  json.members  @team.members
+  json.members  @team.members_info
   json.introduction  @team.introduction
-  json.leader_email  @team.leader_email
-  json.leader_name  @team.leader_name
-  json.leader_role  @team.leader_role
-  json.sub_leader_name  @team.sub_leader_name
-  json.sub_leader_email  @team.sub_leader_email
-  json.sub_leader_role  @team.sub_leader_role
+  json.address @team.address
+  json.leader_email  @team.leader.email
+  json.leader_name  @team.leader.name
+  json.leader_role  @team.leader.role_in_team
+  json.sub_leader_name  @team.subleader.name
+  json.sub_leader_email  @team.subleader.email
+  json.sub_leader_role  @team.subleader.role_in_team
 end
 
 json.images do

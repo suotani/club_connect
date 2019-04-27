@@ -78,4 +78,5 @@ Rails.application.configure do
   config.i18n.default_locale = :ja
   config.slack_webhook_url = Rails.application.credentials.dig(:slack_webhook_url, :development)
   # notifier = Slack::Notifier.new(Rails.application.config.slack_webhook_url)
+  config.google_map_api_key="AIzaSyCk2FoilOEQCqhDgPvC-gOJsdmf0g1HxmA"
 end
