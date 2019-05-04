@@ -96,6 +96,7 @@
           text-align: center;
           font-family: Yu Gothic Medium;
           font-size: 2rem;
+          font-weight: 500;
         }
         .content{
           p{
@@ -109,19 +110,84 @@
               font-weight: 800;
             }
           }
+          i{
+            margin-right: 5px;
+          }
+
         }
       }
     }
     .big_button{
       background-color: #423ff1;
-      width: 200px;
-      line-height: 50px;
+      width: 343px;
+      line-height: 73px;
+      font-size: 24px;
       display: block;
       color: white;
       text-align: center;
       border-radius: 8px;
       margin: auto;
       margin-top: 20px;
+    }
+    .big_button:hover{
+      background-color: #6f5fff;
+    }
+    .wide-section{
+      h2{
+        text-align: center;
+      }
+      .price-section{
+        margin-top: 30px;
+        padding-top: 25px;
+        background-color: white;
+        .prices{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          .card{
+            box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07);
+          }
+          .price{
+            width: 30%;
+            padding: 1rem 2rem;
+            box-sizing: border-box;
+            h3{
+              text-align: center;
+              font-weight: 500;
+            }
+            p.fee{
+              text-align: center;
+            }
+            span.fee{
+              font-weight: 800;
+            }
+            h4{
+              font-size: 16px;
+              font-weight: 300;
+              margin-bottom: 0;
+              border-bottom: solid 1px rgba(0,0,0,0.5);
+            }
+            ul{
+              li{
+                border-bottom: solid 1px rgba(0,0,0,0.5);
+                display: flex;
+                min-height: 38px;
+                color: #333;
+                justify-content: space-between;
+                .label{
+                  width: 40%;
+                  text-align: center;
+                  align-self: center;
+                }
+                .value{
+                  width: 50%;
+                  align-self: center;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -153,9 +219,17 @@
             margin-top: 25px;
           }
           ul{
-            border: solid 1px #486ef9;
-            padding: 1rem 0.3rem;
             box-sizing: border-box;
+          }
+        }
+      }
+      .wide-section{
+        .price-section{
+          .prices{
+            .price{
+              width: 95%;
+              margin-top: 15px;
+            }
           }
         }
       }
