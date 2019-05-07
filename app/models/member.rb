@@ -9,6 +9,8 @@ class Member < ApplicationRecord
   
   belongs_to :team, optional: true
   
+  belongs_to :role, optional: true
+  
   has_one_attached :avatar
   
   ROLE = %w(部長 マネージャ 副部長 顧問教員 外部顧問 その他)
