@@ -12,7 +12,18 @@
         <el-form-item label="学校名">
           <el-input v-model="team.school"></el-input>
         </el-form-item>
-      
+
+        <el-form-item label="学校種別">
+          <el-select v-model="team.school_type" placeholder="Select">
+            <el-option
+              v-for="s in school_types"
+              :key="s.id"
+              :label="s.name"
+              :value="s.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="カテゴリー">
           <el-select v-model="team.category_id" placeholder="Select" v-on:change="handleChangeCategory">
             <el-option
@@ -28,18 +39,15 @@
           <el-input v-model="team.name"></el-input>
         </el-form-item>
 
-        <el-form-item label="学校種別">
-          <el-select v-model="team.school_type" placeholder="Select">
-            <el-option
-              v-for="s in school_types"
-              :key="s.id"
-              :label="s.name"
-              :value="s.id">
-            </el-option>
-          </el-select>
+        <el-form-item label="活動場所の都道府県">
+          <el-input v-model="team.prefecture"></el-input>
         </el-form-item>
 
-        <el-form-item label="活動場所の住所">
+        <el-form-item label="活動場所の市区町村">
+          <el-input v-model="team.city"></el-input>
+        </el-form-item>
+
+        <el-form-item label="市区町村以降の住所">
           <el-input v-model="team.address"></el-input>
         </el-form-item>
         

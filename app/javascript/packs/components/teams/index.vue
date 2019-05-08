@@ -4,15 +4,16 @@
       <el-form-item label="学校名">
         <el-input v-model="query.school" placeholder="〇〇大学"></el-input>
       </el-form-item>
-      <el-form-item label="部活・サークルの種類">
-        <el-select v-model="query.category_id" placeholder="">
-          <el-option v-for="c in categories" v-bind:label="c.name" v-bind:value="c.id" v-bind:key="c.id" :clearable="true"></el-option>
-        </el-select>
-      </el-form-item>
       <el-form-item label="学校種別">
         <el-select v-model="query.school_type" placeholder="">
           <el-option v-for="s in school_types" v-bind:label="s.name" v-bind:value="s.id" v-bind:key="s.id"></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="都道府県">
+        <el-input v-model="query.prefecture" placeholder="奈良県"></el-input>
+      </el-form-item>
+      <el-form-item label="市区町村">
+        <el-input v-model="query.city" placeholder="奈良市"></el-input>
       </el-form-item>
       <el-form-item class="button-wrap">
         <el-button type="primary" @click="onSubmit">検索</el-button>
@@ -46,7 +47,6 @@ import axios from 'axios'
   export default{
     data(){
       return {
-        categories: [],
         teams: [],
         school_types: [],
         total_team_count: 0,
@@ -65,7 +65,6 @@ import axios from 'axios'
           params: this.$store.getters.team_query
         })
       .then(res => {
-          this.categories = [""].concat(res.data.categories)
           this.teams = res.data.teams
           this.school_types = [""].concat(res.data.school_types)
           this.total_team_count = res.data.total_team_count
@@ -98,11 +97,17 @@ import axios from 'axios'
   }
 </script>
 
-<style scoped>
+<style lang='scss'>
+.teams{
   form{
     text-align: center;
     border: solid 3px #ddd;
-    padding: 1rem 5rem 0;
+    padding: 1rem 1rem 0;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .el-input{
+    width: 140px !important;
   }
   .link-to-team {
     color: rgba(0,0,0,0.5);
@@ -145,12 +150,7 @@ import axios from 'axios'
     justify-content: flex-start;
   }
 
-</style>
-
-
-<style lang='scss'>
-@media screen and (max-width:768px){
-  .teams {
+  @media screen and (max-width:768px){
     .el-form--inline .el-form-item label{
       width: 35%;
       line-height: 20px;

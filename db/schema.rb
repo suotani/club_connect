@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_015720) do
+ActiveRecord::Schema.define(version: 2019_05_07_014548) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_015720) do
 
   create_table "members", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.integer "role_id", null: false
+    t.integer "role_id"
     t.integer "team_id"
     t.string "role_in_team"
     t.string "email", default: "", null: false

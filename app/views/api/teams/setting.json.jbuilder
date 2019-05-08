@@ -17,4 +17,4 @@ end
 json.school_types school_types
 
 json.leader @team.leader
-json.subleader @team.subleader
+json.subleader @team.subleader || {} 

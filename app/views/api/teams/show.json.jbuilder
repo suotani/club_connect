@@ -4,7 +4,7 @@ json.set! :team do
   json.category  @team.category.name
   json.members  @team.members_info
   json.introduction  @team.introduction
-  json.address @team.address
+  json.address (@team.prefecture || "") + (@team.city || "") + (@team.address || "")
   json.leader_email  @team.leader.email
   json.leader_name  @team.leader.name
   json.leader_role  @team.leader.role_in_team

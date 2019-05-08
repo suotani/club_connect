@@ -2,8 +2,10 @@ class Api::TeamsController < ApiController
   def index
     @teams = Team.eager_load(:category)
     @teams = @teams.where("school like ?", "%#{params[:school]}%") if params[:school].present?
-    @teams = @teams.where(category_id: params[:category_id]) if params[:category_id].present?
+    @teams = @teams.where(category_id: current_team.category_id)
     @teams = @teams.where(school_type: params[:school_type]) if params[:school_type].present?
+    @teams = @teams.where(prefecture: params[:prefecture]) if params[:prefecture].present?
+    @teams = @teams.where("city like ?", "%#{params[:city]}%") if params[:city].present?
     @total_team_count = @teams.count
     @teams = @teams.page(params[:page]).per(10)
     
@@ -54,7 +56,8 @@ class Api::TeamsController < ApiController
   
   def team_params
     params.require(:team).permit(
-      :school, :name, :category_id, :introduction, :members, :address, :school_type, images: []
+      :school, :name, :category_id, :introduction, :members,
+      :prefecture, :city ,:address, :school_type, images: []
     ).tap do |v|
       v[:exec_valid] = true
     end

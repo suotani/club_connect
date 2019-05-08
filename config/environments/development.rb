@@ -62,18 +62,18 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'https://club-connect-uosansatox.c9users.io'}
   
   # mail setting
-  # config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #   :address => "smtp.gmail.com",
-  #   :port => 587,
-  #   :user_name => "s.uotani.zetakansu@gmail.com",
-  #   :password => "1024Satox",
-  #   :authentication => :plain,
-  #   :enable_starttls_auto => true
-  # }
-  config.action_mailer.perform_caching = true # falseをtrueに修正
-  config.action_mailer.delivery_method = :letter_opener_web # 追加
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :user_name => "s.uotani.zetakansu@gmail.com",
+    :password => "ntdyevlwhevmpaqq",
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+  config.action_mailer.perform_caching = false # falseをtrueに修正
+  #config.action_mailer.delivery_method = :letter_opener_web # 追加
 
   config.i18n.default_locale = :ja
   config.slack_webhook_url = Rails.application.credentials.dig(:slack_webhook_url, :development)

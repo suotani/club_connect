@@ -62,7 +62,7 @@
         </span>
       </li>    
       <li class="nav-item">
-        <a href="/teams/sign_out" data-method="delete">
+        <a href="/members/sign_out" data-method="delete">
           <i class="fas fa-sign-out-alt" v-bind:class="{w100: isToggled}"></i>
           <span class="menu-text">ログアウト</span>
         </a>

@@ -152,7 +152,7 @@ export default{
       this.request = {id: 0, text: ""}
       this.$emit('appyl_error_message', "")
       var geocoder = new google.maps.Geocoder();
-      geocoder.geocode({'address': res.data.team.address,'language':'ja'},function(results, status){
+      geocoder.geocode({'address': this.team.address,'language':'ja'},function(results, status){
         if (status == google.maps.GeocoderStatus.OK){
           var latlng=results[0].geometry.location;//緯度と経度を取得
           var mapOpt = {

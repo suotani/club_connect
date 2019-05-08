@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   # ログアウト後のリダイレクト先
   def after_sign_out_path_for(resource_or_scope)
-    new_team_session_path
+    new_member_session_path
   end
   
   def render_json_404(e = nil)
