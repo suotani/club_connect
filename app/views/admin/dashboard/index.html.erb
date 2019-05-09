@@ -1,0 +1,8 @@
+<h2>summary</h2>
+<p>登録人数：<%= @total_member %></p>
+<p>登録チーム: <%= @total_team %></p>
+<h2>カテゴリー別</h2>
+<% @category_count.each do |a| %>
+  <% category = Category.find(a[0]) %>
+  <p><%= category.name %>:<%= a[1] %></p>
+<% end %>

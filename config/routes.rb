@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   root to: "static#index"
 
   get "privacy", to: 'static#privacy'
+  
+  namespace :admin do
+    get '/', to: "dashboard#index"
+  end
 
   devise_for :members, controllers: {
     sessions: 'members/sessions',
