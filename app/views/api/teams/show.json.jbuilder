@@ -8,9 +8,9 @@ json.set! :team do
   json.leader_email  @team.leader.email
   json.leader_name  @team.leader.name
   json.leader_role  @team.leader.role_in_team
-  json.sub_leader_name  @team.subleader.name
-  json.sub_leader_email  @team.subleader.email
-  json.sub_leader_role  @team.subleader.role_in_team
+  json.sub_leader_name  @team.subleader&.name || ""
+  json.sub_leader_email  @team.subleader&.email || ""
+  json.sub_leader_role  @team.subleader&.role_in_team || ""
 end
 
 json.images do

@@ -72,6 +72,7 @@ import axios from 'axios'
         this.requests_total_count = res.data.requests_total_count
         this.contacts = res.data.normal_contacts
         this.loading = false
+        this.$message("")
       })
       .catch(er => {
         this.$emit('appyl_error_message', er.response.data.message)

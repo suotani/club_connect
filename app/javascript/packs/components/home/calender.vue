@@ -81,6 +81,7 @@ export default{
         this.prevMonth = res.data.prevMonth
         this.nextMonth = res.data.nextMonth
         this.loading = false
+        this.$message("")
     })
     .catch(er => {
       this.$emit('appyl_error_message', er.response.data.message)

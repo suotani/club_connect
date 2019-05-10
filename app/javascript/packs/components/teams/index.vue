@@ -70,6 +70,7 @@ import axios from 'axios'
           this.total_team_count = res.data.total_team_count
           this.loading = false
           this.$emit('appyl_error_message', "")
+          this.$message("")
       })
       .catch(error => {
         this.$emit('appyl_error_message', er.response.data.message)

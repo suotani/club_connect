@@ -173,6 +173,7 @@ import axios from 'axios'
         this.fileList = res.data.images //{name: name, url: url, id: id}
         this.school_types = res.data.school_types
         this.loading = false
+        this.$message("")
       })
       .catch(er => {
         this.$emit('appyl_error_message', er.response.data.message)
