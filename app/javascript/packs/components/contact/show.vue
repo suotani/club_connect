@@ -98,7 +98,6 @@ import axios from 'axios'
         this.messages = res.data.messages
         this.contact = res.data.contact
         this.loading = false
-        this.$message("")
       })
       .catch(er => {
         this.$emit('appyl_error_message', er.response.data.message)

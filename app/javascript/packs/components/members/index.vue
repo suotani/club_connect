@@ -114,7 +114,6 @@ export default {
       this.members = res.data.members
       this.total_member_count = res.data.members_count
       this.loading = false
-      this.$message("")
     })
   },
   methods: {

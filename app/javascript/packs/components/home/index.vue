@@ -98,7 +98,6 @@ import axios from 'axios'
         this.schedules = res.data.schedules
         this.teams = res.data.teams
         this.loading = false
-        this.$message("")
       })
       .catch(er => {
         this.$emit('appyl_error_message', er.response.data.message)

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ClubConnect</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyCk2FoilOEQCqhDgPvC-gOJsdmf0g1HxmA&language=ja"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  </head>
+  <body>
+    <%= yield %>
+
+    <footer>
+      <div class="footer-links">
+        <ul>
+          <li><%= link_to "プライバシーポリシー", privacy_path %></li>
+          <li><%= link_to "特定商取引法に基づく表記", tokutei_path %></li>
+        </ul>
+      </div>
+      <div class="copylight">
+          Copyright © 2019 Torus
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  body{
+    margin: 0;
+  }
+  .devise{
+      position: relative;
+  }
+
+    footer{
+      margin-top: 30px;
+    }
+    
+    .footer-links{
+      background-color: #6b6bfb;
+    }
+    
+    footer ul{
+      margin: 0;
+      padding: 7px 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    footer li{
+      margin-left: 20px;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    
+    .copylight{
+      text-align: center;
+      background-color: #030c38;
+      color: white;
+      font-size: 13px;
+      padding: 7px;
+    }
+</style>

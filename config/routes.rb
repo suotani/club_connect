@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root to: "static#index"
 
   get "privacy", to: 'static#privacy'
+  get "tokutei", to: 'static#tokutei'
   
   namespace :admin do
     get '/', to: "dashboard#index"

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>はじめまして。部活動・サークルのサポートサービス「Torus」です</p>
+    <p><%= @member.name %>様から<%= @team.name %>へ招待が届きました。</p>
+    <p>以下のリンクより会員登録・ログインをしていただき、招待コードを入力してチームに参加してください。</p>
+    <hr>
+    <p><%= link_to "会員登録リンク", new_member_registration_url %></p>
+    <p>すでにチームに参加されているユーザの方は、以下のリンクから招待コードを入力してください。</p>
+    <p><%= link_to "チームへ参加", new_url %></p>
+    <p>招待コードは以下になります。</p>
+    <h2><%= @team.invite_code %></h2>
+  </body>
+</html>

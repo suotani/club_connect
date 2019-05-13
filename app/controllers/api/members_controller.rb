@@ -11,8 +11,10 @@ class Api::MembersController < ApiController
   
   def create
     mails = params[:mails].split(",")
-    p mails
     #TODO send mail
+    mails.each do |mail|
+      MemberInviteMailer.invite(mail, current_team, current_member).deliver_now
+    end
     render json: {invite_count: mails.size}
   end
   

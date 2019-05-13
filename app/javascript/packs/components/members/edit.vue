@@ -82,7 +82,6 @@ import axios from 'axios'
         this.avatar_url = res.data.avatar_url
         this.roles = res.data.roles
         this.loading = false
-        this.$message("")
       })
       .catch(er => {
         this.$emit('appyl_error_message', er.response.data.message)

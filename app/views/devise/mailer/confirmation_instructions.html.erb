@@ -1,5 +1,7 @@
-<p>Welcome <%= @email %>!</p>
+<p><%= @resource %>様ご登録ありがとうございます。</p>
+<p>ようこそTorusへ</p>
+<p>まずは以下のリンクからメールアドレスの認証を行っていただき、続いてログインしてください。</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p><%= link_to 'メールアドレスの認証', confirmation_url(@resource, confirmation_token: @token) %></p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p>ログイン後、サークルまたは部活動をご登録いただくか、サークル・部活動代表者から招待メールをお待ちください。</p>

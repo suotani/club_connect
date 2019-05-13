@@ -150,7 +150,6 @@ export default{
       this.nextMonth = res.data.nextMonth
       this.loading = false
       this.request = {id: 0, text: ""}
-      this.$message("")
       this.$emit('appyl_error_message', "")
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({'address': this.team.address,'language':'ja'},function(results, status){
