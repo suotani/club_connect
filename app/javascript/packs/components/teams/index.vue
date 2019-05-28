@@ -27,6 +27,8 @@
             <p>{{t.school}} {{t.name}}</p>
           </router-link>
           <div class="text item">
+           <p>{{t.address}}</p>
+           <p>{{t.introduction}}</p>
            <p>(代表){{t.leader_name}}</p>
           </div>
         </el-card>

@@ -25,5 +25,6 @@ class ApplicationController < ActionController::Base
       notifier = Slack::Notifier.new(Rails.application.config.slack_webhook_url)
       notifier.ping("-------------\n" + e.message + "\n" + e.backtrace.join("\n"))
     end
+    render json: {result: "error",code: 500}, status: :internal_server_error
   end
 end

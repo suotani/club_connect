@@ -12,7 +12,7 @@ class Team < ApplicationRecord
   has_many :members, through: :member_teams, class_name: "Member"
   
   validates :school, presence: true
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { scope: :school }
   validates :category_id, presence: true
   
   SCHOOL_TYPE = %w(大学 高校 短期大学)

@@ -7,7 +7,7 @@
     </a>
   </div>
   <div class="member">
-    ようこそ <%= @member.name %>さん
+    ようこそ <%= @member.name.present? ? @member.name : @member.email %>さん
   </div>
 </div>
 <div id='app'></div>

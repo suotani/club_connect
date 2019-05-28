@@ -70,7 +70,7 @@
         </el-form-item>
         
         <el-form-item label="メンバーの構成">
-          <el-input type="textarea" v-model="team.members" placeholder="学年単位、男女単位で各何名在籍しているか入力してください"></el-input>
+          <el-input type="textarea" v-model="team.members_info" placeholder="学年単位、男女単位で各何名在籍しているか入力してください"></el-input>
         </el-form-item>
     
         <hr class="my-4" />

@@ -21,7 +21,7 @@ class Api::ContactsController < ApiController
       @contact.from_team_read!
       @target_team = @contact.to_team
     else
-      @contact.to_team.read!
+      @contact.to_team_read!
       @target_team = @contact.from_team
     end
     render 'show', formats: 'json', handlers: 'jbuilder'
@@ -43,7 +43,7 @@ class Api::ContactsController < ApiController
   
   # add message
   def update
-    @message = Message.create(contact_id: @contact.id, text: params[:text], from_team: current_team.school + " " + current_team.name)
+    @message = Message.create!(contact_id: @contact.id, text: params[:text], from_team: current_team.school + " " + current_team.name)
     if @contact.from_team_id == current_team.id
       @contact.update(
         from_team_status: Contact.from_team_statuses[:from_team_replyed],

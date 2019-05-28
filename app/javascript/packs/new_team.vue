@@ -38,7 +38,7 @@
         </el-form-item>
       
         <el-form-item label="カテゴリー">
-          <el-select v-model="team.category_id" placeholder="Select" v-on:change="handleChangeCategory">
+          <el-select v-model="team.category_id" placeholder="Select" v-on:change="">
             <el-option
               v-for="c in categories"
               :key="c.id"
@@ -132,11 +132,13 @@ export default{
         params: {invite_code: this.inviteCode}
       })
       .then(res => {
+        console.log(res)
         this.inviteTeam = res.data.team
         this.modalOpen = true
         this.loading = false
       })
       .catch(er => {
+        console.log(er)
         this.$message("見つかりませんでした。")
         this.loading = false
       })
