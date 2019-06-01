@@ -81,7 +81,7 @@ Rails.application.configure do
   
   config.action_mailer.default_url_options   = {
     protocol: 'https',
-    host: ENV['MAILGUN_HOSTNAME']
+    host: 'https://torus-startup.herokuapp.com'
   }
 
   # mail setting
