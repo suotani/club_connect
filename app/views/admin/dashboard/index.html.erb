@@ -6,3 +6,8 @@
   <% category = Category.find(a[0]) %>
   <p><%= category.name %>:<%= a[1] %></p>
 <% end %>
+
+<h2>問合せ</h2>
+<% Inquiry.all.each do |i| %>
+  <p><%= i.email %>|<%= i.text %></p>
+<% end %>
